@@ -1,5 +1,6 @@
 from tkinter import *
 
+
 class PrincipalGui:
     def __init__(self, window, width, height):
         self.window = window
