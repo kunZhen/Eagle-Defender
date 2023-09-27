@@ -11,7 +11,7 @@ class RegisterGui:
         centerX = width / 2
         centerY = height / 2
 
-        font="Helvetica"
+        font = "Helvetica"
 
         self.registerFrame = Frame(window, width=width, height=height, bg="green")
         self.registerFrame.pack()
