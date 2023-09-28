@@ -54,8 +54,13 @@ class User:
             self.answers = answers
             self.profileImage = profileImage
             self.facialImage = facialImage
-
+            self.validation=True
             self.SaveJson(self.user)
+        else:
+            self.validation=False
+    
+    def returnFalse(self):
+        return False
 
     # Change class to one that returns each element so that they are displayed on the screen
     def GetUser(self):
@@ -75,6 +80,7 @@ class User:
             print(f"\t \t Question {i}: {answer}")
         print(f"\t Profile Image: {self.profileImage}")
         print(f"\t Facial Recognition: {self.facialImage}")
+        return self.user
 
     def GetAnswer(self, num):
         """
@@ -149,6 +155,16 @@ class User:
         if 1 <= num <= len(self.answers):
             self.answers[num-1] = newAnswer
             self.SaveJson(self.user)
+    def SetAnswer(self, newAnswer):
+        """
+        Changes an answer for the list answer attribute
+
+        :param num:
+        :param reply:
+        :return:
+        """
+        self.answers = newAnswer
+        self.SaveJson(self.user)
 
     def SetProfile(self, profileImage):
         """
@@ -219,6 +235,18 @@ class User:
             print("El correo electrónico no es valido")
             return False
 
+    def ValidateExistence(self, filename): 
+        """
+        Confirm if there is an instance of User in a .json file
+
+        :param filename: str
+        :return: boolean
+        """
+        pathFile = os.path.join("Users", filename)
+        if os.path.exists(pathFile):
+            return True
+        return False 
+
     def SaveJson(self, filename):
         """
         Save an instances of User in a .json file
@@ -226,7 +254,7 @@ class User:
         :param filename: str
         :return: .json
         """
-        pathFile = os.path.join("Users", filename)
+        pathFile = os.path.join(os.path.abspath("Code/GraficalUserInterface/User"), filename)
         userDict = {
             "User": self.user,
             "Name": self.name,
@@ -265,4 +293,3 @@ class User:
             )
         else:
             print(f"El archivo {filename} no existe en el sistema")
-

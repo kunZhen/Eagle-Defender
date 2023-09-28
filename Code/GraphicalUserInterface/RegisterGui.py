@@ -1,107 +1,103 @@
-from tkinter import *
-from GraphicalUserInterface.LoginGui import *
+from tkinter  import *
+from tkinter import messagebox
+from registerGUIAnswers import registerGUIAnswers
+from User import *
 
+class registerGui: 
 
-class RegisterGui:
-    def __init__(self, window, width, height):
+    def __init__(self,window,width,height):
+       
         self.window = window
         self.width = width
         self.height = height
 
-        centerX = width / 2
-        centerY = height / 2
+        centerX  = width/2
+        centrerY = width/2
 
-        font = "Helvetica"
+        font="Helvetica"
+        
+        #Esta es el frame de esta sección
+        
+        self.InformationFrame = Frame (window,width=self.width,height=self.height, bg= "green")
+        self.InformationFrame.pack()
 
-        self.registerFrame = Frame(window, width=width, height=height, bg="green")
-        self.registerFrame.pack()
-
-        self.registerLb = Label(self.registerFrame, text="Registro de usuario", font=(font, 35))
+        self.registerLb = Label(self.InformationFrame, text="Registro de usuario", font=(font, 35))
         self.registerLb.place(x=centerX, y=50, anchor="center")
 
-        self.registerBtn = Button(self.registerFrame, text="Registrar", font=(font, 15), command=self.RegisterUser)
-        self.registerBtn.place(x=centerX, y=height - 100, anchor="center")
+        self.registerLb = Label(self.InformationFrame, text="En esta sección se debe ingresar su información general", font=(font, 20))
+        self.registerLb.place(x=375, y=125, anchor="center")
 
-        # Name
-        self.nameLb = Label(self.registerFrame, text="Nombre: ", font=(font, 15))
-        self.nameLb.place(x=centerX, y=150, anchor="w")
+        self.questionOneLb= Label (self.InformationFrame, text="Ingrese su nombre", font=(font,15))
+        self.questionOneLb.place(x=centerX, y=150, anchor="center")
+        self.questionOneEntry= Entry(self.InformationFrame,width=25, font=(font, 15))
+        self.questionOneEntry.place(x=centerX, y=200, anchor="center")
 
-        self.nameTxt = Entry(self.registerFrame, width=25, font=(font, 15))
-        self.nameTxt.place(x=centerX + 25, y=180, anchor="w")
+        self.questionTwoLb= Label (self.InformationFrame, text="Ingrese su usuario", font=(font,15))
+        self.questionTwoLb.place(x=centerX, y=250, anchor="center")
+        self.questionTwoEntry= Entry(self.InformationFrame,width=25, font=(font, 15))
+        self.questionTwoEntry.place(x=centerX, y=300, anchor="center")
 
-        # User
-        self.userLb = Label(self.registerFrame, text="Usuario: ", font=(font, 15))
-        self.userLb.place(x=centerX + 350, y=150, anchor="w")
+        self.questionThreeLb= Label (self.InformationFrame, text="Ingrese su nickname", font=(font,15))
+        self.questionThreeLb.place(x=centerX, y=350, anchor="center")
+        self.questionThreeEntry= Entry(self.InformationFrame,width=25, font=(font, 15))
+        self.questionThreeEntry.place(x=centerX, y=400, anchor="center")
 
-        self.passwordTxt = Entry(self.registerFrame, width=25, font=(font, 15))
-        self.passwordTxt.place(x=centerX + 375, y=180, anchor="w")
+        self.questionFourLb= Label (self.InformationFrame, text="Ingrese su edad", font=(font,15))
+        self.questionFourLb.place(x=centerX, y=450, anchor="center")
+        self.questionFourEntry= Entry(self.InformationFrame,width=25, font=(font, 15))
+        self.questionFourEntry.place(x=centerX, y=500, anchor="center")
 
-        # Password
-        self.passwordLb = Label(self.registerFrame, text="Contraseña: ", font=(font, 15))
-        self.passwordLb.place(x=centerX, y=220, anchor="w")
+        self.questionFiveLb= Label (self.InformationFrame, text="Ingrese su correo", font=(font,15))
+        self.questionFiveLb.place(x=centerX, y=550, anchor="center")
+        self.questionFiveEntry= Entry(self.InformationFrame,width=25, font=(font, 15))
+        self.questionFiveEntry.place(x=centerX, y=600, anchor="center")
 
-        self.passwordTxt = Entry(self.registerFrame, width=25, font=(font, 15))
-        self.passwordTxt.place(x=centerX + 25, y=250, anchor="w")
+        self.questionSixLb= Label (self.InformationFrame, text="Ingrese su contraseña", font=(font,15))
+        self.questionSixLb.place(x=centerX, y=650, anchor="center")
+        self.questionSixEntry= Entry(self.InformationFrame,width=25, font=(font, 15))
+        self.questionSixEntry.place(x=centerX, y=700, anchor="center")
 
-        # Mail
-        self.mailLb = Label(self.registerFrame, text="Correo electrónico: ", font=(font, 15))
-        self.mailLb.place(x=centerX + 350, y=220, anchor="w")
 
-        self.mailTxt = Entry(self.registerFrame, width=25, font=(font, 15))
-        self.mailTxt.place(x=centerX + 375, y=250, anchor="w")
 
-        # Age
-        self.ageLb = Label(self.registerFrame, text="Edad: ", font=(font, 15))
-        self.ageLb.place(x=centerX, y=290, anchor="w")
+        self.nextBtn = Button(self.InformationFrame, text="next", font=(font, 15), command = self.nextPage)
+        self.nextBtn.place(x=2*centerX-100, y=650, anchor="nw")
 
-        self.ageTxt = Entry(self.registerFrame, width=25, font=(font, 15))
-        self.ageTxt.place(x=centerX + 25, y=320, anchor="w")
+    def nextPage(self):
+        answer=messagebox.askyesno("Confirmación", "¿Estás seguro de continuar?")
+        if answer:     
+            try:
+                if not (User.ValidateExistence(self,self.questionTwoEntry.get())):
+                    user=User(self.questionTwoEntry.get(),
+                            self.questionOneEntry.get(),
+                            self.questionThreeEntry.get(),
+                            self.questionSixEntry.get(),
+                            self.questionFourEntry.get(),
+                            self.questionFiveEntry.get()," "," "," ")
+                    if(user.validation):
+                        self.InformationFrame.pack_forget()
+                        app=registerGUIAnswers(self.window,self.width,self.height,user)
+                        
+                    else:
+                        messagebox.showinfo("Mensaje", "Datos incorrectos")
+                else: 
+                     messagebox.showinfo("Mensaje", "Usuario existente")
 
-        # Personal questions
-        self.q1Lb = Label(self.registerFrame, text="Pregunta 1: ", font=(font, 15))
-        self.q1Lb.place(x=centerX, y=395, anchor="w")
+            except Exception as e:
+                print(e)
+                messagebox.showinfo("Mensaje", "Datos incorrectos")
+            
+            
 
-        self.q1Txt = Entry(self.registerFrame, width=25, font=(font, 15))
-        self.q1Txt.place(x=centerX + 25, y=425, anchor="w")
+            
+root = Tk()
+widthScreen = root.winfo_screenwidth()
+heightScreen = root.winfo_screenheight()
+root.geometry(f"{widthScreen}x{heightScreen}")
+root.resizable(False, False)
 
-        self.q2Lb = Label(self.registerFrame, text="Pregunta 2: ", font=(font, 15))
-        self.q2Lb.place(x=centerX + 350, y=395, anchor="w")
+root.title("Eagle Defender")
 
-        self.q2Txt = Entry(self.registerFrame, width=25, font=(font, 15))
-        self.q2Txt.place(x=centerX + 375, y=425, anchor="w")
 
-        self.q3Lb = Label(self.registerFrame, text="Pregunta 3: ", font=(font, 15))
-        self.q3Lb.place(x=centerX, y=455, anchor="w")
+app=registerGui(root,widthScreen,heightScreen)
 
-        self.q3Txt = Entry(self.registerFrame, width=25, font=(font, 15))
-        self.q3Txt.place(x=centerX + 25, y=485, anchor="w")
-
-        self.q4Lb = Label(self.registerFrame, text="Pregunta 4: ", font=(font, 15))
-        self.q4Lb.place(x=centerX + 350, y=455, anchor="w")
-
-        self.q4Txt = Entry(self.registerFrame, width=25, font=(font, 15))
-        self.q4Txt.place(x=centerX + 375, y=485, anchor="w")
-
-        self.q5Lb = Label(self.registerFrame, text="Pregunta 5: ", font=(font, 15))
-        self.q5Lb.place(x=centerX, y=525, anchor="w")
-
-        self.q5Txt = Entry(self.registerFrame, width=25, font=(font, 15))
-        self.q5Txt.place(x=centerX + 25, y=555, anchor="w")
-
-        # Profile picture
-        self.profileLb = Label(self.registerFrame, text="Foto de prefil: ", font=(font, 15))
-        self.profileLb.place(x=200, y=200, anchor="nw")
-
-        self.photoCanvas = Canvas(self.registerFrame, width=400, height=400)
-        self.photoCanvas.place(x=200, y=230, anchor="nw")
-
-        self.profileBtn = Button(self.registerFrame, text="Seleccionar foto", font=(font, 15), command=self.UploadPhoto)
-        self.profileBtn.place(x=200, y=650, anchor="nw")
-
-    def RegisterUser(self):
-        self.registerFrame.pack_forget()
-
-    def UploadPhoto(self):
-        x1, y1 = 25, 25
-        x2, y2 = 375, 375
-        self.photoCanvas.create_rectangle(x1, y1, x2, y2, fill="red")
+root.mainloop()
