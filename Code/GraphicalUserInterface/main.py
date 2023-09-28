@@ -1,5 +1,5 @@
 from tkinter import *
-from GraphicalUserInterface.InitialGui import InitialGui
+from InitialGui import InitialGui
 
 if __name__ == '__main__':
     root = Tk()

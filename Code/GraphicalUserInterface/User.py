@@ -254,7 +254,7 @@ class User:
         :param filename: str
         :return: .json
         """
-        pathFile = os.path.join(os.path.abspath("Code/GraficalUserInterface/User"), filename)
+        pathFile = os.path.join("Eagle%20Defender/Users", filename)
         userDict = {
             "User": self.user,
             "Name": self.name,

@@ -1,6 +1,6 @@
 from tkinter import *
-from GraphicalUserInterface.RegisterGui import *
-from GraphicalUserInterface.PrincipalGui import *
+from RegisterGui import *
+from PrincipalGui import *
 
 
 class LoginGui:
@@ -39,9 +39,10 @@ class LoginGui:
         self.passwordTxt = Entry(self.loginFrame, width=25, font=(font, 15))
 
         self.validateBtn = Button(self.loginFrame, text="Continuar", font=(font, 15), command=self.Validate)
+        self.validateBtn.place(x=centerX,y=centerY+100, anchor="center")
 
         self.registerBtn = Button(self.loginFrame, text="Registrar nuevo usuario", font=(font, 15), command=self.Register)
-        self.registerBtn.place(x=centerX, y=centerY + 400, anchor="center")
+        self.registerBtn.place(x=centerX, y=centerY + 150, anchor="center")
 
     def Facial(self):
         self.loginFrame.destroy()
@@ -57,7 +58,7 @@ class LoginGui:
         principal = PrincipalGui(self.window, self.width, self.height)
 
     def Register(self):
-        self.loginFrame.pack_forget()
-        register = RegisterGui(self.window, self.width, self.height)
+        self.loginFrame.destroy()
+        register=registerGui(self.window,self.width,self.height)
         self.loginFrame.pack()
 

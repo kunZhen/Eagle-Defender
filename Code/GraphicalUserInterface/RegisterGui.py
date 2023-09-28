@@ -88,7 +88,7 @@ class registerGui:
             
             
 
-            
+"""     
 root = Tk()
 widthScreen = root.winfo_screenwidth()
 heightScreen = root.winfo_screenheight()
@@ -98,6 +98,7 @@ root.resizable(False, False)
 root.title("Eagle Defender")
 
 
-app=registerGui(root,widthScreen,heightScreen)
+
 
 root.mainloop()
+"""

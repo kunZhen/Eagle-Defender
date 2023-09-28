@@ -2,9 +2,10 @@ import shutil
 from tkinter import * 
 import os
 from tkinter import filedialog
+
+from LoginGui import *
 from facialLogic import facialRecognogtion
 from User import *
-from PIL import Image, ImageTk
 
 
 class RegisterGuiPhoto: 
@@ -33,7 +34,7 @@ class RegisterGuiPhoto:
         self.photoCanvas = Canvas(self.registerFrame, width=400, height=400)
         self.photoCanvas.place(x=centerX-100, y=230, anchor="nw")
         
-        self.imagen = PhotoImage(file=os.path.abspath("rostros/perfil.png")) 
+        self.imagen = PhotoImage(file=os.path.abspath("Eagle%20Defender/rostros/perfil.png")) 
       
         self.photoCanvas.create_image(0, 0, anchor="nw", image=self.imagen)
 
@@ -47,7 +48,7 @@ class RegisterGuiPhoto:
         self.biometricalBtn = Button(self.registerFrame, text="Save your biometrical information", font=(font, 15), command = self.savePhotoInformation)
         self.biometricalBtn.place(x=centerX+200, y=650, anchor="nw")
 
-        self.nextBtn = Button(self.registerFrame, text="Done", font=(font, 15),command = self.chooseAPhoto)
+        self.nextBtn = Button(self.registerFrame, text="Done", font=(font, 15),command = self.comeBack)
         self.nextBtn.place(x=2*centerX-100, y=650, anchor="nw")
         
     def takeAPhoto(self):
@@ -74,7 +75,9 @@ class RegisterGuiPhoto:
 
         # Asigna la nueva imagen a la variable de instancia
         self.imagen = newImage
-
+    def comeBack(self):
+        self.registerFrame.pack_forget()
+        login = LoginGui(self.window, self.width, self.height)
 
 
 

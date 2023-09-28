@@ -1,5 +1,5 @@
 from tkinter import *
-from GraphicalUserInterface.LoginGui import *
+from LoginGui import *
 
 
 # GUI -> Graphical User Interface
