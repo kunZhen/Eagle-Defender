@@ -2,18 +2,17 @@ import shutil
 from tkinter import * 
 import os
 from tkinter import filedialog
-
-from LoginGui import *
 from facialLogic import facialRecognogtion
 from User import *
 
 
 class RegisterGuiPhoto: 
-    def __init__(self,window,width,height,user:User):
+    def __init__(self,window,width,height,user:User,parentFrame):
         self.window = window
         self.width = width
         self.height = height
         self.user=user
+        self.parentFrame=parentFrame
 
         self.centerX  = width/2
         centerX=self.centerX
@@ -77,7 +76,8 @@ class RegisterGuiPhoto:
         self.imagen = newImage
     def comeBack(self):
         self.registerFrame.pack_forget()
-        login = LoginGui(self.window, self.width, self.height)
+        self.parentFrame.pack()
+        
 
 
 

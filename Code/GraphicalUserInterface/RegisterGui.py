@@ -5,11 +5,12 @@ from User import *
 
 class registerGui: 
 
-    def __init__(self,window,width,height):
+    def __init__(self,window,width,height, parentFrame):
        
         self.window = window
         self.width = width
         self.height = height
+        self.parentFrame=parentFrame
 
         centerX  = width/2
         centrerY = width/2
@@ -75,9 +76,9 @@ class registerGui:
                             self.questionFiveEntry.get()," "," "," ")
                     if(user.validation):
                         self.InformationFrame.pack_forget()
-                        app=registerGUIAnswers(self.window,self.width,self.height,user)
+                        app=registerGUIAnswers(self.window,self.width,self.height,user,self.parentFrame)
                         
-                    else:
+                    else: 
                         messagebox.showinfo("Mensaje", "Datos incorrectos")
                 else: 
                      messagebox.showinfo("Mensaje", "Usuario existente")

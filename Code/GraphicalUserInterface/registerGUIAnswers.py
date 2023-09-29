@@ -5,11 +5,12 @@ from registerGUIPhoto import RegisterGuiPhoto
 
 class registerGUIAnswers: 
     
-    def __init__(self,window,width,height,user:User):
+    def __init__(self,window,width,height,user:User, parentFrame):
         self.window = window
         self.width = width
         self.height = height
         self.user=user 
+        self.parentFrame=parentFrame
 
         centerX  = width/2
         centrerY = width/2
@@ -62,7 +63,7 @@ class registerGUIAnswers:
         if answer:
             if self.notEmpy(questions):
                 self.AnswersFrame.pack_forget()
-                app=RegisterGuiPhoto(self.window,self.width,self.height,self.user)
+                app=RegisterGuiPhoto(self.window,self.width,self.height,self.user,self.parentFrame)
             else:
                 messagebox.showinfo("Mensaje", "Debe responder al menos una pregunta") 
             
