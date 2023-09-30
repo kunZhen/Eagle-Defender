@@ -1,5 +1,5 @@
 from tkinter import *
-from LoginGui import *
+from mailGui import *
 
 
 # GUI -> Graphical User Interface
@@ -33,8 +33,8 @@ class InitialGui:
 
     def Login(self):
         self.initialFrame.destroy()
-        login = LoginGui(self.window, self.width, self.height)
-        login.showImage()
+        login = mailGui(self.window, self.width, self.height)
+        login.pack()
 
     def CloseGame(self):
         self.window.destroy()

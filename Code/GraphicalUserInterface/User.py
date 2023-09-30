@@ -41,22 +41,27 @@ class User:
     """
     forbiddenWords = ["puta", "imbecil", "perra", "picha"]
 
-    def __init__(self, user, name, nickname, password, age, mail, answers, profileImage, facialImage):
+    def __init__(self, user, password, mail, favoriteColor, answers, profileImage, facialImage):
         if (self.ValidatePassword(password)
                 and self.ValidateUser(user)
                 and self.ValidateMail(mail)):
             self.user = user
-            self.name = name
-            self.nickname = nickname
             self.password = password
-            self.age = age
             self.mail = mail
             self.answers = answers
             self.profileImage = profileImage
             self.facialImage = facialImage
             self.validation=True
+            self.errorType="NONE"
+            self.favoriteColor=favoriteColor
             self.SaveJson(self.user)
         else:
+            if not(self.ValidatePassword(password)): 
+                self.errorType="password"
+            elif not (self.ValidateUser(user)): 
+                self.errorType="user"
+            else: 
+                self.errorType="mail"
             self.validation=False
     
     def returnFalse(self):
@@ -254,15 +259,13 @@ class User:
         :param filename: str
         :return: .json
         """
-        pathFile = os.path.join("Eagle%20Defender/Users", filename)
+        pathFile = os.path.join("Users", filename)
         userDict = {
             "User": self.user,
-            "Name": self.name,
-            "Nickname": self.nickname,
             "Password": self.password,
-            "Age": self.age,
             "Mail": self.mail,
             "Answers": self.answers,
+            "Favorite Color":self.favoriteColor,
             "Profile Image": self.profileImage,
             "Facial Recognition": self.facialImage
         }

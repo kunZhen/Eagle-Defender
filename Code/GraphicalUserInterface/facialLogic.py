@@ -24,11 +24,11 @@ class facialRecognogtion:
             if cv2.waitKey(1)== ord('q'):
                 gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
                 if option=="saveInformation":
-                    cv2.imwrite("Eagle%20Defender/rostros/"+self.userName+".jpg",roi_gray)
+                    cv2.imwrite("rostros/"+self.userName+".jpg",roi_gray)
                 elif option=="takeAPhoto":
-                    cv2.imwrite("Eagle%20Defender/perfiles/"+self.userName+".jpg",frame)
+                    cv2.imwrite("perfiles/"+self.userName+".jpg",frame)
                 else:
-                    cv2.imwrite("Eagle%20Defender/rostros/"+self.userName+".LOGjpg",roi_gray)
+                    cv2.imwrite("rostros/"+self.userName+"LOG.jpg",roi_gray)
                 break
 
     def comparation(self): 
@@ -46,7 +46,7 @@ class facialRecognogtion:
    
         if len(matches) !=0: 
             print(len(similitudes)/len(matches))
-            if len(similitudes)/len(matches)<90:
+            if len(similitudes)/len(matches)>0.90:
                 return True
             return False
         return False
@@ -61,3 +61,5 @@ class facialRecognogtion:
         else:
             print("No se pudo cargar la imagen.")
     
+app= facialRecognogtion("isaacsolis")
+print(app.comparation())

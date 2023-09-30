@@ -6,6 +6,7 @@ import cv2
 from RegisterGui import *
 from PrincipalGui import *
 from PIL import Image, ImageTk,ImageDraw
+from facialLogic import *
 
 
 class LoginGui:
@@ -15,6 +16,8 @@ class LoginGui:
         self.height = height
         self.allow=tk.StringVar()
         self.allow.set("True")
+        self.faceAproved=tk.StringVar()
+        self.faceAproved.set("False")
 
 
         font = "Helvetica"
@@ -53,8 +56,6 @@ class LoginGui:
         self.validateBtn = Button(self.loginFrame, text="Continuar", font=(font, 15), command=self.Validate)
         self.validateBtn.place(x=centerX,y=centerY+100, anchor="center")
 
-        self.registerBtn = Button(self.loginFrame, text="Registrar nuevo usuario", font=(font, 15), command=self.Register)
-        self.registerBtn.place(x=centerX, y=centerY + 150, anchor="center")
 
     def Facial(self):
         self.loginFrame.destroy()
@@ -69,19 +70,17 @@ class LoginGui:
         self.loginFrame.destroy()
         principal = PrincipalGui(self.window, self.width, self.height)
 
-    def Register(self):
-        self.loginFrame.pack_forget()
-        register=registerGui(self.window,self.width,self.height,self.loginFrame)
+   
     def showImage(self):
         inicialTime = time.time()
         frequence = 10
         cap = cv2.VideoCapture(0)
         face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
+        
 
         while self.allow.get() == "True":
             currentTime = time.time()
             transcurredTime = -inicialTime + currentTime
-            print(transcurredTime)
 
             ret, frame = cap.read()
 
@@ -93,8 +92,14 @@ class LoginGui:
                 roi_gray = gray[y:y + w, x:x + w]
 
             if len(faces) != 0:
-                cv2.imwrite("rostros/isaacLOG.jpg", roi_gray)
+                cv2.imwrite("rostros/isaacsolisLOG.jpg", roi_gray)
+                controler=facialRecognogtion("isaacsolis")
+                flag=controler.comparation()
+                if flag: 
+                    self.faceAproved.set("True")
+                print(flag)
 
+            
             # Crear una máscara circular
             mask = Image.new("L", (frame.shape[1], frame.shape[0]), 0)
             draw = ImageDraw.Draw(mask)

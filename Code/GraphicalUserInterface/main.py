@@ -1,4 +1,6 @@
 from tkinter import *
+
+from mailGui import mailGui
 from InitialGui import InitialGui
 
 if __name__ == '__main__':
