@@ -35,7 +35,7 @@ class RegisterGuiPhoto:
         self.photoCanvas = Canvas(self.registerFrame, width=400, height=400)
         self.photoCanvas.place(x=centerX-200, y=230, anchor="nw")
         
-        self.imagen = PhotoImage(file=os.path.abspath("perfiles\perfil.png")) 
+        self.imagen = PhotoImage(file=os.path.abspath("perfiles/perfil.png")) 
       
         self.photoCanvas.create_image(0, 0, anchor="nw", image=self.imagen)
 
@@ -56,7 +56,7 @@ class RegisterGuiPhoto:
         faceInformation = facialRecognogtion(self.user.user)
         faceInformation.getFaceInformation("takeAPhoto")
     def savePhotoInformation(self): 
-        faceInformation = facialRecognogtion("a")
+        faceInformation = facialRecognogtion(self.user.user)
         faceInformation.getFaceInformation("saveInformation")
     
     def chooseAPhoto(self):
@@ -88,7 +88,7 @@ class RegisterGuiPhoto:
             self.parentFrame.pack()
         else:
             messagebox.showwarning("Datos biométricos",  "Debe guardar sus datos biométricos (toque el botón 'Datos biométricos')")
-root = Tk()
+"""root = Tk()
 widthScreen = root.winfo_screenwidth()
 heightScreen = root.winfo_screenheight()
 root.geometry(f"{widthScreen}x{heightScreen}")
@@ -99,6 +99,6 @@ root.title("Eagle Defender")
 app=RegisterGuiPhoto(root,widthScreen,heightScreen, NONE, NONE)
 
 
-root.mainloop()
+root.mainloop()"""
 
 

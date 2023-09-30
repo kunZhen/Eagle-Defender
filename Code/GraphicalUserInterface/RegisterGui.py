@@ -83,7 +83,6 @@ class registerGui:
         answer=messagebox.askyesno("Confirmación", "¿Estás seguro de continuar?")
         if answer:     
             try:
-                print(User.ValidateExistence(self,self.questionTwoEntry.get()))
                 if not (User.ValidateExistence(self,self.questionTwoEntry.get()) and self.questionOneEntry.get()!=""):
                     if(self.questionFourEntry.get()==self.questionThreeEntry.get())  :
                         user=User(self.questionOneEntry.get(),
@@ -91,7 +90,6 @@ class registerGui:
                                 self.questionTwoEntry.get(),
                                 self.colorVar.get(),
                                 [""]," "," ")
-                        print(user.validation)
                         if(user.validation):
                             self.InformationFrame.pack_forget()
                             app=registerGUIAnswers(self.window,self.width,self.height,user,self.parentFrame)
