@@ -26,46 +26,38 @@ class registerGui:
         
         self.InformationFrame = Frame (window,width=self.width,height=self.height, bg= "green")
         self.InformationFrame.pack()
-        ##
+        self.registerLb = Label(self.InformationFrame, text="Registro de usuario", font=(font, 35))
+        self.registerLb.place(x=centerX, y=50, anchor="center")
 
-        # Variable de control para los radio buttons
+        self.registerLb = Label(self.InformationFrame, text="                    En esta sección se debe ingresar su información general                    ", font=(font, 20))
+        self.registerLb.place(x=centerX, y=125, anchor="center")
+
+        #_______________________________Choose favorite color_____________________________________#
+
         self.colorVar = StringVar()
         self.colorVar.set("default")
 
-        # Crear radio button para el color Rojo
+        
         Radiobutton(self.InformationFrame, text="Rojo     ", variable=self.colorVar, font=(font,15), width=8, value="red", command=self.showColor).place(x=centerX+330, y=250, anchor="center")
-
-        # Crear radio button para el color Verde
         Radiobutton(self.InformationFrame, text="Verde   ", variable=self.colorVar, font=(font,15), width=8, value="green", command=self.showColor).place(x=centerX+330, y=300, anchor="center")
-
-        # Crear radio button para el color Azul
         Radiobutton(self.InformationFrame, text="Azul     ", variable=self.colorVar, font=(font,15), width=8,value="blue", command=self.showColor).place(x=centerX+330, y=350, anchor="center")
-
-        # Crear radio button para el color Amarillo
         Radiobutton(self.InformationFrame, text="Amarillo", variable=self.colorVar, font=(font,15), width=8, value="yellow", command=self.showColor).place(x=centerX+330, y=400, anchor="center")
-
-        # Crear radio button para el color naranja
         Radiobutton(self.InformationFrame, text="Naranja", variable=self.colorVar, font=(font,15), width=8, value="orange", command=self.showColor).place(x=centerX+330, y=450, anchor="center")
-
-        # Crear radio button para el color naranja
         Radiobutton(self.InformationFrame, text="Morado", variable=self.colorVar, font=(font,15), width=8, value="violet", command=self.showColor).place(x=centerX+330, y=500, anchor="center")
 
         self.colorLabel = Label(self.InformationFrame, text="Seleccione su color favorito", font=(font, 15))
         self.colorLabel.place(x=centerX+330, y=200, anchor="center")
 
-        ##
+        #________________________________________________________________________________________________________#
 
-        ##
-        self.songLabel = Label(self.InformationFrame, text="Seleccione su color favorito", font=(font, 15))
-        self.songLabel.place(x=centerX+10, y=200, anchor="center")
+        #_____________________________________Get favority song__________________________________________________#
 
         self.chosenSong = tk.StringVar()
 
-        # Crear el ComboBox
         self.songOptions = ttk.Combobox(root, textvariable=self.chosenSong, height= 40, width=40, values=[])
         self.songOptions.place(x=centerX+10, y=300, anchor="center")
 
-        self.songLabel = Label(self.InformationFrame, text="Ingrese el nombre de la canción", font=(font, 15))
+        self.songLabel = Label(self.InformationFrame, text="Ingrese su canción favorita", font=(font, 15))
         self.songLabel.place(x=centerX+10, y=200, anchor="center")
 
         self.nameSongEntry= Entry(self.InformationFrame,width=18, font=(font, 15))
@@ -77,16 +69,9 @@ class registerGui:
         self.saveBtn = Button(self.InformationFrame, text="Esperando...", font=(font, 10), command = self.saveSong)
         self.saveBtn.place(x=centerX-30, y=330, anchor="nw")
         self.saveBtn.config(state="disabled")
-
-
-        ##
-
-        self.registerLb = Label(self.InformationFrame, text="Registro de usuario", font=(font, 35))
-        self.registerLb.place(x=centerX, y=50, anchor="center")
-
-        self.registerLb = Label(self.InformationFrame, text="                    En esta sección se debe ingresar su información general                    ", font=(font, 20))
-        self.registerLb.place(x=centerX, y=125, anchor="center")
-
+        #________________________________________________________________________________________________________#
+        
+        #_____________________________________General Questions Section___________________________________________#
         self.questionOneLb= Label (self.InformationFrame, text="Ingrese su nombre de usuario", font=(font,15))
         self.questionOneLb.place(x=centerX-330, y=200, anchor="center")
         self.questionOneEntry= Entry(self.InformationFrame,width=25, font=(font, 15))
@@ -109,6 +94,7 @@ class registerGui:
 
         self.nextBtn = Button(self.InformationFrame, text="next", font=(font, 15), command = self.nextPage)
         self.nextBtn.place(x=2*centerX-100, y=650, anchor="nw")
+        #________________________________________________________________________________________________________#
 
     def nextPage(self):
         answer=messagebox.askyesno("Confirmación", "¿Estás seguro de continuar?")
@@ -179,7 +165,8 @@ class registerGui:
         counter=0
         self.saveBtn.config(state="disabled")
         self.songOptions['values']=[]
-        
+        self.saveBtn.config(text="Esperando")
+                            
         while counter!= len(self.controler.nameSongListForDev):
            
             if self.controler.nameSongListForUser[counter]==self.chosenSong.get():

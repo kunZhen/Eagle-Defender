@@ -1,5 +1,5 @@
 from tkinter import *
-from User import *
+
 
 class PrincipalGui:
     def __init__(self, window, width, height,users):
@@ -30,3 +30,20 @@ class PrincipalGui:
         self.playBtn.place(x=centerX, y=centerY + 150, anchor="center")
         self.hallFameBtn.place(x=centerX, y=centerY + 200, anchor="center")
         self.helpBtn.place(x=centerX, y=centerY + 250, anchor="center")
+
+if __name__ == '__main__':
+    root = Tk()
+    # take the dimensions of the computer screen
+    widthScreen = root.winfo_screenwidth()
+    heightScreen = root.winfo_screenheight()
+
+    # set game screen size
+    root.geometry(f"{widthScreen}x{heightScreen}")
+    root.resizable(False, False)
+
+    root.title("Eagle Defender")
+
+    app =PrincipalGui(root, widthScreen, heightScreen,["Usuario 1", "Usuario 2"])
+
+    root.mainloop()
+
