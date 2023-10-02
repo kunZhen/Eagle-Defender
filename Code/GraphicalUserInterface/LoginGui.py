@@ -7,10 +7,11 @@ from RegisterGui import *
 from PrincipalGui import *
 from PIL import Image, ImageTk,ImageDraw
 from facialLogic import *
+from User import User
 
 
 class LoginGui:
-    def __init__(self, window, width, height):
+    def __init__(self, window, width, height, user:User,parentFrame):
         self.window = window
         self.width = width
         self.height = height
@@ -18,8 +19,12 @@ class LoginGui:
         self.allow.set("True")
         self.faceAproved=tk.StringVar()
         self.faceAproved.set("False")
+        self.user=user
 
-
+        self.parentFrame=parentFrame
+        self.userOne=None
+        self.userTwo=None
+        
         font = "Helvetica"
 
         centerX = width / 2
@@ -28,47 +33,45 @@ class LoginGui:
         self.loginFrame = Frame(window, width=width, height=height, bg="blue")
         self.loginFrame.pack()
 
-        self.loginLb = Label(self.loginFrame, text="Inicio de sesion", font=(font, 35))
-        self.loginLb.place(x=centerX, y=75, anchor="center")
+        self.loginLb = Label(self.loginFrame, text="                                Inicio de sesion                                ", font=(font, 35))
+        self.loginLb.place(x=centerX-20, y=75, anchor="center")
 
         self.photoCanvas = Canvas(self.loginFrame, width=600, height=600)
-        self.photoCanvas.place(x=150+centerX, y=100, anchor="nw")
+        self.photoCanvas.place(x=150+centerX, y=130, anchor="nw")
         
 
-        self.userLb = Label(self.loginFrame, text="Usuario/Correo: ", font=(font, 15))
-        self.userLb.place(x=centerX - 105, y=centerY - 150, anchor="e")
+        self.userLb = Label(self.loginFrame, text="Hola jugador " + self.user.user + ", por favor ingrese su contraseña:", width=60,font=(font, 16))
+        self.userLb.place(x=centerX+130, y=150, anchor="e")
 
         # Txt: Text box
         self.userTxt = Entry(self.loginFrame, width=25, font=(font, 15))
-        self.userTxt.place(x=centerX - 100, y=centerY - 150, anchor="w")
+        self.userTxt.place(x=centerX - 380, y=200, anchor="w",height=40)
 
-        self.faceBtn = Button(self.loginFrame, text="Reconocimiento facial", font=(font, 15), command=self.Facial)
-        self.faceBtn.place(x=centerX, y=centerY - 100, anchor="n")
+        self.passwordBtn = Button(self.loginFrame, text="Continuar", font=(font, 15),command=self.next)
+        self.passwordBtn.place(x=centerX-240, y=300, anchor="n",width=350)
+        self.passwordBtn.config(state="disabled")
 
-        self.enablePasswordBtn = Button(self.loginFrame, text="Usar otro método para ingresar", font=(font, 15),
-                                        command=self.EnablePassword)
-        self.enablePasswordBtn.place(x=centerX, y=centerY + 50, anchor="n")
+        self.recoverBtn = Button(self.loginFrame, text="Recuperar contraseña", font=(font, 15), command=self.Validate)
+        self.recoverBtn.place(x=centerX-240,y=400, anchor="center",width=350)
+        self.recoverBtn.config(state="disabled")
 
-        self.passwordLb = Label(self.loginFrame, text="Ingrese contraseña", font=(font, 15))
-
-        self.passwordTxt = Entry(self.loginFrame, width=25, font=(font, 15))
-
-        self.validateBtn = Button(self.loginFrame, text="Continuar", font=(font, 15), command=self.Validate)
-        self.validateBtn.place(x=centerX,y=centerY+100, anchor="center")
+        self.faceLb = Label(self.loginFrame, text="No se detectó su rostro", width=40,font=(font, 16))
+        self.faceLb.place(x=centerX+720, y=640, anchor="e")
 
 
-    def Facial(self):
+    def next(self):
         self.loginFrame.destroy()
-        principal = PrincipalGui(self.window, self.width, self.height)
+        if(self.userTwo==None):
+            self.loginFrame.pack_forget()
+            self.parentFrame.pack()
+        else:  
+           principal = PrincipalGui(self.window, self.width, self.height,[self.userOne,self.userTwo])
 
     def EnablePassword(self):
-        self.passwordLb.place(x=self.width/2, y=self.height/2 + 150, anchor="n")
-        self.passwordTxt.place(x=self.width / 2, y=self.height / 2 + 200, anchor="n")
-        self.validateBtn.place(x=self.width / 2, y=self.height / 2 + 250, anchor="n")
+        pass
 
     def Validate(self):
-        self.loginFrame.destroy()
-        principal = PrincipalGui(self.window, self.width, self.height)
+        pass
 
    
     def showImage(self):
@@ -92,12 +95,14 @@ class LoginGui:
                 roi_gray = gray[y:y + w, x:x + w]
 
             if len(faces) != 0:
-                cv2.imwrite("rostros/isaacsolisLOG.jpg", roi_gray)
-                controler=facialRecognogtion("isaacsolis")
+                cv2.imwrite("rostros/"+self.user.user+"LOG.jpg", roi_gray)
+                controler=facialRecognogtion(self.user.user)
                 flag=controler.comparation()
-                if flag: 
-                    self.faceAproved.set("True")
-                print(flag)
+                if flag and transcurredTime<frequence: 
+                    self.faceLb.config(text="Se reconoció su rostro")
+                    self.loginFrame.pack_forget()
+                    self.next()
+                    break
 
             
             # Crear una máscara circular
@@ -120,6 +125,11 @@ class LoginGui:
             # Mostrar la imagen en el Canvas
             self.photoCanvas.create_image(0, 0, anchor="nw", image=frame_tk)
             self.window.update()
+            self.faceLb.config(text="Analizando...")
+
 
             if transcurredTime >= frequence:
-                pass
+                self.faceLb.config(text="No se reconoció su rostro")
+                self.recoverBtn.config(state="normal")
+                self.passwordBtn.config(state="normal")
+                

@@ -1,11 +1,12 @@
 from tkinter import *
-
+from User import *
 
 class PrincipalGui:
-    def __init__(self, window, width, height):
+    def __init__(self, window, width, height,users):
         self.window = window
         self.width = width
         self.height = height
+        self.users=users
 
         font = "Helvetica"
 
@@ -18,8 +19,8 @@ class PrincipalGui:
         self.titleLb = Label(self.principalFrame, text="Eagle Defender", font=(font, 50))
         self.titleLb.place(x=centerX, y=75, anchor="center")
 
-        self.user1Btn = Button(self.principalFrame, text="Usuraio", font=(font, 15))
-        self.user2Btn = Button(self.principalFrame, text="Usuraio", font=(font, 15))
+        self.user1Btn = Button(self.principalFrame, text=users[0], font=(font, 15))
+        self.user2Btn = Button(self.principalFrame, text=users[1], font=(font, 15))
         self.user1Btn.place(x=75, y=75, anchor="nw")
         self.user2Btn.place(x=width - 75, y=75, anchor="ne")
 

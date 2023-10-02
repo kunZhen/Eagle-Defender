@@ -60,6 +60,3 @@ class facialRecognogtion:
             print("Imagen guardada correctamente.")
         else:
             print("No se pudo cargar la imagen.")
-    
-app= facialRecognogtion("isaacsolis")
-print(app.comparation())

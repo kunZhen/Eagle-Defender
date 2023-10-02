@@ -33,8 +33,7 @@ class InitialGui:
 
     def Login(self):
         self.initialFrame.destroy()
-        login = mailGui(self.window, self.width, self.height)
-        login.pack()
+        mail = mailGui(self.window, self.width, self.height,1)
 
     def CloseGame(self):
         self.window.destroy()

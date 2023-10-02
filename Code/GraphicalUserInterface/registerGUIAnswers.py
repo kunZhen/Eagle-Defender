@@ -62,14 +62,14 @@ class registerGUIAnswers:
     def nextPage(self):
         print(self.user)
         questions=[self.questionOneEntry.get(),self.questionTwoEntry.get(),self.questionThreeEntry.get(),self.questionFourEntry.get(), self.questionFiveEntry.get()]
-        self.user.SetAnswer(questions)
+        self.user.SetAttributes(NONE,NONE,questions,-1,NONE,NONE,NONE)
         answer=messagebox.askyesno("Confirmación", "¿Estás seguro de continuar?")
         if answer:
             if self.notEmpy(questions):
                 self.AnswersFrame.pack_forget()
                 app=RegisterGuiPhoto(self.window,self.width,self.height,self.user,self.parentFrame)
             else:
-                messagebox.showinfo("Mensaje", "Debe responder al menos una pregunta") 
+                messagebox.showinfo("Mensaje", "Debe responder al menos dos pregunta") 
             
     
     def notEmpy(self,questions): 

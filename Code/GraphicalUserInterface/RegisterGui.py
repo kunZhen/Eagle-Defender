@@ -11,6 +11,7 @@ class registerGui:
         self.width = width
         self.height = height
         self.parentFrame=parentFrame
+        
 
         centerX  = width/2
         centrerY = width/2
@@ -83,12 +84,13 @@ class registerGui:
         answer=messagebox.askyesno("Confirmación", "¿Estás seguro de continuar?")
         if answer:     
             try:
-                if not (User.ValidateExistence(self,self.questionTwoEntry.get()) and self.questionOneEntry.get()!=""):
+                print(User.ValidateExistance(self,self.questionOneEntry.get()))
+                if (not (User.ValidateExistance(self,self.questionOneEntry.get())) and (not (User.ValidateExistance(self,self.questionTwoEntry.get()))) and self.questionOneEntry.get()!=""):
                     if(self.questionFourEntry.get()==self.questionThreeEntry.get())  :
                         user=User(self.questionOneEntry.get(),
                                 self.questionThreeEntry.get(),
                                 self.questionTwoEntry.get(),
-                                self.colorVar.get(),
+                                self.colorVar.get(),"",
                                 [""]," "," ")
                         if(user.validation):
                             self.InformationFrame.pack_forget()

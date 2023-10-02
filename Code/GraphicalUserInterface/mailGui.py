@@ -12,11 +12,12 @@ from User import *
 
 
 class mailGui:
-    def __init__(self, window, width, height):
+    def __init__(self, window, width, height,userAmount):
         self.window = window
         self.width = width
         self.height = height
-        
+        self.userOneName=""
+        self.userTwoName=""        
         font = "Helvetica"
 
         centerX = width / 2
@@ -24,8 +25,9 @@ class mailGui:
 
         self.mailFrame = Frame(window, width=width, height=height, bg="blue")
         self.mailFrame.pack()
-
-        self.loginLb = Label(self.mailFrame, text="Ingrese su usuario/correo", font=(font, 35))
+        self.userAmount=userAmount
+        
+        self.loginLb = Label(self.mailFrame, text="Ingrese su usuario/correo"+f"(Usuario {self.userAmount})", font=(font, 35))
         self.loginLb.place(x=centerX, y=75, anchor="center")
 
         self.userLb = Label(self.mailFrame, text="Usuario/Correo: ", font=(font, 15))
@@ -42,16 +44,35 @@ class mailGui:
         self.nextBtn.place(x=centerX, y=centerY,anchor="center")
 
     def nextPage(self):
-        print(self.userTxt.get())
-        print(User.ValidateExistence(self,self.userTxt.get()))
-        if User.ValidateExistence(self,self.userTxt.get()):
-            self.mailFrame.pack_forget()
-            app=LoginGui(self.window,self.width,self.height)
-            app.showImage()
-        else: 
-            messagebox.showinfo("Mensaje", "Usuario inexistente")
+        answer=messagebox.askyesno("Confirmación", "¿Estás seguro de continuar?")
+        if answer:
+            if self.userTxt.get()=="":
+                messagebox.showwarning("Contenido vacío", "No ha introducido un usuario")
+            elif self.userTxt.get()==self.userOneName: 
+                messagebox.showwarning("", "usuario ingresado")
+            elif User.ValidateExistance(self,self.userTxt.get()):
+                user=User.LoadJson(self.userTxt.get())
+                app=LoginGui(self.window,self.width,self.height,user,self.mailFrame)
+                print(self.userOneName)
+                if(self.userAmount==1):
+                    self.userOneName=user.user
+                    self.userAmount=2
+                    self.userTxt.delete(0, "end")
+
+                    self.loginLb.config(text="Ingrese su usuario/correo"+f"(Usuario {self.userAmount})")
+                else: 
+                    self.userTwoName=user.user
+                    app.userTwo=self.userTwoName
+                    app.userOne=self.userOneName
+
+                self.mailFrame.pack_forget()
+                app.showImage()
+            else: 
+                messagebox.showinfo("Mensaje", "Usuario inexistente")
 
     def Register(self):
-        self.mailFrame.pack_forget()
-        register=registerGui(self.window,self.width,self.height,self.mailFrame)
+        answer=messagebox.askyesno("Confirmación", "¿Estás seguro de continuar?")
+        if answer:
+            self.mailFrame.pack_forget()
+            register=registerGui(self.window,self.width,self.height,self.mailFrame)
 

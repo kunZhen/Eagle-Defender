@@ -58,6 +58,7 @@ class RegisterGuiPhoto:
     def savePhotoInformation(self): 
         faceInformation = facialRecognogtion(self.user.user)
         faceInformation.getFaceInformation("saveInformation")
+        self.done=True
     
     def chooseAPhoto(self):
         imagePath = filedialog.askopenfilename(filetypes=[("Archivos de imagen", "*.jpg *.png *.gif *.bmp *.svg")])
