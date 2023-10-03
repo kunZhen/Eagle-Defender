@@ -13,8 +13,11 @@ class musicLogic:
         self.urlSongList=[]
 
     def searchYoutubeSongs(self,query):
-        videosSearch = VideosSearch(query, limit=3)  # Limita la búsqueda a 5 resultados (ajusta según sea necesario)
+        videosSearch = VideosSearch(query, limit=2)  # Limita la búsqueda a 5 resultados (ajusta según sea necesario)
         results = videosSearch.result()
+        self.nameSongListForUser=[]
+        self.nameSongListForDev=[]
+        self.urlSongList=[]
 
         # Imprimir la lista de URLs de los videos y sus títulos
         for idx, video in enumerate(results['result'], start=1):

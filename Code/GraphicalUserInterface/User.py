@@ -155,19 +155,16 @@ class User:
         :param facial:
         :return:
         """
-        if answers is None:
-            answers = [None, None]
-        if music is None:
-            music = [None, None, None]
         if color is not None:
             self.color = color
         if music is not None:
             self.music = music
         if answers is not None:
             self.answers = answers
-        if numIndex is not None and newAnswer is not None:
-            if 1 <= numIndex <= len(self.answers):
-                self.answers[numIndex - 1] = newAnswer
+        if numIndex is not None:
+            if newAnswer is not None:
+                if 1 <= numIndex <= len(self.answers):
+                    self.answers[numIndex - 1] = newAnswer
         if profile is not None:
             self.profile = profile
         if facial is not None:

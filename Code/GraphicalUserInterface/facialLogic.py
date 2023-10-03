@@ -56,7 +56,29 @@ class facialRecognogtion:
 
         if imagen is not None:
             # Guardar la imagen en una carpeta específica (en este caso, "carpeta_destino")
-            cv2.imwrite('rostros/'+self.userName+".png", imagen)
+            cv2.imwrite('perfiles/'+self.userName+".jpg", imagen)
+            print("Imagen guardada correctamente.")
+        else:
+            print("No se pudo cargar la imagen.")
+    def overWritePerfil(self,path):
+        path='perfiles/'+path+".jpg"
+        print(path)
+        imagen = cv2.imread(path)
+
+        if imagen is not None:
+            # Guardar la imagen en una carpeta específica (en este caso, "carpeta_destino")
+            cv2.imwrite('perfiles/'+self.userName+".jpg", imagen)
+            print("Imagen guardada correctamente.")
+        else:
+            print("No se pudo cargar la imagen.")
+    def overWriteBiometricalData(self,path):
+        path="rostros/"+path+".jpg"
+
+        imagen = cv2.imread(path)
+        print(path)
+        if imagen is not None:
+            # Guardar la imagen en una carpeta específica (en este caso, "carpeta_destino")
+            cv2.imwrite('rostros/'+self.userName+".jpg", imagen)
             print("Imagen guardada correctamente.")
         else:
             print("No se pudo cargar la imagen.")

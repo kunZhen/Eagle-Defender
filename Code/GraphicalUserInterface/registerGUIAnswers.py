@@ -62,10 +62,10 @@ class registerGUIAnswers:
     def nextPage(self):
         print(self.user)
         questions=[self.questionOneEntry.get(),self.questionTwoEntry.get(),self.questionThreeEntry.get(),self.questionFourEntry.get(), self.questionFiveEntry.get()]
-        self.user.SetAttributes(NONE,NONE,questions,-1,NONE,NONE,NONE)
         answer=messagebox.askyesno("Confirmación", "¿Estás seguro de continuar?")
         if answer:
             if self.notEmpy(questions):
+                self.user.SetAttributes(None,None,questions,None,None,None,None)
                 self.AnswersFrame.pack_forget()
                 app=RegisterGuiPhoto(self.window,self.width,self.height,self.user,self.parentFrame)
             else:

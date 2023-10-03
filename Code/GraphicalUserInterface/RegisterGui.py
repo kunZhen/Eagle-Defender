@@ -29,6 +29,9 @@ class registerGui:
         self.registerLb = Label(self.InformationFrame, text="Registro de usuario", font=(font, 35))
         self.registerLb.place(x=centerX, y=50, anchor="center")
 
+        self.InformationFrame.grid_rowconfigure(1, minsize=100)  
+        self.InformationFrame.grid_columnconfigure(0, minsize=200)  
+
         self.registerLb = Label(self.InformationFrame, text="                    En esta sección se debe ingresar su información general                    ", font=(font, 20))
         self.registerLb.place(x=centerX, y=125, anchor="center")
 
@@ -53,8 +56,12 @@ class registerGui:
         #_____________________________________Get favority song__________________________________________________#
 
         self.chosenSong = tk.StringVar()
+        self.songsAmount=0
 
-        self.songOptions = ttk.Combobox(root, textvariable=self.chosenSong, height= 40, width=40, values=[])
+        self.songsListsLb = Label(self.InformationFrame, text="Lista de canciones", font=(font, 11), width=28 ,wraplength=275)
+        self.songsListsLb.place(x=centerX+10, y=380, anchor="center")
+
+        self.songOptions = ttk.Combobox(self.InformationFrame, textvariable=self.chosenSong, height= 40, width=40, values=[])
         self.songOptions.place(x=centerX+10, y=300, anchor="center")
 
         self.songLabel = Label(self.InformationFrame, text="Ingrese su canción favorita", font=(font, 15))
@@ -102,6 +109,7 @@ class registerGui:
             try:
                 print(User.ValidateExistance(self,self.questionOneEntry.get()))
                 if (not (User.ValidateExistance(self,self.questionOneEntry.get())) and (not (User.ValidateExistance(self,self.questionTwoEntry.get()))) and self.questionOneEntry.get()!=""):
+                    print(self.songs)
                     if(self.questionFourEntry.get()==self.questionThreeEntry.get())  :
                         user=User(self.questionOneEntry.get(),
                                 self.questionThreeEntry.get(),
@@ -145,13 +153,13 @@ class registerGui:
             except Exception as e:
                 print(e)
                 messagebox.showinfo("Mensaje", "Datos incorrectos")
+    
     def showColor(self):
         color = self.colorVar.get()
         self.colorLabel.config(bg=color)
         
 
     def searchSongs(self): 
-        
         self.saveBtn.config(text="Cargando...")
         self.saveBtn.update()
         self.controler.searchYoutubeSongs(self.nameSongEntry.get())
@@ -161,37 +169,54 @@ class registerGui:
         self.chosenSong.set(self.controler.nameSongListForUser[0])
         self.saveBtn.update()
 
-    def saveSong(self): 
+    def saveSong(self):
+        flag=True
+        
+        if not self.songsAmount!=3: 
+            answer=messagebox.askyesno("Confirmación", "Solo puedes guardar tres canciones, eliminarás la última que esté en la lista, ¿Deseas continuar?")
+            if not answer: 
+                flag=False
+            
+        if flag:
+            counter=0
+            self.saveBtn.config(state="disabled")
+            self.songOptions['values']=[]
+            self.saveBtn.config(text="Esperando")
+                                
+            while counter!= len(self.controler.nameSongListForDev):
+                print(self.controler.nameSongListForUser[counter],self.chosenSong.get())
+                if self.controler.nameSongListForUser[counter]==self.chosenSong.get():
+                    if not self.songsAmount!=3:
+                        auxList=self.songs
+                        self.songs[1]=auxList[0]
+                        self.songs[2]=auxList[1]
+                        self.songs[0]=[[self.controler.nameSongListForDev[counter]],
+                                        [self.controler.nameSongListForUser[counter]],
+                                        [self.controler.urlSongList[counter]]]
+                    else:
+                        self.songs.append([[self.controler.nameSongListForDev[counter]],
+                                        [self.controler.nameSongListForUser[counter]],
+                                        [self.controler.urlSongList[counter]]])
+                        self.songsAmount+=1
+                    self.showSong()
+                    break
+                counter+=1
+            self.chosenSong.set("")
+            self.chosenSong.set("")
+            
+    def showSong(self):
         counter=0
-        self.saveBtn.config(state="disabled")
-        self.songOptions['values']=[]
-        self.saveBtn.config(text="Esperando")
-                            
-        while counter!= len(self.controler.nameSongListForDev):
-           
-            if self.controler.nameSongListForUser[counter]==self.chosenSong.get():
-                self.songs.append(self.controler.nameSongListForDev[counter])
-                break
+        auxList=[]
+        while counter!= len(self.songs):
+            print(self.songs)
+            auxList=auxList+[str(counter+1)+"."+self.songs[counter][1][0]]
             counter+=1
-        self.chosenSong.set("")
+        
+        auxList=["Lista de canciones"]+auxList
+        info="\n".join(auxList)
+        self.songsListsLb.config(text=info)
 
 
 
 
-
-if __name__ == '__main__':
-    root = Tk()
-    # take the dimensions of the computer screen
-    widthScreen = root.winfo_screenwidth()
-    heightScreen = root.winfo_screenheight()
-
-    # set game screen size
-    root.geometry(f"{widthScreen}x{heightScreen}")
-    root.resizable(False, False)
-
-    root.title("Eagle Defender")
-
-    app =registerGui(root, widthScreen, heightScreen,NONE)
-
-    root.mainloop()
 
