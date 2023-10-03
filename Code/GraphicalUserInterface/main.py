@@ -16,5 +16,6 @@ if __name__ == '__main__':
     root.title("Eagle Defender")
 
     app = InitialGui(root, widthScreen, heightScreen)
+    print("Hola")
 
     root.mainloop()
