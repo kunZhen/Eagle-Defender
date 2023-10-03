@@ -8,6 +8,7 @@ from PrincipalGui import *
 from PIL import Image, ImageTk,ImageDraw
 from facialLogic import *
 from User import User
+from passRetrieve import *
 
 
 class LoginGui:
@@ -47,7 +48,7 @@ class LoginGui:
         self.userTxt = Entry(self.loginFrame, width=25, font=(font, 15))
         self.userTxt.place(x=centerX - 380, y=200, anchor="w",height=40)
 
-        self.passwordBtn = Button(self.loginFrame, text="Continuar", font=(font, 15),command=self.next)
+        self.passwordBtn = Button(self.loginFrame, text="Continuar", font=(font, 15),command=self.nextPass)
         self.passwordBtn.place(x=centerX-240, y=300, anchor="n",width=350)
         self.passwordBtn.config(state="disabled")
 
@@ -66,12 +67,21 @@ class LoginGui:
             self.parentFrame.pack()
         else:  
            principal = PrincipalGui(self.window, self.width, self.height,[self.userOne,self.userTwo])
+    def nextPass(self):
+        if (self.userTwo==None and self.userTxt.get()==self.user.password): 
+            self.allow.set("False")
+            self.loginFrame.pack_forget()
+            self.parentFrame.pack()
 
-    def EnablePassword(self):
-        pass
+        elif self.userTxt.get()==self.user.password==self.user.password:
+            self.allow.set("False")
+            self.loginFrame.pack_forget()
+            principal = PrincipalGui(self.window, self.width, self.height,[self.userOne,self.userTwo])
+
 
     def Validate(self):
-        pass
+        self.loginFrame.pack_forget()
+        recover=PassRetrieve(self.window,self.width,self.height,self.user.user,self.loginFrame)
 
    
     def showImage(self):

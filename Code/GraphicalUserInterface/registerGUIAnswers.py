@@ -29,7 +29,7 @@ class registerGUIAnswers:
         self.registerLb = Label(self.AnswersFrame, text="                En esta sección se debe responde al menos dos preguntas               ", font=(font, 20))
         self.registerLb.place(x=centerX, y=125, anchor="center")
 
-        self.questionOneLb= Label (self.AnswersFrame, text="¿Qué fue lo primero que aprendí a cocinar", width=35, font=(font,15))
+        self.questionOneLb= Label (self.AnswersFrame, text="¿Qué fue lo primero que aprendí a cocinar?", width=35, font=(font,15))
         self.questionOneLb.place(x=centerX, y=180, anchor="center")
         self.questionOneEntry= Entry(self.AnswersFrame,width=25, font=(font, 15))
         self.questionOneEntry.place(x=centerX, y=220, anchor="center")
@@ -69,7 +69,7 @@ class registerGUIAnswers:
                 self.AnswersFrame.pack_forget()
                 app=RegisterGuiPhoto(self.window,self.width,self.height,self.user,self.parentFrame)
             else:
-                messagebox.showinfo("Mensaje", "Debe responder al menos dos pregunta") 
+                messagebox.showinfo("Mensaje", "Debe responder todas las preguntas") 
             
     
     def notEmpy(self,questions): 
@@ -79,7 +79,7 @@ class registerGUIAnswers:
             if(questions[counter]!=""):
                 questionsAmount+=1
             counter+=1
-        if questionsAmount>1:
+        if questionsAmount==5:
             return True
         return False
 
