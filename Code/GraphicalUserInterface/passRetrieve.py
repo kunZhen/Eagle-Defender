@@ -23,7 +23,7 @@ class PassRetrieve:
 
     """
 
-    def __init__(self, window, width, height, username:str, parentFrame:LoginGui):
+    def __init__(self, window, width, height, username:str, parentFrame):
         """
         Creates an instance of the password retrieval screen
 
@@ -134,7 +134,7 @@ class PassRetrieve:
                     if User.ValidatePassword(self.newPass1.get()):
                         self.user.SetUser(None,self.newPass1.get(),None)
                         self.screenFrame.pack_forget()
-                        self.parent.pack()
+                        self.parentFrame.pack()
                     else:
                         requirements = [
                                     "La contraseña no cumple los requisitos:",
@@ -157,18 +157,3 @@ class PassRetrieve:
         self.screenFrame.pack_forget()
         self.parentFrame.pack()
 
-#Test code for testing
-def main():
-    root = tkinter.Tk()
-    screenWidth = root.winfo_screenwidth()
-    screenHeight = root.winfo_screenheight()
-    root.geometry(f"{screenWidth}x{screenHeight}")
-    root.resizable(False, False)
-    root.title("Eagle Defender")
-
-    test = PassRetrieve(root, screenWidth, screenHeight, "Kun", None)
-    root.mainloop()
-
-
-#Calls the 
-main()
