@@ -53,7 +53,7 @@ class LoginGui:
         self.userLb.place(x=centerX + 130, y=150, anchor="e")
 
         # Txt: Text box
-        self.userTxt = Entry(self.loginFrame, width=25, font=(font, 15))
+        self.userTxt = Entry(self.loginFrame, width=25, font=(font, 15), show="♦")
         self.userTxt.place(x=centerX - 380, y=200, anchor="w", height=40)
 
         self.passwordBtn = Button(self.loginFrame, text="Continuar", font=(font, 15), command=self.nextPass)
@@ -72,14 +72,14 @@ class LoginGui:
 
     def next(self):
         self.loginFrame.destroy()
-        if (self.userTwo == None):
+        if self.userTwo is None:
             self.loginFrame.pack_forget()
             self.parentFrame.pack()
         else:
             principal = PrincipalGui(self.window, self.width, self.height, [self.userOne, self.userTwo])
 
     def nextPass(self):
-        if (self.userTwo == None and self.userTxt.get() == self.user.password):
+        if self.userTwo is None and self.userTxt.get() == self.user.password:
             self.allow.set("False")
             self.loginFrame.pack_forget()
             self.parentFrame.pack()
@@ -113,7 +113,7 @@ class LoginGui:
                 roi_gray = gray[y:y + w, x:x + w]
 
             if len(faces) != 0:
-                cv2.imwrite("rostros/" + self.user.user + "LOG.jpg", roi_gray)
+                cv2.imwrite("Faces/" + self.user.user + "LOG.jpg", roi_gray)
                 controler = facialRecognogtion(self.user.user)
                 flag = controler.comparation()
                 if flag and transcurredTime < frequence:

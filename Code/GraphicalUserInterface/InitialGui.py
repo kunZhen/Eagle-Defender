@@ -1,3 +1,4 @@
+import os.path
 from tkinter import *
 from mailGui import *
 
@@ -16,6 +17,8 @@ class InitialGui:
 
         colorPalette = ["#8B0000", "#630000", "#1C1C1C", "#000000", "#FFFFFF"]
 
+        self.logo = PhotoImage(file=os.path.abspath("GameData/EagleDefender.png"))
+
         # frames are used to facilitate the creation and deletion of screens
         self.initialFrame = Frame(window, width=width, height=height, bg=colorPalette[0])
         self.initialFrame.pack()
@@ -24,13 +27,16 @@ class InitialGui:
         # Lb: Label. Specify the type of element
         self.titleLb = Label(self.initialFrame, text="Eagle Defender", font=(font, 50))
         self.titleLb.config(bg=colorPalette[0], fg=colorPalette[3])
-        self.titleLb.place(x=centerX, y=centerY, anchor="center")
+        self.titleLb.place(x=centerX, y=100, anchor="center")
 
-        # is replaced by mouse event
+        self.titleCanvas = Canvas(self.initialFrame, width=400, height=580, bg=colorPalette[1])
+        self.titleCanvas.place(x=centerX, y=150, anchor="n")
+        self.titleCanvas.create_image(200, 300, anchor="center", image=self.logo)
+
         # Btn: Button
         self.loginBtn = Button(self.initialFrame, text="Ingresar", command=self.Login, font=(font, 15))
         self.loginBtn.config(bg=colorPalette[2], fg=colorPalette[4])
-        self.loginBtn.place(x=centerX, y=height - 350, anchor="center")
+        self.loginBtn.place(x=centerX, y=height - 300, anchor="center")
 
         self.closeBtn = Button(self.initialFrame, text="Cerrar", command=self.CloseGame, font=(font, 15))
         self.closeBtn.config(bg=colorPalette[2], fg=colorPalette[4])
