@@ -1,7 +1,11 @@
 from tkinter import *
 from tkinter import messagebox
 from tkinter import ttk
+from tkinter import colorchooser
 import tkinter as tk
+
+from GeneratePalette import GeneratePalette
+from ColorRGB import ColorRGB
 from registerGUIAnswers import registerGUIAnswers
 from User import *
 from musicLogic import *
@@ -23,15 +27,15 @@ class registerGui:
 
         font = "Helvetica"
 
-        colorPalette = ["#8B0000", "#630000", "#1C1C1C", "#000000", "#FFFFFF"]
+        self.colorPalette = ["#8B0000", "#630000", "#1C1C1C", "#000000", "#FFFFFF"]
 
         # Esta es el frame de esta sección
 
-        self.InformationFrame = Frame(window, width=self.width, height=self.height, bg=colorPalette[0])
+        self.InformationFrame = Frame(window, width=self.width, height=self.height, bg=self.colorPalette[0])
         self.InformationFrame.pack()
 
         self.registerLb = Label(self.InformationFrame, text="Registro de usuario", font=(font, 35))
-        self.registerLb.config(bg=colorPalette[0], fg=colorPalette[3])
+        self.registerLb.config(bg=self.colorPalette[0], fg=self.colorPalette[3])
         self.registerLb.place(x=centerX, y=50, anchor="center")
 
         self.InformationFrame.grid_rowconfigure(1, minsize=100)
@@ -40,93 +44,129 @@ class registerGui:
         self.registerLb = Label(self.InformationFrame,
                                 text="                    En esta sección se debe ingresar su información general                    ",
                                 font=(font, 20))
-        self.registerLb.config(bg=colorPalette[1], fg=colorPalette[4])
+        self.registerLb.config(bg=self.colorPalette[1], fg=self.colorPalette[4])
         self.registerLb.place(x=centerX, y=125, anchor="center")
 
-        # _______________________________Choose favorite color_____________________________________#
+        # _______________________________Choose favorite color_____________________________________ #
 
-        self.colorVar = StringVar()
-        self.colorVar.set("default")
+        self.r = None
+        self.g = None
+        self.g = None
+        self.userPalette = None
 
-        Radiobutton(self.InformationFrame, text="Rojo     ", variable=self.colorVar, font=(font, 15), width=8,
-                    value="red", command=self.showColor).place(x=centerX + 330, y=250, anchor="center")
-        Radiobutton(self.InformationFrame, text="Verde   ", variable=self.colorVar, font=(font, 15), width=8,
-                    value="green", command=self.showColor).place(x=centerX + 330, y=300, anchor="center")
-        Radiobutton(self.InformationFrame, text="Azul     ", variable=self.colorVar, font=(font, 15), width=8,
-                    value="blue", command=self.showColor).place(x=centerX + 330, y=350, anchor="center")
-        Radiobutton(self.InformationFrame, text="Amarillo", variable=self.colorVar, font=(font, 15), width=8,
-                    value="yellow", command=self.showColor).place(x=centerX + 330, y=400, anchor="center")
-        Radiobutton(self.InformationFrame, text="Naranja", variable=self.colorVar, font=(font, 15), width=8,
-                    value="orange", command=self.showColor).place(x=centerX + 330, y=450, anchor="center")
-        Radiobutton(self.InformationFrame, text="Morado", variable=self.colorVar, font=(font, 15), width=8,
-                    value="violet", command=self.showColor).place(x=centerX + 330, y=500, anchor="center")
+        self.redLb = Label(self.InformationFrame, text="R: ", font=(font, 15))
+        self.redLb.config(bg=self.colorPalette[1], fg=self.colorPalette[4])
+        self.greenLb = Label(self.InformationFrame, text="G: ", font=(font, 15))
+        self.greenLb.config(bg=self.colorPalette[1], fg=self.colorPalette[4])
+        self.blueLb = Label(self.InformationFrame, text="B: ", font=(font, 15))
+        self.blueLb.config(bg=self.colorPalette[1], fg=self.colorPalette[4])
 
-        self.colorLabel = Label(self.InformationFrame, text="Seleccione su color favorito", font=(font, 15))
-        self.colorLabel.config(bg=colorPalette[1], fg=colorPalette[4])
-        self.colorLabel.place(x=centerX + 330, y=200, anchor="center")
+        self.redTxt = Entry(self.InformationFrame, width=10, font=(font, 15))
+        self.greenTxt = Entry(self.InformationFrame, width=10, font=(font, 15))
+        self.blueTxt = Entry(self.InformationFrame, width=10, font=(font, 15))
 
-        # ________________________________________________________________________________________________________#
+        self.redLb.place(x=centerX + 300, y=250, anchor="w")
+        self.redTxt.place(x=centerX + 320, y=290, anchor="w")
+        self.greenLb.place(x=centerX + 300, y=330, anchor="w")
+        self.greenTxt.place(x=centerX + 320, y=370, anchor="w")
+        self.blueLb.place(x=centerX + 300, y=410, anchor="w")
+        self.blueTxt.place(x=centerX + 320, y=450, anchor="w")
 
-        # _____________________________________Get favority song__________________________________________________#
+        self.canvasColor = Canvas(self.InformationFrame, width=100, height=100)
+        self.canvasColor.place(x=centerX + 550, y=330, anchor="center")
+
+        self.colorLb = Label(self.InformationFrame, text="Selecciones un color", font=(font, 15))
+        self.colorLb.config(bg=self.colorPalette[1], fg=self.colorPalette[4])
+        self.colorLb.place(x=centerX + 330, y=200, anchor="center")
+
+        self.generateBtn = Button(self.InformationFrame, text="Generate", font=(font, 15), command=self.GenerateColor)
+        self.generateBtn.config(bg=self.colorPalette[2], fg=self.colorPalette[4])
+        self.generateBtn.place(x=centerX + 420, y=500, anchor="center")
+
+        # __________________________________________________________________________________________________________ #
+
+        # _______________________________________Get favorite song__________________________________________________ #
 
         self.chosenSong = tk.StringVar()
         self.songsAmount = 0
 
         self.songsListsLb = Label(self.InformationFrame, text="Lista de canciones", font=(font, 11), width=28,
                                   wraplength=275)
-        self.songsListsLb.config(bg=colorPalette[1], fg=colorPalette[4])
-        self.songsListsLb.place(x=centerX + 10, y=380, anchor="center")
+        self.songsListsLb.config(bg=self.colorPalette[1], fg=self.colorPalette[4])
+        self.songsListsLb.place(x=centerX - 30, y=380 + 440, anchor="n")
 
         self.songOptions = ttk.Combobox(self.InformationFrame, textvariable=self.chosenSong, height=40, width=40,
                                         values=[])
-        self.songOptions.place(x=centerX + 10, y=300, anchor="center")
+        self.songOptions.place(x=centerX - 30, y=300 + 440, anchor="center")
 
         self.songLabel = Label(self.InformationFrame, text="Ingrese su canción favorita", font=(font, 15))
-        self.songLabel.config(bg=colorPalette[1], fg=colorPalette[4])
-        self.songLabel.place(x=centerX + 10, y=200, anchor="center")
+        self.songLabel.config(bg=self.colorPalette[1], fg=self.colorPalette[4])
+        self.songLabel.place(x=centerX - 30, y=200 + 440, anchor="center")
 
         self.nameSongEntry = Entry(self.InformationFrame, width=18, font=(font, 15))
-        self.nameSongEntry.place(x=centerX - 20, y=250, anchor="center")
+        self.nameSongEntry.place(x=centerX - 30, y=250 + 440, anchor="center")
 
         self.searchBtn = Button(self.InformationFrame, text="Search", font=(font, 10), command=self.searchSongs)
-        self.searchBtn.config(bg=colorPalette[2], fg=colorPalette[4])
-        self.searchBtn.place(x=centerX + 88, y=238, anchor="nw")
+        self.searchBtn.config(bg=self.colorPalette[2], fg=self.colorPalette[4])
+        self.searchBtn.place(x=centerX + 118, y=250 + 440, anchor="center")
 
         self.saveBtn = Button(self.InformationFrame, text="Esperando...", font=(font, 10), command=self.saveSong)
-        self.saveBtn.config(bg=colorPalette[2], fg=colorPalette[4])
-        self.saveBtn.place(x=centerX - 30, y=330, anchor="nw")
+        self.saveBtn.config(bg=self.colorPalette[2], fg=self.colorPalette[4])
+        self.saveBtn.place(x=centerX - 30, y=330 + 440, anchor="center")
         self.saveBtn.config(state="disabled")
-        # ________________________________________________________________________________________________________#
+        # __________________________________________________________________________________________________________ #
 
-        # _____________________________________General Questions Section___________________________________________#
+        # _______________________________________Data Information User______________________________________________ #
         self.questionOneLb = Label(self.InformationFrame, text="Ingrese su nombre de usuario", font=(font, 15))
-        self.questionOneLb.config(bg=colorPalette[1], fg=colorPalette[4])
-        self.questionOneLb.place(x=centerX - 330, y=200, anchor="center")
+        self.questionOneLb.config(bg=self.colorPalette[1], fg=self.colorPalette[4])
+        self.questionOneLb.place(x=centerX - 30, y=200, anchor="center")
         self.questionOneEntry = Entry(self.InformationFrame, width=25, font=(font, 15))
-        self.questionOneEntry.place(x=centerX - 330, y=250, anchor="center")
+        self.questionOneEntry.place(x=centerX - 30, y=250, anchor="center")
 
         self.questionTwoLb = Label(self.InformationFrame, text="Ingrese su correo", font=(font, 15))
-        self.questionTwoLb.config(bg=colorPalette[1], fg=colorPalette[4])
-        self.questionTwoLb.place(x=centerX - 330, y=300, anchor="center")
+        self.questionTwoLb.config(bg=self.colorPalette[1], fg=self.colorPalette[4])
+        self.questionTwoLb.place(x=centerX - 30, y=300, anchor="center")
         self.questionTwoEntry = Entry(self.InformationFrame, width=25, font=(font, 15))
-        self.questionTwoEntry.place(x=centerX - 330, y=350, anchor="center")
+        self.questionTwoEntry.place(x=centerX - 30, y=350, anchor="center")
 
         self.questionThreeLb = Label(self.InformationFrame, text="Ingrese su contraseña", font=(font, 15))
-        self.questionThreeLb.config(bg=colorPalette[1], fg=colorPalette[4])
-        self.questionThreeLb.place(x=centerX - 330, y=400, anchor="center")
-        self.questionThreeEntry = Entry(self.InformationFrame, width=25, font=(font, 15))
-        self.questionThreeEntry.place(x=centerX - 330, y=450, anchor="center")
+        self.questionThreeLb.config(bg=self.colorPalette[1], fg=self.colorPalette[4])
+        self.questionThreeLb.place(x=centerX - 30, y=400, anchor="center")
+        self.questionThreeEntry = Entry(self.InformationFrame, width=25, font=(font, 15), show="♦")
+        self.questionThreeEntry.place(x=centerX - 30, y=450, anchor="center")
 
         self.questionFourLb = Label(self.InformationFrame, text="Confirme su contraseña", font=(font, 15))
-        self.questionFourLb.config(bg=colorPalette[1], fg=colorPalette[4])
-        self.questionFourLb.place(x=centerX - 330, y=500, anchor="center")
-        self.questionFourEntry = Entry(self.InformationFrame, width=25, font=(font, 15))
-        self.questionFourEntry.place(x=centerX - 330, y=550, anchor="center")
+        self.questionFourLb.config(bg=self.colorPalette[1], fg=self.colorPalette[4])
+        self.questionFourLb.place(x=centerX - 30, y=500, anchor="center")
+        self.questionFourEntry = Entry(self.InformationFrame, width=25, font=(font, 15), show="♦")
+        self.questionFourEntry.place(x=centerX - 30, y=550, anchor="center")
 
         self.nextBtn = Button(self.InformationFrame, text="next", font=(font, 15), command=self.nextPage)
-        self.nextBtn.config(bg=colorPalette[2], fg=colorPalette[4])
+        self.nextBtn.config(bg=self.colorPalette[2], fg=self.colorPalette[4])
         self.nextBtn.place(x=2 * centerX - 100, y=650, anchor="nw")
-        # ________________________________________________________________________________________________________#
+        # ________________________________________________________________________________________________________ #
+
+        # ____________________________________Photo and biometric information_____________________________________ #
+        self.photoCanvas = Canvas(self.InformationFrame, width=400, height=400)
+        self.photoCanvas.config(bg=self.colorPalette[1])
+        self.photoCanvas.place(x=330, y=400, anchor="center")
+
+        self.imagen = PhotoImage(file=os.path.abspath("Profile/perfil.png"))
+
+        self.photoCanvas.create_image(0, 0, anchor="nw", image=self.imagen)
+
+        self.profileBtn = Button(self.photoCanvas, text="+", font=(font, 15))
+        self.profileBtn.config(bg=self.colorPalette[4])
+        self.profileBtn.place(x=340, y=400, anchor="se")
+
+        self.profileBtn = Button(self.photoCanvas, text="✎", font=(font, 15))
+        self.profileBtn.config(bg=self.colorPalette[4])
+        self.profileBtn.place(x=400, y=400, anchor="se")
+
+        self.biometricalBtn = Button(self.InformationFrame, text="Datos biómetricos", font=(font, 15))
+        self.biometricalBtn.config(bg=self.colorPalette[4])
+        self.biometricalBtn.place(x=330, y=650, anchor="center")
+        # ________________________________________________________________________________________________________ #
 
     def nextPage(self):
         answer = messagebox.askyesno("Confirmación", "¿Estás seguro de continuar?")
@@ -134,15 +174,16 @@ class registerGui:
             try:
                 print(User.ValidateExistance(self, self.questionOneEntry.get()))
                 if (not (User.ValidateExistance(self, self.questionOneEntry.get())) and (
-                not (User.ValidateExistance(self, self.questionTwoEntry.get()))) and self.questionOneEntry.get() != ""):
+                        not (User.ValidateExistance(self,
+                                                    self.questionTwoEntry.get()))) and self.questionOneEntry.get() != ""):
                     print(self.songs)
-                    if (self.questionFourEntry.get() == self.questionThreeEntry.get()):
+                    if self.questionFourEntry.get() == self.questionThreeEntry.get():
                         user = User(self.questionOneEntry.get(),
                                     self.questionThreeEntry.get(),
                                     self.questionTwoEntry.get(),
-                                    self.colorVar.get(),
+                                    self.userPalette,
                                     self.songs, " ", " ", "")
-                        if (user.validation):
+                        if user.validation:
                             self.InformationFrame.pack_forget()
                             app = registerGUIAnswers(self.window, self.width, self.height, user, self.parentFrame)
                         else:
@@ -180,10 +221,6 @@ class registerGui:
                 print(e)
                 messagebox.showinfo("Mensaje", "Datos incorrectos")
 
-    def showColor(self):
-        color = self.colorVar.get()
-        self.colorLabel.config(bg=color)
-
     def searchSongs(self):
         self.saveBtn.config(text="Cargando...")
         self.saveBtn.update()
@@ -195,46 +232,69 @@ class registerGui:
         self.saveBtn.update()
 
     def saveSong(self):
-        flag=True
-        
-        if not self.songsAmount!=3: 
-            answer=messagebox.askyesno("Confirmación", "Solo puedes guardar tres canciones, eliminarás la última que esté en la lista, ¿Deseas continuar?")
-            if not answer: 
-                flag=False
-            
+        flag = True
+
+        if not self.songsAmount != 3:
+            answer = messagebox.askyesno("Confirmación",
+                                         "Solo puedes guardar tres canciones, eliminarás la última que esté en la lista, ¿Deseas continuar?")
+            if not answer:
+                flag = False
+
         if flag:
-            counter=0
+            counter = 0
             self.saveBtn.config(state="disabled")
-            self.songOptions['values']=[]
+            self.songOptions['values'] = []
             self.saveBtn.config(text="Esperando")
-                                
-            while counter!= len(self.controler.nameSongListForUser):
-                if self.controler.nameSongListForUser[counter]==self.chosenSong.get():
-                    if not self.songsAmount!=3:
-                        auxFirstSong=self.songs[0]
-                        auxSecondSong=self.songs[1]
-                        self.songs[1]=auxFirstSong
-                        self.songs[2]=auxSecondSong
-                        self.songs[0]=[[self.controler.nameSongListForUser[counter]],
-                                        [self.controler.urlSongList[counter]]]
+
+            while counter != len(self.controler.nameSongListForDev):
+                print(self.controler.nameSongListForUser[counter], self.chosenSong.get())
+                if self.controler.nameSongListForUser[counter] == self.chosenSong.get():
+                    if not self.songsAmount != 3:
+                        auxList = self.songs
+                        self.songs[1] = auxList[0]
+                        self.songs[2] = auxList[1]
+                        self.songs[0] = [[self.controler.nameSongListForDev[counter]],
+                                         [self.controler.nameSongListForUser[counter]],
+                                         [self.controler.urlSongList[counter]]]
                     else:
-                        self.songs=[[[self.controler.nameSongListForUser[counter]],
-                                        [self.controler.urlSongList[counter] ]]]+self.songs
-                        self.songsAmount+=1
+                        self.songs.append([[self.controler.nameSongListForDev[counter]],
+                                           [self.controler.nameSongListForUser[counter]],
+                                           [self.controler.urlSongList[counter]]])
+                        self.songsAmount += 1
                     self.showSong()
                     break
-                counter+=1
+                counter += 1
+            self.chosenSong.set("")
             self.chosenSong.set("")
 
     def showSong(self):
         counter = 0
         auxList = []
-        print(self.songs)
         while counter != len(self.songs):
             print(self.songs)
-            auxList = auxList + [str(counter + 1) + "." + self.songs[counter][0][0]]
+            auxList = auxList + [str(counter + 1) + "." + self.songs[counter][1][0]]
             counter += 1
 
         auxList = ["Lista de canciones"] + auxList
         info = "\n".join(auxList)
         self.songsListsLb.config(text=info)
+
+    def GenerateColor(self):
+        try:
+            if (0 <= int(self.redTxt.get()) <= 255
+                    and 0 <= int(self.greenTxt.get()) <= 255
+                    and 0 <= int(self.blueTxt.get()) <= 255):
+                r = int(self.redTxt.get())
+                g = int(self.greenTxt.get())
+                b = int(self.blueTxt.get())
+
+                color = ColorRGB(r, g, b)
+                self.userPalette = GeneratePalette(color.getHex()).GenerateColors()
+
+                self.canvasColor.config(bg=self.userPalette[0])
+
+            else:
+                messagebox.showinfo("Mensaje", "Digite un numero entre 0 y 255")
+
+        except Exception as e:
+            messagebox.showinfo("Mensaje", f"Error: {e}")

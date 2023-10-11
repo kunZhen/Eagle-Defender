@@ -106,7 +106,7 @@ class modificateDataGui:
         self.photoCanvas = Canvas(self.dataFrame, width=400, height=400)
         self.photoCanvas.place(x=centerX, y=185, anchor="nw")
         
-        self.imagen = PhotoImage(file=os.path.abspath("perfiles/perfil.png")) 
+        self.imagen = PhotoImage(file=os.path.abspath("Profile/perfil.png"))
       
         self.photoCanvas.create_image(0, 0, anchor="nw", image=self.imagen)
 
