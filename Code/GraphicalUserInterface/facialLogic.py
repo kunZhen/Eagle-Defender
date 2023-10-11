@@ -24,16 +24,16 @@ class facialRecognogtion:
             if cv2.waitKey(1)== ord('q'):
                 gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
                 if option=="saveInformation":
-                    cv2.imwrite("rostros/"+self.userName+".jpg",roi_gray)
+                    cv2.imwrite("Faces/"+self.userName+".jpg",roi_gray)
                 elif option=="takeAPhoto":
-                    cv2.imwrite("perfiles/"+self.userName+".jpg",frame)
+                    cv2.imwrite("Profile/"+self.userName+".jpg",frame)
                 else:
-                    cv2.imwrite("rostros/"+self.userName+"LOG.jpg",roi_gray)
+                    cv2.imwrite("Faces/"+self.userName+"LOG.jpg",roi_gray)
                 break
 
     def comparation(self): 
-        regFace = cv2.imread("rostros/"+self.userName+".jpg",0)     #Importamos el rostro del registro
-        logFace = cv2.imread("rostros/"+self.userName+"LOG.jpg",0) 
+        regFace = cv2.imread("Faces/"+self.userName+".jpg",0)     #Importamos el rostro del registro
+        logFace = cv2.imread("Faces/"+self.userName+"LOG.jpg",0)
         orb= cv2.ORB_create()
         kpa, descriptorLogFace = orb.detectAndCompute(logFace, None) 
         kpb, descriptorRegFace = orb.detectAndCompute(regFace, None)
@@ -56,29 +56,29 @@ class facialRecognogtion:
 
         if imagen is not None:
             # Guardar la imagen en una carpeta específica (en este caso, "carpeta_destino")
-            cv2.imwrite('perfiles/'+self.userName+".jpg", imagen)
+            cv2.imwrite('Profile/'+self.userName+".jpg", imagen)
             print("Imagen guardada correctamente.")
         else:
             print("No se pudo cargar la imagen.")
     def overWritePerfil(self,path):
-        path='perfiles/'+path+".jpg"
+        path='Profile/'+path+".jpg"
         print(path)
         imagen = cv2.imread(path)
 
         if imagen is not None:
             # Guardar la imagen en una carpeta específica (en este caso, "carpeta_destino")
-            cv2.imwrite('perfiles/'+self.userName+".jpg", imagen)
+            cv2.imwrite('Profile/'+self.userName+".jpg", imagen)
             print("Imagen guardada correctamente.")
         else:
             print("No se pudo cargar la imagen.")
     def overWriteBiometricalData(self,path):
-        path="rostros/"+path+".jpg"
+        path="Faces/"+path+".jpg"
 
         imagen = cv2.imread(path)
         print(path)
         if imagen is not None:
             # Guardar la imagen en una carpeta específica (en este caso, "carpeta_destino")
-            cv2.imwrite('rostros/'+self.userName+".jpg", imagen)
+            cv2.imwrite('Faces/'+self.userName+".jpg", imagen)
             print("Imagen guardada correctamente.")
         else:
             print("No se pudo cargar la imagen.")
