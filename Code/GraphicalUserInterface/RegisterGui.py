@@ -195,47 +195,44 @@ class registerGui:
         self.saveBtn.update()
 
     def saveSong(self):
-        flag = True
-
-        if not self.songsAmount != 3:
-            answer = messagebox.askyesno("Confirmación",
-                                         "Solo puedes guardar tres canciones, eliminarás la última que esté en la lista, ¿Deseas continuar?")
-            if not answer:
-                flag = False
-
+        flag=True
+        
+        if not self.songsAmount!=3: 
+            answer=messagebox.askyesno("Confirmación", "Solo puedes guardar tres canciones, eliminarás la última que esté en la lista, ¿Deseas continuar?")
+            if not answer: 
+                flag=False
+            
         if flag:
-            counter = 0
+            counter=0
             self.saveBtn.config(state="disabled")
-            self.songOptions['values'] = []
+            self.songOptions['values']=[]
             self.saveBtn.config(text="Esperando")
-
-            while counter != len(self.controler.nameSongListForDev):
-                print(self.controler.nameSongListForUser[counter], self.chosenSong.get())
-                if self.controler.nameSongListForUser[counter] == self.chosenSong.get():
-                    if not self.songsAmount != 3:
-                        auxList = self.songs
-                        self.songs[1] = auxList[0]
-                        self.songs[2] = auxList[1]
-                        self.songs[0] = [[self.controler.nameSongListForDev[counter]],
-                                         [self.controler.nameSongListForUser[counter]],
-                                         [self.controler.urlSongList[counter]]]
+                                
+            while counter!= len(self.controler.nameSongListForUser):
+                if self.controler.nameSongListForUser[counter]==self.chosenSong.get():
+                    if not self.songsAmount!=3:
+                        auxFirstSong=self.songs[0]
+                        auxSecondSong=self.songs[1]
+                        self.songs[1]=auxFirstSong
+                        self.songs[2]=auxSecondSong
+                        self.songs[0]=[[self.controler.nameSongListForUser[counter]],
+                                        [self.controler.urlSongList[counter]]]
                     else:
-                        self.songs.append([[self.controler.nameSongListForDev[counter]],
-                                           [self.controler.nameSongListForUser[counter]],
-                                           [self.controler.urlSongList[counter]]])
-                        self.songsAmount += 1
+                        self.songs=[[[self.controler.nameSongListForUser[counter]],
+                                        [self.controler.urlSongList[counter] ]]]+self.songs
+                        self.songsAmount+=1
                     self.showSong()
                     break
-                counter += 1
-            self.chosenSong.set("")
+                counter+=1
             self.chosenSong.set("")
 
     def showSong(self):
         counter = 0
         auxList = []
+        print(self.songs)
         while counter != len(self.songs):
             print(self.songs)
-            auxList = auxList + [str(counter + 1) + "." + self.songs[counter][1][0]]
+            auxList = auxList + [str(counter + 1) + "." + self.songs[counter][0][0]]
             counter += 1
 
         auxList = ["Lista de canciones"] + auxList
