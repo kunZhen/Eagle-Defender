@@ -1,9 +1,10 @@
 from tkinter import *
-from tkinter import messagebox
+from tkinter import messagebox, filedialog
 from tkinter import ttk
 from tkinter import colorchooser
 import tkinter as tk
 
+from facialLogic import facialRecognogtion
 from GeneratePalette import GeneratePalette
 from ColorRGB import ColorRGB
 from registerGUIAnswers import registerGUIAnswers
@@ -155,15 +156,16 @@ class registerGui:
 
         self.photoCanvas.create_image(0, 0, anchor="nw", image=self.imagen)
 
-        self.profileBtn = Button(self.photoCanvas, text="+", font=(font, 15))
-        self.profileBtn.config(bg=self.colorPalette[4])
-        self.profileBtn.place(x=340, y=400, anchor="se")
+        self.addBtn = Button(self.photoCanvas, text="+", font=(font, 15), command=self.takeAPhoto)
+        self.addBtn.config(bg=self.colorPalette[4])
+        self.addBtn.place(x=340, y=400, anchor="se")
 
-        self.profileBtn = Button(self.photoCanvas, text="✎", font=(font, 15))
+        self.profileBtn = Button(self.photoCanvas, text="✎", font=(font, 15), command=self.chooseAPhoto)
         self.profileBtn.config(bg=self.colorPalette[4])
         self.profileBtn.place(x=400, y=400, anchor="se")
 
-        self.biometricalBtn = Button(self.InformationFrame, text="Datos biómetricos", font=(font, 15))
+        self.biometricalBtn = Button(self.InformationFrame, text="Datos biómetricos", font=(font, 15),
+                                     command=self.savePhotoInformation)
         self.biometricalBtn.config(bg=self.colorPalette[4])
         self.biometricalBtn.place(x=330, y=650, anchor="center")
         # ________________________________________________________________________________________________________ #
@@ -298,3 +300,36 @@ class registerGui:
 
         except Exception as e:
             messagebox.showinfo("Mensaje", f"Error: {e}")
+
+    # Adaptar codigo para que funcione sin la clase user
+    def takeAPhoto(self):
+        faceInformation = facialRecognogtion(self.user.user)
+        faceInformation.getFaceInformation("takeAPhoto")
+
+    def savePhotoInformation(self):
+        faceInformation = facialRecognogtion(self.user.user)
+        faceInformation.getFaceInformation("saveInformation")
+        self.done = True
+
+    def chooseAPhoto(self):
+        imagePath = filedialog.askopenfilename(filetypes=[("Archivos de imagen", "*.jpg *.png *.gif *.bmp *.svg")])
+        faceInformation = facialRecognogtion(self.user.user)
+        faceInformation.savePhoto(imagePath)
+
+        self.photoCanvas.delete("all")
+
+        # Cargar la nueva imagen
+        newImage = PhotoImage(file=imagePath)
+
+        # Obtener el tamaño del Canvas
+        canvasWidth = self.photoCanvas.winfo_width()
+        canvasHeight = self.photoCanvas.winfo_height()
+
+        # Redimensionar la imagen al tamaño del Canvas
+        resizedImage = newImage.subsample(newImage.width() // canvasWidth, newImage.height() // canvasHeight)
+
+        # Mostrar la nueva imagen en el Canvas
+        self.photoCanvas.create_image(0, 0, anchor="nw", image=resizedImage)
+
+        # Asigna la nueva imagen redimensionada a la variable de instancia
+        self.imagen = resizedImage
