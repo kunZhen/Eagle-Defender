@@ -1,9 +1,10 @@
 from tkinter import *
-from tkinter import messagebox
+from tkinter import messagebox, filedialog
 from tkinter import ttk
 from tkinter import colorchooser
 import tkinter as tk
 
+from facialLogic import facialRecognogtion
 from GeneratePalette import GeneratePalette
 from ColorRGB import ColorRGB
 from registerGUIAnswers import registerGUIAnswers
@@ -12,7 +13,6 @@ from musicLogic import *
 
 
 class registerGui:
-
     def __init__(self, window, width, height, parentFrame):
 
         self.window = window
@@ -75,13 +75,18 @@ class registerGui:
         self.canvasColor = Canvas(self.InformationFrame, width=100, height=100)
         self.canvasColor.place(x=centerX + 550, y=330, anchor="center")
 
-        self.colorLb = Label(self.InformationFrame, text="Selecciones un color", font=(font, 15))
+        self.colorLb = Label(self.InformationFrame, text="Seleccione un color", font=(font, 15))
         self.colorLb.config(bg=self.colorPalette[1], fg=self.colorPalette[4])
         self.colorLb.place(x=centerX + 330, y=200, anchor="center")
 
+        self.chooseColorBtn = Button(self.InformationFrame, text="Color picker", font=(font, 15),
+                                     command=self.ChooseColor)
+        self.chooseColorBtn.config(bg=self.colorPalette[2], fg=self.colorPalette[4])
+        self.chooseColorBtn.place(x=centerX + 420, y=500, anchor="center")
+
         self.generateBtn = Button(self.InformationFrame, text="Generate", font=(font, 15), command=self.GenerateColor)
         self.generateBtn.config(bg=self.colorPalette[2], fg=self.colorPalette[4])
-        self.generateBtn.place(x=centerX + 420, y=500, anchor="center")
+        self.generateBtn.place(x=centerX + 420, y=550, anchor="center")
 
         # __________________________________________________________________________________________________________ #
 
@@ -155,15 +160,16 @@ class registerGui:
 
         self.photoCanvas.create_image(0, 0, anchor="nw", image=self.imagen)
 
-        self.profileBtn = Button(self.photoCanvas, text="+", font=(font, 15))
-        self.profileBtn.config(bg=self.colorPalette[4])
-        self.profileBtn.place(x=340, y=400, anchor="se")
+        self.addBtn = Button(self.photoCanvas, text="+", font=(font, 15), command=self.takeAPhoto)
+        self.addBtn.config(bg=self.colorPalette[4])
+        self.addBtn.place(x=340, y=400, anchor="se")
 
-        self.profileBtn = Button(self.photoCanvas, text="✎", font=(font, 15))
+        self.profileBtn = Button(self.photoCanvas, text="✎", font=(font, 15), command=self.chooseAPhoto)
         self.profileBtn.config(bg=self.colorPalette[4])
         self.profileBtn.place(x=400, y=400, anchor="se")
 
-        self.biometricalBtn = Button(self.InformationFrame, text="Datos biómetricos", font=(font, 15))
+        self.biometricalBtn = Button(self.InformationFrame, text="Datos biómetricos", font=(font, 15),
+                                     command=self.savePhotoInformation)
         self.biometricalBtn.config(bg=self.colorPalette[4])
         self.biometricalBtn.place(x=330, y=650, anchor="center")
         # ________________________________________________________________________________________________________ #
@@ -298,3 +304,50 @@ class registerGui:
 
         except Exception as e:
             messagebox.showinfo("Mensaje", f"Error: {e}")
+
+    def ChooseColor(self):
+        color = colorchooser.askcolor()
+        self.redTxt.delete(0, "end")
+        self.greenTxt.delete(0, "end")
+        self.blueTxt.delete(0, "end")
+
+        self.redTxt.insert(0, str(color[0][0]))
+        self.greenTxt.insert(0, str(color[0][1]))
+        self.blueTxt.insert(0, str(color[0][2]))
+
+        self.userPalette = GeneratePalette(color[1]).GenerateColors()
+
+        self.canvasColor.config(bg=self.userPalette[0])
+
+    # Adaptar codigo para que funcione sin la clase user
+    def takeAPhoto(self):
+        faceInformation = facialRecognogtion(self.questionOneEntry.get())
+        faceInformation.getFaceInformation("takeAPhoto")
+
+    def savePhotoInformation(self):
+        faceInformation = facialRecognogtion(self.questionOneEntry.get())
+        faceInformation.getFaceInformation("saveInformation")
+        self.done = True
+
+    def chooseAPhoto(self):
+        imagePath = filedialog.askopenfilename(filetypes=[("Archivos de imagen", "*.jpg *.png *.gif *.bmp *.svg")])
+        faceInformation = facialRecognogtion(self.questionOneEntry.get())
+        faceInformation.savePhoto(imagePath)
+
+        self.photoCanvas.delete("all")
+
+        # Cargar la nueva imagen
+        newImage = PhotoImage(file=imagePath)
+
+        # Obtener el tamaño del Canvas
+        canvasWidth = self.photoCanvas.winfo_width()
+        canvasHeight = self.photoCanvas.winfo_height()
+
+        # Redimensionar la imagen al tamaño del Canvas
+        resizedImage = newImage.subsample(newImage.width() // canvasWidth, newImage.height() // canvasHeight)
+
+        # Mostrar la nueva imagen en el Canvas
+        self.photoCanvas.create_image(0, 0, anchor="nw", image=resizedImage)
+
+        # Asigna la nueva imagen redimensionada a la variable de instancia
+        self.imagen = resizedImage
