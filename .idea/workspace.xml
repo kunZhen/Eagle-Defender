@@ -6,12 +6,12 @@
   <component name="ChangeListManager">
     <list default="true" id="5058e1ca-bd3f-4ff3-9fc5-b16ad3f2963b" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Code/GraphicalUserInterface/Faces/Frede.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/Code/GraphicalUserInterface/Faces/Frede.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Code/GraphicalUserInterface/Faces/FredeLOG.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/Code/GraphicalUserInterface/Faces/FredeLOG.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Code/GraphicalUserInterface/Faces/KunLOG.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/Code/GraphicalUserInterface/Faces/KunLOG.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Code/GraphicalUserInterface/RegisterGui.py" beforeDir="false" afterPath="$PROJECT_DIR$/Code/GraphicalUserInterface/RegisterGui.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Code/GraphicalUserInterface/Users/Is2@gmail.com.json" beforeDir="false" afterPath="$PROJECT_DIR$/Code/GraphicalUserInterface/Users/Is2@gmail.com.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Code/GraphicalUserInterface/Users/Kun.json" beforeDir="false" afterPath="$PROJECT_DIR$/Code/GraphicalUserInterface/Users/Kun.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Code/GraphicalUserInterface/InitialGui.py" beforeDir="false" afterPath="$PROJECT_DIR$/Code/GraphicalUserInterface/InitialGui.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Code/GraphicalUserInterface/LoginGui.py" beforeDir="false" afterPath="$PROJECT_DIR$/Code/GraphicalUserInterface/LoginGui.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Code/GraphicalUserInterface/facialLogic.py" beforeDir="false" afterPath="$PROJECT_DIR$/Code/GraphicalUserInterface/facialLogic.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Code/GraphicalUserInterface/mailGui.py" beforeDir="false" afterPath="$PROJECT_DIR$/Code/GraphicalUserInterface/mailGui.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Code/GraphicalUserInterface/musicLogic.py" beforeDir="false" afterPath="$PROJECT_DIR$/Code/GraphicalUserInterface/musicLogic.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Code/GraphicalUserInterface/registerGUIAnswers.py" beforeDir="false" afterPath="$PROJECT_DIR$/Code/GraphicalUserInterface/registerGUIAnswers.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -28,7 +28,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="Develop" />
+        <entry key="$PROJECT_DIR$" value="J-RefactoringSprint1-V2" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -53,7 +53,7 @@
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;J-RefactoringSprint1-V2&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;Develop&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -64,9 +64,9 @@
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/Code/GraphicalUserInterface" />
+      <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/Code" />
       <recent name="$PROJECT_DIR$/Logo" />
-      <recent name="$PROJECT_DIR$" />
     </key>
   </component>
   <component name="RunManager">
@@ -114,28 +114,18 @@
       <workItem from="1696345499971" duration="10148000" />
       <workItem from="1696355800442" duration="491000" />
       <workItem from="1697052215843" duration="315000" />
-      <workItem from="1697053820518" duration="543000" />
-      <workItem from="1697223756088" duration="19000" />
-      <workItem from="1697230961743" duration="696000" />
-      <workItem from="1697252913488" duration="2716000" />
+      <workItem from="1697256834857" duration="149000" />
+      <workItem from="1697295401490" duration="124000" />
+      <workItem from="1697298921037" duration="2377000" />
+      <workItem from="1697411144820" duration="2623000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/Code/GraphicalUserInterface/main.py</url>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
-  </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/Eagle_20Defender$main.coverage" NAME="main Coverage Results" MODIFIED="1697255629187" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Code/GraphicalUserInterface" />
+    <SUITE FILE_PATH="coverage/Eagle_20Defender$main.coverage" NAME="main Coverage Results" MODIFIED="1697413366594" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Code/GraphicalUserInterface" />
     <SUITE FILE_PATH="coverage/Eagle_20Defender$User.coverage" NAME="User Coverage Results" MODIFIED="1696354895171" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Code/GraphicalUserInterface" />
     <SUITE FILE_PATH="coverage/Eagle_20Defender$InitialGui.coverage" NAME="InitialGui Coverage Results" MODIFIED="1696347857315" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Code/GraphicalUserInterface" />
     <SUITE FILE_PATH="coverage/Eagle_20Defender$test.coverage" NAME="test Coverage Results" MODIFIED="1696355025591" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Code/GraphicalUserInterface" />

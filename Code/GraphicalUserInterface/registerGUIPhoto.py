@@ -105,17 +105,3 @@ class RegisterGuiPhoto:
         else:
             messagebox.showwarning("Datos biométricos",
                                    "Debe guardar sus datos biométricos (toque el botón 'Datos biométricos')")
-
-
-"""root = Tk()
-widthScreen = root.winfo_screenwidth()
-heightScreen = root.winfo_screenheight()
-root.geometry(f"{widthScreen}x{heightScreen}")
-root.resizable(False, False)
-
-root.title("Eagle Defender")
-
-app=RegisterGuiPhoto(root,widthScreen,heightScreen, NONE, NONE)
-
-
-root.mainloop()"""

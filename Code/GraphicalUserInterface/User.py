@@ -2,6 +2,7 @@ import json
 import os
 import re
 import string
+from SSHFileTransfer import *
 
 
 class User:
@@ -53,11 +54,12 @@ class User:
             self.answers = answers
             self.profile = profile
             self.facial = facial
-            self.validation=True
+            self.validation = True
             self.errorType = None
+
             self.SaveJson(self.user, self.mail)
         else:
-            self.validation=False
+            self.validation = False
 
             if not self.ValidateUser(user):
                 self.errorType = "user"
@@ -65,6 +67,14 @@ class User:
                 self.errorType = "password"
             elif not self.ValidateMail(mail):
                 self.errorType = "mail"
+
+        # -----------------------------------------Conexión con el servidor---------------------------------------------#
+        hostname = '20.62.171.56'  # Cambia esto a la dirección IP de tu máquina virtual
+        port = 22  # El puerto SSH predeterminado es 22
+        username = 'eagleDefender'  # Tu nombre de usuario en la máquina virtual
+        private_key_file = os.path.abspath('eagleDefenderServer_key_1011.pem')
+        self.ssh_transfer = SSHFileTransfer(hostname, port, username, private_key_file)
+        # ----------------------------------------------------------------------------------------------------------------#
 
     # The class is overloaded because we need to verify that the user exists or not
     def __init__load(self, userDict):
@@ -252,11 +262,26 @@ class User:
         :param filename: str
         :return:
         """
-        pathFile = os.path.join("Users", filename+".json")
+        pathFile = os.path.join("Users", filename + ".json")
+
+        if filename == "":
+            return False
+
         print(pathFile)
         if os.path.exists(pathFile):
             return True
-        return False
+        # -----------------------------------Access on Server------------------------------------#
+        hostname = '20.62.171.56'
+        port = 22
+        username = 'eagleDefender'
+        private_key_file = os.path.abspath('eagleDefenderServer_key_1011.pem')
+        ssh_transfer = SSHFileTransfer(hostname, port, username, private_key_file)
+        archivo_remoto_a_verificar = f'/home/eagleDefender/files/users/{filename}.json'
+        existance = ssh_transfer.remote_file_exists(archivo_remoto_a_verificar)
+        ssh_transfer.__exit__()
+        # -----------------------------------Access on Server------------------------------------#
+
+        return existance
 
     def SaveJson(self, filename1, filename2):
         """
@@ -282,6 +307,19 @@ class User:
             json.dump(userDict, json_file)
         with open(pathFile2, 'w') as json_file:
             json.dump(userDict, json_file)
+        # Ruta al archivo en tu sistema local
+
+        # -------------------------------------SAVED ON THE SERVER-------------------------------#
+        directorio_destino = '/home/eagleDefender/files/users/'
+        hostname = '20.62.171.56'
+        port = 22
+        username = 'eagleDefender'
+        private_key_file = os.path.abspath('eagleDefenderServer_key_1011.pem')
+        ssh_transfer = SSHFileTransfer(hostname, port, username, private_key_file)
+        ssh_transfer.copy_file_to_remote(pathFile1, directorio_destino, filename1 + ".json")
+        ssh_transfer.copy_file_to_remote(pathFile2, directorio_destino, filename2 + ".json")
+        ssh_transfer.__exit__()
+        # --------------------------------------------------------------------------------------- #
 
     @classmethod
     def DeleteJson(cls, filename1, filename2):
@@ -297,6 +335,15 @@ class User:
         if os.path.exists(pathFile1) and os.path.exists(pathFile2):
             os.remove(pathFile1)
             os.remove(pathFile2)
+            # -------------------------------------Delete Information on the Server-------------------------------#
+            hostname = '20.62.171.56'
+            port = 22
+            username = 'eagleDefender'
+            private_key_file = os.path.abspath('eagleDefenderServer_key_1011.pem')
+            ssh_transfer = SSHFileTransfer(hostname, port, username, private_key_file)
+            ssh_transfer.delete_remote_file(f'/home/eagleDefender/files/users/{filename1}.json')
+            ssh_transfer.delete_remote_file(f'/home/eagleDefender/files/users/{filename2}.json')
+            # --------------------------------------Delete Information on the Server------------------------------#
 
     @classmethod
     def LoadJson(cls, filename):
@@ -306,8 +353,24 @@ class User:
         :param filename: str
         :return: User
         """
-        pathFile = os.path.join("Users", filename + ".json")
-        if os.path.exists(pathFile):
+        pathFile = os.path.join("Users", f"{filename}.json")
+
+        # -----------------------------------Get Information From Server-------------------------#
+        hostname = '20.62.171.56'
+        port = 22
+        username = 'eagleDefender'
+        private_key_file = os.path.abspath('eagleDefenderServer_key_1011.pem')
+        archivo_remoto_a_verificar = f'/home/eagleDefender/files/users/{filename}.json'
+        ssh_transfer = SSHFileTransfer(hostname, port, username, private_key_file)
+        existance = ssh_transfer.remote_file_exists(archivo_remoto_a_verificar)
+        # ---------------------------------------------------------------------------------------#
+
+        if not os.path.exists(pathFile):  # and existance:
+            directorio_destino = '/home/eagleDefender/files/users/'
+            archivo_remoto = os.path.join(directorio_destino, filename)
+            directorio_destino_local = os.path.abspath("Users")
+            ssh_transfer.copy_file_from_remote(archivo_remoto, directorio_destino_local)
+        if os.path.exists(pathFile):  # and existance:
             with open(pathFile, 'r') as json_file:
                 userDict = json.load(json_file)
             instance = cls(None, None, None, None, None, None, None, None)

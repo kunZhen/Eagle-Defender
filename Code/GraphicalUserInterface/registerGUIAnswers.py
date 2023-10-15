@@ -81,7 +81,7 @@ class registerGUIAnswers:
             if self.notEmpy(questions):
                 self.user.SetAttributes(None, None, questions, None, None, None, None)
                 self.AnswersFrame.pack_forget()
-                app = RegisterGuiPhoto(self.window, self.width, self.height, self.user, self.parentFrame)
+                self.parentFrame.pack()
             else:
                 messagebox.showinfo("Mensaje", "Debe responder todas las preguntas")
 

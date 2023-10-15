@@ -56,20 +56,3 @@ class PrincipalGui:
     def updateLb(self):
         self.user1Btn.config(text=self.users[0])
         self.user2Btn.config(text=self.users[1])
-
-
-"""if __name__ == '__main__':
-    root = Tk()
-    # take the dimensions of the computer screen
-    widthScreen = root.winfo_screenwidth()
-    heightScreen = root.winfo_screenheight()
-
-    # set game screen size
-    root.geometry(f"{widthScreen}x{heightScreen}")
-    root.resizable(False, False)
-
-    root.title("Eagle Defender")
-
-    app =PrincipalGui(root, widthScreen, heightScreen,["Is2", "Is2"] )
-
-    root.mainloop()"""

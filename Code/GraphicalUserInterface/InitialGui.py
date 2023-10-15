@@ -1,6 +1,9 @@
 import os.path
 from tkinter import *
 from mailGui import *
+import sys
+
+sys.path.append("Code")
 
 
 # GUI -> Graphical User Interface
@@ -44,7 +47,7 @@ class InitialGui:
 
     def Login(self):
         self.initialFrame.destroy()
-        mail = mailGui(self.window, self.width, self.height,1)
+        mail = mailGui(self.window, self.width, self.height, 1)
 
     def CloseGame(self):
         self.window.destroy()

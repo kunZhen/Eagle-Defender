@@ -136,7 +136,7 @@ class LoginGui:
             # Convierte Image de PIL a PhotoImage de tkinter
             frame_tk = ImageTk.PhotoImage(image=frame_pil)
 
-            colorPallete=["#8B0000", "#630000", "#1C1C1C", "#000000", "#FFFFFF"]
+            colorPallete = ["#8B0000", "#630000", "#1C1C1C", "#000000", "#FFFFFF"]
             self.photoCanvas.configure(bg=colorPallete[0], highlightbackground=colorPallete[0])
 
             # Mostrar la imagen en el Canvas

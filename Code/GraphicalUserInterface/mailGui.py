@@ -61,7 +61,7 @@ class mailGui:
                 user = User.LoadJson(self.userTxt.get())
                 app = LoginGui(self.window, self.width, self.height, user, self.mailFrame)
                 print(self.userOneName)
-                if (self.userAmount == 1):
+                if self.userAmount == 1:
                     self.userOneName = user.user
                     self.userAmount = 2
                     self.userTxt.delete(0, "end")
