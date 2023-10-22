@@ -37,7 +37,7 @@ class LoginGui:
         self.loginFrame.pack()
 
         self.loginLb = Label(self.loginFrame,
-                             text="                                Inicio de sesion                                ",
+                             text="                                Inicio de sesión                                ",
                              font=(font, 35))
         self.loginLb.config(bg=colorPalette[0], fg=colorPalette[3])
         self.loginLb.place(x=centerX - 20, y=75, anchor="center")

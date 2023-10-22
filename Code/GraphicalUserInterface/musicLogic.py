@@ -1,16 +1,14 @@
-import os
-
+import pygame
 from pytube import YouTube
-import pyglet
 import youtube_dl 
-import threading
+from moviepy.editor import AudioFileClip
 
 class musicLogic:
     def __init__(self): 
         
         self.nameSongListForUser=[]
         self.urlSongList=[]
-
+        self.fileName=""
 
     def searchYoutubeSongs(self, query):
         ydl_opts = {
@@ -51,16 +49,38 @@ class musicLogic:
         audioStream = yt.streams.filter(only_audio=True).first()
 
         # Limpia el título para que sea válido como nombre de archi
-        outputFolder = "canciones"
+        outputFolder = "Code/GraphicalUserInterface/songs"
     
 
         # Crea la carpeta "canciones" si no existe
-        audioStream.download(outputFolder)
+        audioStream.download(outputFolder, filename=self.fileName)
+    def duration(self, video_url):
+        try:
+            yt = YouTube(video_url)
+            duracion = yt.length
+            return duracion
+        except Exception as e:
+            print(f"Error al obtener la duración del video: {str(e)}")
+            return None
 
-    def playSong(self,videoUrl):
-        song = pyglet.media.load(self.getName(videoUrl))
-        song.play()
-        pyglet.app.run()
+    def setUpMusic(self, musicPath):
+        pygame.mixer.init()
+        self.musicPath = musicPath
+        pygame.mixer.music.load(self.musicPath)
+        pygame.mixer.music.set_endevent(pygame.USEREVENT + 1)
+        pygame.mixer.music.play(loops=-1)  # Establece loops=-1 para que se reproduzca en bucle
 
+    def stopMusic(self):
+        pygame.mixer.music.stop()
 
-
+    def pauseMusic(self):
+        pygame.mixer.music.pause()
+    def unpauseMusic(self): 
+        pygame.mixer.music.unpause()
+    
+    def setUpVideoMusic(self, videoPath):
+        try: 
+            audio = AudioFileClip(videoPath)
+            audio.write_audiofile(videoPath.replace(".mp4", ".mp3"))
+        except Exception as e:
+            print(f"Error: {e}")
