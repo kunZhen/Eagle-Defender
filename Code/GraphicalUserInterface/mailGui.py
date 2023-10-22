@@ -29,26 +29,26 @@ class mailGui:
         self.mailFrame.pack()
         self.userAmount = userAmount
 
-        self.loginLb = Label(self.mailFrame, text="Ingrese su usuario/correo" + f"(Usuario {self.userAmount})",
+        self.loginLb = Label(self.mailFrame, text="Ingrese su usuario/correo" + f" (Usuario {self.userAmount})",
                              font=(font, 35))
         self.loginLb.config(bg=colorPalette[0], fg=colorPalette[3])
         self.loginLb.place(x=centerX, y=75, anchor="center")
 
         self.userLb = Label(self.mailFrame, text="Usuario/Correo: ", font=(font, 15))
         self.userLb.config(bg=colorPalette[1], fg=colorPalette[4])
-        self.userLb.place(x=centerX - 105, y=centerY - 150, anchor="e")
+        self.userLb.place(x=centerX - 105, y=centerY - 75, anchor="e")
 
         # Txt: Text box
         self.userTxt = Entry(self.mailFrame, width=25, font=(font, 15))
-        self.userTxt.place(x=centerX - 100, y=centerY - 150, anchor="w")
+        self.userTxt.place(x=centerX - 100, y=centerY - 75, anchor="w")
 
-        self.nextBtn = Button(self.mailFrame, text="Continuar", font=(font, 15), command=self.nextPage)
+        self.nextBtn = Button(self.mailFrame, text="Ingresar", font=(font, 15), command=self.nextPage)
         self.nextBtn.config(bg=colorPalette[2], fg=colorPalette[4])
-        self.nextBtn.place(x=centerX, y=centerY + 150, anchor="center")
+        self.nextBtn.place(x=centerX, y=centerY, anchor="center")
 
         self.nextBtn = Button(self.mailFrame, text="Registrar nuevo usuario", font=(font, 15), command=self.Register)
         self.nextBtn.config(bg=colorPalette[2], fg=colorPalette[4])
-        self.nextBtn.place(x=centerX, y=centerY, anchor="center")
+        self.nextBtn.place(x=centerX, y=centerY + 100, anchor="center")
 
     def nextPage(self):
         answer = messagebox.askyesno("Confirmación", "¿Estás seguro de continuar?")
@@ -66,7 +66,7 @@ class mailGui:
                     self.userAmount = 2
                     self.userTxt.delete(0, "end")
 
-                    self.loginLb.config(text="Ingrese su usuario/correo" + f"(Usuario {self.userAmount})")
+                    self.loginLb.config(text="Ingrese su usuario/correo" + f" (Usuario {self.userAmount})")
                 else:
                     self.userTwoName = user.user
                     app.userTwo = self.userTwoName

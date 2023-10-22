@@ -1,0 +1,34 @@
+{
+    "User": "Frederick24",
+    "Password": "Frederick24@gmail.com",
+    "Mail": "Frederick24@gmail.com",
+    "Favorite Color": [
+        "#d9d989",
+        "#b4b472",
+        "#90905b",
+        "#000000",
+        "#ffffff"
+    ],
+    "Favorite Music": [
+        [
+            [
+                "BAD BUNNY - CALLA\u00cdTA (Video Oficial)"
+            ],
+            [
+                "https://www.youtube.com/watch?v=acEOASYioGY"
+            ]
+        ]
+    ],
+    "Answers": [
+        "Q",
+        "Q",
+        "Q",
+        "Q",
+        "Q"
+    ],
+    "Avatar": 1,
+    "Animation": "S",
+    "Textures": 1,
+    "Profile": " ",
+    "Facial Recognition": ""
+}

@@ -20,20 +20,21 @@ class InitialGui:
 
         colorPalette = ["#8B0000", "#630000", "#1C1C1C", "#000000", "#FFFFFF"]
 
-        self.logo = PhotoImage(file=os.path.abspath("GameData/EagleDefender.png"))
+        self.logo = PhotoImage(file=os.path.abspath("Code/GraphicalUserInterface/GameData/EagleDefender.png"))
 
         # frames are used to facilitate the creation and deletion of screens
-        self.initialFrame = Frame(window, width=width, height=height, bg=colorPalette[0])
+        self.initialFrame = Frame(window, width=width, height=height, bg=colorPalette[1])
         self.initialFrame.pack()
 
         # is replaced by the logo
         # Lb: Label. Specify the type of element
         self.titleLb = Label(self.initialFrame, text="Eagle Defender", font=(font, 50))
-        self.titleLb.config(bg=colorPalette[0], fg=colorPalette[3])
+        self.titleLb.config(bg=colorPalette[1], fg=colorPalette[3])
         self.titleLb.place(x=centerX, y=100, anchor="center")
 
         self.titleCanvas = Canvas(self.initialFrame, width=400, height=580, bg=colorPalette[1])
         self.titleCanvas.place(x=centerX, y=150, anchor="n")
+        self.titleCanvas.config(borderwidth=0, highlightthickness=0)
         self.titleCanvas.create_image(200, 300, anchor="center", image=self.logo)
 
         # Btn: Button

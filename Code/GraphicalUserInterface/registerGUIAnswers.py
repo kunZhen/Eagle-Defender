@@ -25,13 +25,13 @@ class registerGUIAnswers:
         self.AnswersFrame = Frame(window, width=self.width, height=self.height, bg=colorPalette[0])
         self.AnswersFrame.pack()
 
-        self.registerLb = Label(self.AnswersFrame, text="Registro de usuario (recuperación de constraseña)",
+        self.registerLb = Label(self.AnswersFrame, text="Preguntas para la recuperación de contraseña",
                                 font=(font, 35))
         self.registerLb.config(bg=colorPalette[0], fg=colorPalette[3])
         self.registerLb.place(x=centerX, y=50, anchor="center")
 
         self.registerLb = Label(self.AnswersFrame,
-                                text="                En esta sección se debe responde al menos dos preguntas               ",
+                                text="                Responder todas las preguntas               ",
                                 font=(font, 20))
         self.registerLb.config(bg=colorPalette[1], fg=colorPalette[4])
         self.registerLb.place(x=centerX, y=125, anchor="center")
@@ -81,7 +81,7 @@ class registerGUIAnswers:
             if self.notEmpy(questions):
                 self.user.SetAttributes(None, None, questions, None, None, None, None)
                 self.AnswersFrame.pack_forget()
-                self.parentFrame.pack()
+                app=RegisterGuiPhoto(self.window,self.width,self.height,self.user, self.parentFrame)
             else:
                 messagebox.showinfo("Mensaje", "Debe responder todas las preguntas")
 

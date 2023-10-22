@@ -26,7 +26,7 @@ class modificateDataGui:
         self.number = number
 
         font = "Helvetica"
-        colorPalette = ["#8B0000", "#630000", "#1C1C1C", "#000000", "#FFFFFF"]
+        colorPalette = self.user.color
 
         centerX = width / 2
         self.centerX = centerX
@@ -37,36 +37,43 @@ class modificateDataGui:
 
         self.dataLb = Label(self.dataFrame, text=f"         Cambio de datos ({self.user.user})        ",
                             font=(font, 35))
+        self.dataLb.config(bg=colorPalette[0], fg=colorPalette[3])
         self.dataLb.place(x=centerX, y=50, anchor="center")
 
         self.registerLb = Label(self.dataFrame, text="                                   En esta sección puede"
                                                      + " modificar su información general                                          ",
                                 font=(font, 20))
+        self.registerLb.config(bg=colorPalette[1], fg=colorPalette[4])
         self.registerLb.place(x=centerX, y=125, anchor="center")
 
         # _________________________________General data__________________________________________#
         self.questionOneLb = Label(self.dataFrame, text="Cambiar su nombre de usuario", font=(font, 15))
+        self.questionOneLb.config(bg=colorPalette[1], fg=colorPalette[4])
         self.questionOneLb.place(x=centerX - 500, y=200, anchor="center")
         self.questionOneEntry = Entry(self.dataFrame, width=25, font=(font, 15))
         self.questionOneEntry.place(x=centerX - 500, y=250, anchor="center")
 
         self.questionTwoLb = Label(self.dataFrame, text="Cambiar su correo", font=(font, 15))
+        self.questionTwoLb.config(bg=colorPalette[1], fg=colorPalette[4])
         self.questionTwoLb.place(x=centerX - 500, y=300, anchor="center")
         self.questionTwoEntry = Entry(self.dataFrame, width=25, font=(font, 15))
         self.questionTwoEntry.place(x=centerX - 500, y=350, anchor="center")
 
         self.questionThreeLb = Label(self.dataFrame, text="Cambiar su contraseña", font=(font, 15))
+        self.questionThreeLb.config(bg=colorPalette[1], fg=colorPalette[4])
         self.questionThreeLb.place(x=centerX - 500, y=400, anchor="center")
         self.questionThreeEntry = Entry(self.dataFrame, width=25, font=(font, 15))
         self.questionThreeEntry.place(x=centerX - 500, y=450, anchor="center")
 
         self.questionFourLb = Label(self.dataFrame, text="Confirme su contraseña", font=(font, 15))
+        self.questionFourLb.config(bg=colorPalette[1], fg=colorPalette[4])
         self.questionFourLb.place(x=centerX - 500, y=500, anchor="center")
         self.questionFourEntry = Entry(self.dataFrame, width=25, font=(font, 15))
         self.questionFourEntry.place(x=centerX - 500, y=550, anchor="center")
 
         self.nextBtn = Button(self.dataFrame, text="Terminar", font=(font, 15), command=self.nextPage)
-        self.nextBtn.place(x=2 * centerX - 100, y=650, anchor="nw")
+
+        self.nextBtn.place(x=2 * centerX - 150, y=650, anchor="nw")
         # _____________________________________________________________________________________#
 
         # _______________________________Change favorite color_____________________________________ #
@@ -93,8 +100,9 @@ class modificateDataGui:
         self.greenTxt.place(x=centerX - 320 + z, y=370, anchor="w")
         self.blueLb.place(x=centerX - 300 + z, y=410, anchor="w")
         self.blueTxt.place(x=centerX - 320 + z, y=450, anchor="w")
+
         z = 350
-        self.canvasColor = Canvas(self.dataFrame, width=100, height=100)
+        self.canvasColor = Canvas(self.dataFrame, width=100, height=100, bg=colorPalette[1])
         self.canvasColor.place(x=centerX - 550 + z + 170, y=330, anchor="center")
 
         self.colorLb = Label(self.dataFrame, text="Seleccione un color", font=(font, 15))
@@ -115,11 +123,13 @@ class modificateDataGui:
         # __________________________Change Favorite Song______________________________________#
         self.chosenSong = tkinter.StringVar()
         self.songsListsLb = Label(self.dataFrame, text="Lista de canciones", font=(font, 11), width=28, wraplength=275)
+        self.songsListsLb.config(bg=colorPalette[1], fg=colorPalette[4])
         self.songsListsLb.place(x=centerX - 50, y=650, anchor="center")
         self.songsAmount = len(self.songs)
         print(self.songsAmount)
 
         self.songLabel = Label(self.dataFrame, text="Cambiar canción favorita", font=(font, 15))
+        self.songLabel.config(bg=colorPalette[1], fg=colorPalette[4])
         self.songLabel.place(x=centerX - 375, y=620, anchor="center")
 
         self.songOptions = ttk.Combobox(self.dataFrame, textvariable=self.chosenSong, height=40, width=40, values=[])
@@ -129,9 +139,11 @@ class modificateDataGui:
         self.nameSongEntry.place(x=centerX - 405, y=670, anchor="center")
 
         self.searchBtn = Button(self.dataFrame, text="Search", font=(font, 10), command=self.searchSongs)
+        self.searchBtn.config(bg=colorPalette[2], fg=colorPalette[4])
         self.searchBtn.place(x=centerX - 297, y=656, anchor="nw")
 
         self.saveBtn = Button(self.dataFrame, text="Esperando...", font=(font, 10), command=self.saveSong)
+        self.saveBtn.config(bg=colorPalette[2], fg=colorPalette[4])
         self.saveBtn.place(x=centerX - 415, y=740, anchor="nw")
         self.saveBtn.config(state="disabled")
         # ____________________________________________________________________________________#
@@ -143,25 +155,40 @@ class modificateDataGui:
 
         self.photoCanvas.place(x=330 + z, y=400, anchor="center")
 
-        self.imagen = PhotoImage(file=os.path.abspath("perfiles/perfil.png"))
+        #self.imagen = PhotoImage(file=os.path.abspath("perfiles/perfil.png"))
 
-        self.photoCanvas.create_image(0, 0, anchor="nw", image=self.imagen)
+        #self.photoCanvas.create_image(0, 0, anchor="nw", image=self.imagen)
 
         self.addBtn = Button(self.photoCanvas, text="+", font=(font, 15), command=self.takeAPhoto)
-        self.addBtn.config(bg=colorPalette[4])
+        self.addBtn.config(bg=colorPalette[2], fg=colorPalette[4])
         self.addBtn.place(x=340, y=400, anchor="se")
 
         self.profileBtn = Button(self.photoCanvas, text="✎", font=(font, 15), command=self.chooseAPhoto)
-        self.profileBtn.config(bg=colorPalette[4])
+        self.profileBtn.config(bg=colorPalette[2], fg=colorPalette[4])
         self.profileBtn.place(x=400, y=400, anchor="se")
 
         self.biometricalBtn = Button(self.dataFrame, text="Datos biómetricos", font=(font, 15),
                                      command=self.savePhotoInformation)
-        self.biometricalBtn.config(bg=colorPalette[4])
+        self.biometricalBtn.config(bg=colorPalette[2], fg=colorPalette[4])
         self.biometricalBtn.place(x=330 + z, y=650, anchor="center")
         # ________________________________________________________________________________________________________ #
 
         self.showSong()
+
+        # ____________________________________Photo and biometrical information_____________________________________ #
+        self.avatarOpt = {"Goblin": 1, "Shaman": 2, "Champion": 3}
+        self.avatarCB = ttk.Combobox(self.dataFrame, values=list(self.avatarOpt.keys()))
+        self.avatarCB.place(x=330 + z, y=700, anchor="center")
+
+        self.animationOpt = {"Leves": "S", "Moderadas": "M", "Bruscas": "L"}
+        self.animationCB = ttk.Combobox(self.dataFrame, values=list(self.animationOpt.keys()))
+        self.animationCB.place(x=330 + z, y=750, anchor="center")
+
+        self.textureOpt = {"Rustica": 1, "Moderna": 2, "Medieval": 3}
+        self.textureCB = ttk.Combobox(self.dataFrame, values=list(self.textureOpt.keys()))
+        self.textureCB.place(x=330 + z, y=800, anchor="center")
+
+        # ________________________________________________________________________________________________________ #
 
     def takeAPhoto(self):
         faceInformation = facialRecognogtion(self.user.user)
@@ -315,6 +342,12 @@ class modificateDataGui:
                     mail = self.user.mail
                     user = self.user.user
                     color = self.user.color
+                    avatar = self.user.avatar
+                    animation = self.user.animation
+                    texture = self.user.textures
+                    selAvatar = self.avatarOpt.get(self.avatarCB.get())
+                    selAnimation = self.animationOpt.get(self.animationCB.get())
+                    selTexture = self.textureOpt.get(self.textureCB.get())
                     if self.questionThreeEntry.get() != "":
                         password = self.questionThreeEntry.get()
                     if self.questionTwoEntry.get() != "":
@@ -323,8 +356,15 @@ class modificateDataGui:
                         user = self.questionOneEntry.get()
                     if not self.userPalette == None:
                         color = self.userPalette
+                    if selAvatar is not None:
+                        avatar = selAvatar
+                    if selAnimation is not None:
+                        animation = selAnimation
+                    if selTexture is not None:
+                        texture = selTexture
                     User.DeleteJson(self.user.mail, self.user.user)
                     newUser: User = User(user, password, mail, color, self.songs, self.user.answers, "", "")
+                    newUser.SetAttributes(None, None, None, None, None, avatar, animation, texture)
 
                     control = facialRecognogtion(newUser.user)
                     control.overWriteBiometricalData(self.user.user)

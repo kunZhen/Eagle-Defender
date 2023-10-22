@@ -52,6 +52,11 @@ class User:
             self.color = color
             self.music = music
             self.answers = answers
+            # ------------------------------------------------------------------------------------------------------ #
+            self.avatar = 1
+            self.animation = "S"
+            self.textures = 1
+            # ------------------------------------------------------------------------------------------------------ #
             self.profile = profile
             self.facial = facial
             self.validation = True
@@ -72,7 +77,7 @@ class User:
         hostname = '20.62.171.56'  # Cambia esto a la dirección IP de tu máquina virtual
         port = 22  # El puerto SSH predeterminado es 22
         username = 'eagleDefender'  # Tu nombre de usuario en la máquina virtual
-        private_key_file = os.path.abspath('eagleDefenderServer_key_1011.pem')
+        private_key_file = os.path.abspath('Code/eagleDefenderServer_key_1011.pem')
         self.ssh_transfer = SSHFileTransfer(hostname, port, username, private_key_file)
         # ----------------------------------------------------------------------------------------------------------------#
 
@@ -84,6 +89,11 @@ class User:
         self.color = userDict["Favorite Color"]
         self.music = userDict["Favorite Music"]
         self.answers = userDict["Answers"]
+        # ------------------------------------------------------------------------------------------------------ #
+        self.avatar = userDict["Avatar"]
+        self.animation = userDict["Animation"]
+        self.textures = userDict["Textures"]
+        # ------------------------------------------------------------------------------------------------------ #
         self.profile = userDict["Profile"]
         self.facial = userDict["Facial Recognition"]
 
@@ -151,7 +161,8 @@ class User:
         elif attribute == 8:
             return self.facial
 
-    def SetAttributes(self, color=None, music=None, answers=None, numIndex=None, newAnswer=None, profile=None,
+    def SetAttributes(self, color=None, music=None, answers=None, numIndex=None, newAnswer=None, avatar=None,
+                      animation=None, textures=None, profile=None,
                       facial=None):
         """
         Changes the attributes color, music, answers, profile and facial for an exist user
@@ -161,6 +172,9 @@ class User:
         :param answers:
         :param numIndex:
         :param newAnswer:
+        :param avatar:
+        :param animation:
+        :param textures:
         :param profile:
         :param facial:
         :return:
@@ -175,6 +189,12 @@ class User:
             if newAnswer is not None:
                 if 1 <= numIndex <= len(self.answers):
                     self.answers[numIndex - 1] = newAnswer
+        if avatar is not None:
+            self.avatar = avatar
+        if animation is not None:
+            self.animation = animation
+        if textures is not None:
+            self.textures = textures
         if profile is not None:
             self.profile = profile
         if facial is not None:
@@ -274,7 +294,7 @@ class User:
         hostname = '20.62.171.56'
         port = 22
         username = 'eagleDefender'
-        private_key_file = os.path.abspath('eagleDefenderServer_key_1011.pem')
+        private_key_file = os.path.abspath('Code/eagleDefenderServer_key_1011.pem')
         ssh_transfer = SSHFileTransfer(hostname, port, username, private_key_file)
         archivo_remoto_a_verificar = f'/home/eagleDefender/files/users/{filename}.json'
         existance = ssh_transfer.remote_file_exists(archivo_remoto_a_verificar)
@@ -291,8 +311,8 @@ class User:
         :param filename2:
         :return: .json
         """
-        pathFile1 = os.path.join("Users", filename1 + ".json")
-        pathFile2 = os.path.join("Users", filename2 + ".json")
+        pathFile1 = os.path.join("Code/GraphicalUserInterface/Users", filename1 + ".json")
+        pathFile2 = os.path.join("Code/GraphicalUserInterface/Users", filename2 + ".json")
         userDict = {
             "User": self.user,
             "Password": self.password,
@@ -300,13 +320,16 @@ class User:
             "Favorite Color": self.color,
             "Favorite Music": self.music,
             "Answers": self.answers,
+            "Avatar": self.avatar,
+            "Animation": self.animation,
+            "Textures": self.textures,
             "Profile": self.profile,
             "Facial Recognition": self.facial
         }
         with open(pathFile1, 'w') as json_file:
-            json.dump(userDict, json_file)
+            json.dump(userDict, json_file, indent=4)
         with open(pathFile2, 'w') as json_file:
-            json.dump(userDict, json_file)
+            json.dump(userDict, json_file, indent=4)
         # Ruta al archivo en tu sistema local
 
         # -------------------------------------SAVED ON THE SERVER-------------------------------#
@@ -314,7 +337,7 @@ class User:
         hostname = '20.62.171.56'
         port = 22
         username = 'eagleDefender'
-        private_key_file = os.path.abspath('eagleDefenderServer_key_1011.pem')
+        private_key_file = os.path.abspath('Code/eagleDefenderServer_key_1011.pem')
         ssh_transfer = SSHFileTransfer(hostname, port, username, private_key_file)
         ssh_transfer.copy_file_to_remote(pathFile1, directorio_destino, filename1 + ".json")
         ssh_transfer.copy_file_to_remote(pathFile2, directorio_destino, filename2 + ".json")
@@ -330,19 +353,21 @@ class User:
         :param filename2:
         :return:
         """
-        pathFile1 = os.path.join("Users", filename1 + ".json")
-        pathFile2 = os.path.join("Users", filename2 + ".json")
+        pathFile1 = os.path.join("Code/GraphicalUserInterface/Users", filename1 + ".json")
+        pathFile2 = os.path.join("Code/GraphicalUserInterface/Users", filename2 + ".json")
         if os.path.exists(pathFile1) and os.path.exists(pathFile2):
             os.remove(pathFile1)
-            os.remove(pathFile2)
+            if pathFile1!=pathFile2:
+                os.remove(pathFile2)
             # -------------------------------------Delete Information on the Server-------------------------------#
             hostname = '20.62.171.56'
             port = 22
             username = 'eagleDefender'
-            private_key_file = os.path.abspath('eagleDefenderServer_key_1011.pem')
+            private_key_file = os.path.abspath('Code/eagleDefenderServer_key_1011.pem')
             ssh_transfer = SSHFileTransfer(hostname, port, username, private_key_file)
             ssh_transfer.delete_remote_file(f'/home/eagleDefender/files/users/{filename1}.json')
-            ssh_transfer.delete_remote_file(f'/home/eagleDefender/files/users/{filename2}.json')
+            if pathFile1!=pathFile2:
+                ssh_transfer.delete_remote_file(f'/home/eagleDefender/files/users/{filename2}.json')
             # --------------------------------------Delete Information on the Server------------------------------#
 
     @classmethod
@@ -353,24 +378,21 @@ class User:
         :param filename: str
         :return: User
         """
-        pathFile = os.path.join("Users", f"{filename}.json")
+        pathFile = os.path.join("Code/GraphicalUserInterface/Users", f"{filename}.json")
 
         # -----------------------------------Get Information From Server-------------------------#
         hostname = '20.62.171.56'
         port = 22
         username = 'eagleDefender'
-        private_key_file = os.path.abspath('eagleDefenderServer_key_1011.pem')
-        archivo_remoto_a_verificar = f'/home/eagleDefender/files/users/{filename}.json'
+        private_key_file = os.path.abspath('Code/eagleDefenderServer_key_1011.pem')
         ssh_transfer = SSHFileTransfer(hostname, port, username, private_key_file)
-        existance = ssh_transfer.remote_file_exists(archivo_remoto_a_verificar)
         # ---------------------------------------------------------------------------------------#
 
-        if not os.path.exists(pathFile):  # and existance:
-            directorio_destino = '/home/eagleDefender/files/users/'
-            archivo_remoto = os.path.join(directorio_destino, filename)
-            directorio_destino_local = os.path.abspath("Users")
+        if not os.path.exists(pathFile):  
+            archivo_remoto = f'/home/eagleDefender/files/users/{filename}.json'
+            directorio_destino_local = os.path.abspath("Code/GraphicalUserInterface/Users/")
             ssh_transfer.copy_file_from_remote(archivo_remoto, directorio_destino_local)
-        if os.path.exists(pathFile):  # and existance:
+        if os.path.exists(pathFile):  
             with open(pathFile, 'r') as json_file:
                 userDict = json.load(json_file)
             instance = cls(None, None, None, None, None, None, None, None)

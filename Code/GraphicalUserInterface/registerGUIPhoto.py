@@ -43,7 +43,7 @@ class RegisterGuiPhoto:
         self.photoCanvas.config(bg=colorPalette[1])
         self.photoCanvas.place(x=centerX - 200, y=230, anchor="nw")
 
-        self.imagen = PhotoImage(file=os.path.abspath("Profile/perfil.png"))
+        self.imagen = PhotoImage(file=os.path.abspath("Code/GraphicalUserInterface/Profile/perfil.png"))
 
         self.photoCanvas.create_image(0, 0, anchor="nw", image=self.imagen)
 

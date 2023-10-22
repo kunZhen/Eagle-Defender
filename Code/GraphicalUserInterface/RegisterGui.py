@@ -84,7 +84,7 @@ class registerGui:
         self.chooseColorBtn.config(bg=self.colorPalette[2], fg=self.colorPalette[4])
         self.chooseColorBtn.place(x=centerX + 420, y=500, anchor="center")
 
-        self.generateBtn = Button(self.InformationFrame, text="Generate", font=(font, 15), command=self.GenerateColor)
+        self.generateBtn = Button(self.InformationFrame, text="Generar", font=(font, 15), command=self.GenerateColor)
         self.generateBtn.config(bg=self.colorPalette[2], fg=self.colorPalette[4])
         self.generateBtn.place(x=centerX + 420, y=550, anchor="center")
 
@@ -95,7 +95,7 @@ class registerGui:
         self.chosenSong = tk.StringVar()
         self.songsAmount = 0
 
-        self.songsListsLb = Label(self.InformationFrame, text="Lista de canciones", font=(font, 11), width=28,
+        self.songsListsLb = Label(self.InformationFrame, text="Lista de canciones", font=(font, 11), width=30,
                                   wraplength=275)
         self.songsListsLb.config(bg=self.colorPalette[1], fg=self.colorPalette[4])
         self.songsListsLb.place(x=centerX - 30, y=380 + 440, anchor="n")
@@ -104,7 +104,7 @@ class registerGui:
                                         values=[])
         self.songOptions.place(x=centerX - 30, y=300 + 440, anchor="center")
 
-        self.songLabel = Label(self.InformationFrame, text="Ingrese su canción favorita", font=(font, 15))
+        self.songLabel = Label(self.InformationFrame, text="Canción favorita", font=(font, 15))
         self.songLabel.config(bg=self.colorPalette[1], fg=self.colorPalette[4])
         self.songLabel.place(x=centerX - 30, y=200 + 440, anchor="center")
 
@@ -122,31 +122,31 @@ class registerGui:
         # __________________________________________________________________________________________________________ #
 
         # _______________________________________Data Information User______________________________________________ #
-        self.questionOneLb = Label(self.InformationFrame, text="Ingrese su nombre de usuario", font=(font, 15))
+        self.questionOneLb = Label(self.InformationFrame, text="Nombre de usuario", font=(font, 15))
         self.questionOneLb.config(bg=self.colorPalette[1], fg=self.colorPalette[4])
         self.questionOneLb.place(x=centerX - 30, y=200, anchor="center")
         self.questionOneEntry = Entry(self.InformationFrame, width=25, font=(font, 15))
         self.questionOneEntry.place(x=centerX - 30, y=250, anchor="center")
 
-        self.questionTwoLb = Label(self.InformationFrame, text="Ingrese su correo", font=(font, 15))
+        self.questionTwoLb = Label(self.InformationFrame, text="Correo", font=(font, 15))
         self.questionTwoLb.config(bg=self.colorPalette[1], fg=self.colorPalette[4])
         self.questionTwoLb.place(x=centerX - 30, y=300, anchor="center")
         self.questionTwoEntry = Entry(self.InformationFrame, width=25, font=(font, 15))
         self.questionTwoEntry.place(x=centerX - 30, y=350, anchor="center")
 
-        self.questionThreeLb = Label(self.InformationFrame, text="Ingrese su contraseña", font=(font, 15))
+        self.questionThreeLb = Label(self.InformationFrame, text="Contraseña", font=(font, 15))
         self.questionThreeLb.config(bg=self.colorPalette[1], fg=self.colorPalette[4])
         self.questionThreeLb.place(x=centerX - 30, y=400, anchor="center")
         self.questionThreeEntry = Entry(self.InformationFrame, width=25, font=(font, 15), show="♦")
         self.questionThreeEntry.place(x=centerX - 30, y=450, anchor="center")
 
-        self.questionFourLb = Label(self.InformationFrame, text="Confirme su contraseña", font=(font, 15))
+        self.questionFourLb = Label(self.InformationFrame, text="Confirmar contraseña", font=(font, 15))
         self.questionFourLb.config(bg=self.colorPalette[1], fg=self.colorPalette[4])
         self.questionFourLb.place(x=centerX - 30, y=500, anchor="center")
         self.questionFourEntry = Entry(self.InformationFrame, width=25, font=(font, 15), show="♦")
         self.questionFourEntry.place(x=centerX - 30, y=550, anchor="center")
 
-        self.nextBtn = Button(self.InformationFrame, text="next", font=(font, 15), command=self.nextPage)
+        self.nextBtn = Button(self.InformationFrame, text="Siguiente", font=(font, 15), command=self.nextPage)
         self.nextBtn.config(bg=self.colorPalette[2], fg=self.colorPalette[4])
         self.nextBtn.place(x=2 * centerX - 100, y=650, anchor="nw")
         # ________________________________________________________________________________________________________ #
@@ -156,7 +156,7 @@ class registerGui:
         self.photoCanvas.config(bg=self.colorPalette[1])
         self.photoCanvas.place(x=330, y=400, anchor="center")
 
-        self.imagen = PhotoImage(file=os.path.abspath("Profile/perfil.png"))
+        self.imagen = PhotoImage(file=os.path.abspath("Code/GraphicalUserInterface/Profile/perfil.png"))
 
         self.photoCanvas.create_image(0, 0, anchor="nw", image=self.imagen)
 
@@ -238,47 +238,43 @@ class registerGui:
         self.saveBtn.update()
 
     def saveSong(self):
-        flag = True
-
-        if not self.songsAmount != 3:
-            answer = messagebox.askyesno("Confirmación",
-                                         "Solo puedes guardar tres canciones, eliminarás la última que esté en la lista, ¿Deseas continuar?")
-            if not answer:
-                flag = False
-
+        flag=True
+        
+        if not self.songsAmount!=3: 
+            answer=messagebox.askyesno("Confirmación", "Solo puedes guardar tres canciones, eliminarás la última que esté en la lista, ¿Deseas continuar?")
+            if not answer: 
+                flag=False
+            
         if flag:
-            counter = 0
+            counter=0
             self.saveBtn.config(state="disabled")
-            self.songOptions['values'] = []
+            self.songOptions['values']=[]
             self.saveBtn.config(text="Esperando")
-
-            while counter != len(self.controler.nameSongListForDev):
-                print(self.controler.nameSongListForUser[counter], self.chosenSong.get())
-                if self.controler.nameSongListForUser[counter] == self.chosenSong.get():
-                    if not self.songsAmount != 3:
-                        auxList = self.songs
-                        self.songs[1] = auxList[0]
-                        self.songs[2] = auxList[1]
-                        self.songs[0] = [[self.controler.nameSongListForDev[counter]],
-                                         [self.controler.nameSongListForUser[counter]],
-                                         [self.controler.urlSongList[counter]]]
+                                
+            while counter!= len(self.controler.nameSongListForUser):
+                if self.controler.nameSongListForUser[counter]==self.chosenSong.get():
+                    if not self.songsAmount!=3:
+                        auxFirstSong=self.songs[0]
+                        auxSecondSong=self.songs[1]
+                        self.songs[1]=auxFirstSong
+                        self.songs[2]=auxSecondSong
+                        self.songs[0]=[[self.controler.nameSongListForUser[counter]],
+                                        [self.controler.urlSongList[counter]]]
                     else:
-                        self.songs.append([[self.controler.nameSongListForDev[counter]],
-                                           [self.controler.nameSongListForUser[counter]],
-                                           [self.controler.urlSongList[counter]]])
-                        self.songsAmount += 1
+                        self.songs=[[[self.controler.nameSongListForUser[counter]],
+                                        [self.controler.urlSongList[counter] ]]]+self.songs
+                        self.songsAmount+=1
                     self.showSong()
                     break
-                counter += 1
+                counter+=1
             self.chosenSong.set("")
-            self.chosenSong.set("")
-
     def showSong(self):
         counter = 0
         auxList = []
+        print(self.songs)
         while counter != len(self.songs):
             print(self.songs)
-            auxList = auxList + [str(counter + 1) + "." + self.songs[counter][1][0]]
+            auxList = auxList + [str(counter + 1) + "." + self.songs[counter][0][0]]
             counter += 1
 
         auxList = ["Lista de canciones"] + auxList
