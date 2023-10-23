@@ -13,21 +13,22 @@ class versusGame:
     def __init__(self, window:tk.Tk, w:int, h:int, users:list):
         #----------------------------PLayer preference setup setup---------------------------#
             #Load players json here:
-        self.attackerUser:User=users[0]
-        self.defenderUser:User=users[1]
+        self.defenderUser:User=users[0]
+        self.attackerUser:User=users[1]
             #Load players json here:
+
         # ---> Retrieving players proffile pictures <---
         self.Profile1 = Image.open("Code/GraphicalUserInterface/Profile/perfil.png")
         self.Profile2 = Image.open("Code/GraphicalUserInterface/Profile/perfil.png")
 
         # ---> Logic for texture setup <---
-        self.textures = 2
+        self.textures = self.defenderUser.textures
 
         # ---> Logic for animation setup <---
-        self.animations = 'S'
+        self.animations = self.attackerUser.animation
 
-        self.attackerPalette = "yellow"
-        self.defenderPalette = "cyan"
+        self.defenderPalette = self.defenderUser.color
+        self.attackerPalette = self.attackerUser.color
 
         self.font = ("Helvetica", 18)
         colorPalette = ["#8B0000", "#630000", "#1C1C1C", "#000000", "#FFFFFF"]
@@ -46,13 +47,13 @@ class versusGame:
         self.canvas.pack()
 
         #Set the defender side screen
-        self.canvas.create_rectangle(0, 0, self.width//2, self.height, fill=self.defenderPalette)
+        self.canvas.create_rectangle(0, 0, self.width//2, self.height, fill=self.defenderPalette[0])
         #Set the attacker side screen
-        self.canvas.create_rectangle(self.width, 0, self.width//2, self.height, fill=self.attackerPalette)
+        self.canvas.create_rectangle(self.width, 0, self.width//2, self.height, fill=self.attackerPalette[0])
 
         self.pauseBtn=tk.Button(self.canvas, text="▶", command=self.pause)
         self.pauseBtn.config(bg=colorPalette[2], fg=colorPalette[4])
-        self.pauseBtn.place(x= (self.width/2), y=30, anchor="nw")
+        self.pauseBtn.place(x= (self.width/2), y=80, anchor="nw")
 
 
         #----------------------------------Game time-------------------------------------#
@@ -83,6 +84,7 @@ class versusGame:
 
         self.wallList = list()
         #Placing the Eagle
+        self.eagleAlive = True
         self.ondefense = True
         self.placingEagle = True
         self.eagleOpenImage = Image.open("Code/GraphicalUserInterface/sprites/Eagle.png")
@@ -96,7 +98,7 @@ class versusGame:
         #----------------------------Attacker Settings----------------------#
         self.playerAngle = 180
         self.attackerPos = [self.width//2+100, self.height//2]
-        self.attackerOpenImage=Image.open("Code/GraphicalUserInterface/sprites/attacker/sprite.png")
+        self.attackerOpenImage=Image.open(f"Code/GraphicalUserInterface/sprites/attacker/Goblin{self.attackerUser.avatar}.png").resize((80,80))
         self.attackerPhotoImage = self.AttackerRotate(self.attackerOpenImage)
         self.attacker= self.canvas.create_image(self.attackerPos[0],self.attackerPos[1],image=self.attackerPhotoImage)
 
@@ -264,8 +266,7 @@ class versusGame:
         #defender song#
         self.musicLogicControler.fileName="defender.mp4"
         self.musicLogicControler.downloadYoutubeAudio(self.defenderUser.music[randNumber][1][0])
-        
-        
+             
 
         #atacker song#
         self.musicLogicControler.fileName="attacker.mp4"
@@ -311,6 +312,7 @@ class versusGame:
             self.pausedTime=currentTime-self.pauseTime.get()
             self.window.after(50, self.showTime,gameTime)
     #------------------------------------------------------------------------------#
+
     #--------------------------------Attacker Events-------------------------------#
     def Append_W(self, event): 
         self.pressedkeys.add(event.keysym)
@@ -324,12 +326,14 @@ class versusGame:
     def Append_D(self, event): 
         self.pressedkeys.add(event.keysym)
         self.ComboCheck()
+
     def Append_Q(self, event): 
         self.pressedkeys.add(event.keysym)
         self.ComboCheck()
     def Append_E(self, event):
         self.pressedkeys.add(event.keysym)
         self.ComboCheck()
+
     def Append_3(self, event):
         self.pressedkeys.add(event.keysym)
         self.ComboCheck()
@@ -352,12 +356,14 @@ class versusGame:
     def Append_J(self, event):
         self.pressedkeys.add(event.keysym)
         self.ComboCheck()
+
     def Append_U(self, event):
         self.pressedkeys.add(event.keysym)
         self.ComboCheck()
     def Append_O(self, event):
         self.pressedkeys.add(event.keysym)
         self.ComboCheck()
+
     def Append_8(self, event):
         self.pressedkeys.add(event.keysym)
         self.ComboCheck()
@@ -708,6 +714,7 @@ class versusGame:
             
             #Timer
         self.window.after(50, self.RegenerateBlocks)
+
         #---------------------------------------------------General Functionalities-------------------------------------------------#
     def changeTurn(self): 
         if not self.pause:
