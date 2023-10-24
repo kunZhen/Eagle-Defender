@@ -1,5 +1,8 @@
 from tkinter import *
+from versusGame import versusGame 
 from modificateDataGui import *
+import tkinter as tk
+
 
 
 class PrincipalGui:
@@ -32,7 +35,7 @@ class PrincipalGui:
         self.user1Btn.place(x=75, y=75, anchor="nw")
         self.user2Btn.place(x=width - 75, y=75, anchor="ne")
 
-        self.playBtn = Button(self.principalFrame, text="Jugar", font=(font, 15))
+        self.playBtn = Button(self.principalFrame, text="Jugar", font=(font, 15), command=self.play)
         self.playBtn.config(bg=colorPalette[2], fg=colorPalette[4])
 
         self.hallFameBtn = Button(self.principalFrame, text="Salón de la Fama", font=(font, 15))
@@ -56,3 +59,19 @@ class PrincipalGui:
     def updateLb(self):
         self.user1Btn.config(text=self.users[0])
         self.user2Btn.config(text=self.users[1])
+    def play(self): 
+        user1=User.LoadJson(self.users[0])
+        user2=User.LoadJson(self.users[1])
+        self.principalFrame.forget()
+        new = versusGame(root, screenWidth, screenheight, [user2, user1], self.principalFrame)
+
+if __name__ == "__main__":
+    root = tk.Tk()
+    screenWidth = root.winfo_screenwidth()
+    screenheight = root.winfo_screenheight()
+    print(screenWidth, screenheight)
+    root.geometry(f"{screenWidth}x{screenheight}")
+    new = PrincipalGui(root, screenWidth, screenheight, ["Frederick24", "Isaac90@gmail.com"])
+    root.mainloop()
+
+        

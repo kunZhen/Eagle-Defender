@@ -1,22 +1,19 @@
 import os
 from tkinter import *
-
-import pygame
 from musicControl import *
-
 from jsonManager import JsonManager
 
 class HallOfFameGui:
-    def __init__(self, window, width, height, username=None, time=None):
+    def __init__(self,parentFrame, window, width, height, username=None, time=None):
         self.window = window
         self.width = width
         self.height = height
         self.name = username
         self.time = time  
-
+        self.parentFrame:Frame=parentFrame
         self.players = []
         self.jsonManager = JsonManager()
-        self.musicControl = MusicControl()
+        self.musicControl:MusicControl = MusicControl()
 
         font = "Helvetica"
 
@@ -95,3 +92,6 @@ class HallOfFameGui:
 
     def comeBackToMain(self):
         self.hallOfFameFrame.destroy()
+        self.musicControl.stopMusic()
+        self.parentFrame.pack()
+        

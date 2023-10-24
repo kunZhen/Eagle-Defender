@@ -1,5 +1,5 @@
 from tkinter import *
-from hallOfFameGui import HallOfFameGui
+
 
 from mailGui import mailGui
 from InitialGui import InitialGui
@@ -17,8 +17,6 @@ if __name__ == '__main__':
     root.title("Eagle Defender")
 
     #app = InitialGui(root, widthScreen, heightScreen    root.mainloop()
-
-    
-    app = HallOfFameGui(root, widthScreen, heightScreen)    
+ 
     root.mainloop()
     

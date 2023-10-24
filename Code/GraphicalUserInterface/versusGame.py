@@ -7,10 +7,11 @@ import time
 from musicLogic import *
 from User import *
 import random
+import hallOfFameGui
 
 
 class versusGame:
-    def __init__(self, window:tk.Tk, w:int, h:int, users:list):
+    def __init__(self, window:tk.Tk, w:int, h:int, users:list, parentFrame):
         #----------------------------PLayer preference setup setup---------------------------#
             #Load players json here:
         self.defenderUser:User=users[0]
@@ -39,6 +40,7 @@ class versusGame:
         self.window.title("EagleDefender: Offline Mode")
         self.width = w
         self.height = h
+        self.parentFrame=parentFrame
 
         self.mainframe = tk.Frame(self.window, width= self.width, height= self.height)
         self.mainframe.place(x=0, y=0)
@@ -51,7 +53,7 @@ class versusGame:
         #Set the attacker side screen
         self.canvas.create_rectangle(self.width, 0, self.width//2, self.height, fill=self.attackerPalette[0])
 
-        self.pauseBtn=tk.Button(self.canvas, text="▶", command=self.pause)
+        self.pauseBtn=tk.Button(self.canvas, text="▶", command=self.pauseFunction)
         self.pauseBtn.config(bg=colorPalette[2], fg=colorPalette[4])
         self.pauseBtn.place(x= (self.width/2), y=80, anchor="nw")
 
@@ -166,6 +168,11 @@ class versusGame:
         self.pauseTime=tk.IntVar()
         self.pauseTime.set(0)
         self.pausedTime=0
+        
+
+        #_________points_______#
+        self.gameOver=False
+        self.posiblePoints=0
 
         #---------------------------------------------------------------------------#
 
@@ -270,6 +277,7 @@ class versusGame:
 
         #atacker song#
         self.musicLogicControler.fileName="attacker.mp4"
+
         self.musicLogicControler.downloadYoutubeAudio(self.attackerUser.music[randNumber][1][0])
         self.musicLogicControler.setUpVideoMusic("Code/GraphicalUserInterface/songs/attacker.mp4")
         self.musicLogicControler.setUpVideoMusic("Code/GraphicalUserInterface/songs/defender.mp4")
@@ -283,7 +291,7 @@ class versusGame:
         #------------------------------------------------------------------------------------------#
         
     #--------------------------------Show Time-------------------------------------#
-    def pause(self): 
+    def pauseFunction(self): 
         if self.pause:
             self.pause=False
             self.musicLogicControler.unpauseMusic()
@@ -293,10 +301,14 @@ class versusGame:
             self.pause=True    
     def showTime(self, gameTime): 
         currentTime=time.time()
+        if not self.defenderPlaying and not self.playerGaming=="attacker": 
+            self.inicialGameTime=time.time()
+            gameTime=self.attackerTime
+            self.playerGaming="attacker"
         if not self.pause:
             currentTime=time.time()-self.pausedTime
-            print(currentTime-self.inicialGameTime)
             if currentTime-self.inicialGameTime<=gameTime:
+                self.posiblePoints=int(gameTime-(currentTime-self.inicialGameTime))
                 self.timeLb.config(text=f"Tiempo restante:  {int(gameTime-(currentTime-self.inicialGameTime))}s")
                 self.window.after(50, self.showTime,gameTime)
             else: 
@@ -306,13 +318,14 @@ class versusGame:
                     self.musicLogicControler.setUpMusic("canciones/attacker.mp3")
                     self.window.after(50, self.showTime,self.attackerTime)
                 else: 
+                    self.gameOverByTime()
                     self.timeLb.config(text=f"Fin")
                     self.playerGaming=None
         else: 
             self.pausedTime=currentTime-self.pauseTime.get()
-            self.window.after(50, self.showTime,gameTime)
+            if not self.gameOver:
+                self.window.after(50, self.showTime,gameTime)
     #------------------------------------------------------------------------------#
-
     #--------------------------------Attacker Events-------------------------------#
     def Append_W(self, event): 
         self.pressedkeys.add(event.keysym)
@@ -384,93 +397,93 @@ class versusGame:
         #Movement
         if not self.pause:
             if not self.defenderPlaying :
-                if 'd' in self.pressedkeys and self.ondefense==False:
+                if 'l' in self.pressedkeys and self.ondefense==False:
                     if self.attackerPos[0]<self.width:
                         self.attackerPos[0]+=10
                         self.canvas.coords(self.attacker,self.attackerPos[0], self.attackerPos[1])
 
-                if 's' in self.pressedkeys and self.ondefense==False:
+                if 'k' in self.pressedkeys and self.ondefense==False:
                     if self.attackerPos[1]< self.height:
                         self.attackerPos[1]+=10
                         self.canvas.coords(self.attacker,self.attackerPos[0], self.attackerPos[1])
 
-                if 'a' in self.pressedkeys and self.ondefense==False:
+                if 'j' in self.pressedkeys and self.ondefense==False:
                     if self.attackerPos[0]> self.width//2:
                         self.attackerPos[0]-=10
                         self.canvas.coords(self.attacker,self.attackerPos[0], self.attackerPos[1])
 
-                if 'w' in self.pressedkeys and self.ondefense==False:
+                if 'i' in self.pressedkeys and self.ondefense==False:
                     if self.attackerPos[1]>0:
                         self.attackerPos[1]-=10
                         self.canvas.coords(self.attacker,self.attackerPos[0], self.attackerPos[1])
 
                 #Rotation
-                if 'q' in self.pressedkeys:
+                if 'u' in self.pressedkeys:
                     self.playerAngle+=15
                     self.UpdateAttacker()
-                if 'e' in self.pressedkeys:
+                if 'o' in self.pressedkeys:
                     self.playerAngle-=15
                     self.UpdateAttacker()
 
                 #Launches
-                if '3' in self.pressedkeys and self.ondefense==False:
+                if '8' in self.pressedkeys and self.ondefense==False:
                     self.Shoot(3)
                     self.canvas.itemconfig(self.ammo2, text=str(10-self.fireProjectileAmount))
                     self.musicLogicControler.playSFX("fire")#Plays the sound effect
-                if '4' in self.pressedkeys and self.ondefense==False:
+                if '9' in self.pressedkeys and self.ondefense==False:
                     self.Shoot(2)
                     self.canvas.itemconfig(self.ammo1, text=str(10-self.waterProjectileAmount))
                     self.musicLogicControler.playSFX("water")#Plays the sound effect
-                if '5' in self.pressedkeys and self.ondefense==False:
+                if '0' in self.pressedkeys and self.ondefense==False:
                     self.Shoot(1)
                     self.canvas.itemconfig(self.ammo3, text=str(10-self.PowderProjectileAmount))
                     self.musicLogicControler.playSFX("powder")#Plays the sound effect
 
             #----------Defener controls----------#
             #Movement
-            if 'i' in self.pressedkeys:
+            if 'w' in self.pressedkeys:
                 if self.defenderPos[1]>0:
                     self.defenderPos[1]-=10
                     self.canvas.coords(self.defender, self.defenderPos[0], self.defenderPos[1])
 
             
-            if 'k' in self.pressedkeys:
+            if 's' in self.pressedkeys:
                 if self.defenderPos[1]<self.height:
                     self.defenderPos[1]+=10
                     self.canvas.coords(self.defender, self.defenderPos[0], self.defenderPos[1])
             
-            if 'j' in self.pressedkeys:
+            if 'a' in self.pressedkeys:
                 if self.defenderPos[0]>0:
                     self.defenderPos[0]-=10
                     self.canvas.coords(self.defender, self.defenderPos[0], self.defenderPos[1])
             
-            if 'l' in self.pressedkeys:
+            if 'd' in self.pressedkeys:
                 if self.defenderPos[0]<self.width//2:
                     self.defenderPos[0]+=10
                     self.canvas.coords(self.defender, self.defenderPos[0], self.defenderPos[1])
 
             #Rotation
-            if 'u' in self.pressedkeys:
+            if 'q' in self.pressedkeys:
                 self.defenderAngle += 15
                 self.UpdateDefender()
-            if 'o' in self.pressedkeys:
+            if 'e' in self.pressedkeys:
                 self.defenderAngle -= 15
                 self.UpdateDefender()
 
             #Placement
-            if '8' in self.pressedkeys and self.woodBlocksAmount>0:
+            if '3' in self.pressedkeys and self.woodBlocksAmount>0:
                 self.Place(1, self.defenderAngle, self.defenderPos[0], self.defenderPos[1])
                 self.woodBlocksAmount-=1
                 self.canvas.itemconfig(self.mats1, text=f"{self.woodBlocksAmount}")
                 self.musicLogicControler.playSFX("pop")#Plays the sound effect
 
-            if '9' in self.pressedkeys and self.stoneBlocksAmount>0:
+            if '4' in self.pressedkeys and self.stoneBlocksAmount>0:
                 self.Place(2, self.defenderAngle, self.defenderPos[0], self.defenderPos[1])
                 self.stoneBlocksAmount-=1
                 self.canvas.itemconfig(self.mats2, text=f"{self.stoneBlocksAmount}")
                 self.musicLogicControler.playSFX("pop")#Plays the sound effect
 
-            if '0' in self.pressedkeys and self.metalBlocksAmount>0:
+            if '5' in self.pressedkeys and self.metalBlocksAmount>0:
                 self.Place(3, self.defenderAngle, self.defenderPos[0], self.defenderPos[1])
                 self.metalBlocksAmount-=1
                 self.canvas.itemconfig(self.mats3, text=f"{self.metalBlocksAmount}")
@@ -528,20 +541,21 @@ class versusGame:
             self.ProjectileTravel(projectile, self.powderDMG ,self.playerAngle*math.pi/180)
     
     def ProjectileTravel(self, projectile, dmg:int, angle):
-        coords=self.canvas.coords(projectile)
-        newX=coords[0]+10*math.cos(angle)
-        newY=coords[1]+10*math.sin(angle+math.pi)
-        if not self.pause:
-            self.canvas.coords(projectile, newX, newY)
-        if coords[0] > 2 and coords [1]>0:
-            if self.checkCollision(newX,newY, dmg) and not self.pause:
-                self.deleteBullet(projectile) 
-                pass
+        if not self.gameOver:
+            coords=self.canvas.coords(projectile)
+            newX=coords[0]+10*math.cos(angle)
+            newY=coords[1]+10*math.sin(angle+math.pi)
+            if not self.pause:
+                self.canvas.coords(projectile, newX, newY)
+            if coords[0] > 2 and coords [1]>0:
+                if self.checkCollision(newX,newY, dmg) and not self.pause:
+                    self.deleteBullet(projectile) 
+                    pass
+                else:
+                    self.window.after(50, self.ProjectileTravel, projectile, dmg ,angle)
             else:
-                self.window.after(50, self.ProjectileTravel, projectile, dmg ,angle)
-        else:
-            self.deleteBullet(projectile)
-            pass
+                self.deleteBullet(projectile)
+         
 
     def deleteBullet(self, bullet):
         """inicialTime = time.time()  
@@ -568,6 +582,8 @@ class versusGame:
                 self.wallList[counter][2]-=dmg
                 self.musicLogicControler.playSFX("impact")#Plays the sound effect
                 if self.wallList[counter][2] <=0:
+                    if counter==0: 
+                        self.gameOverByattacker()
                     self.deleteWall(self.wallList[counter][0], counter)
                     self.musicLogicControler.playSFX("explosion")#Plays the sound effect
                 #Return as collision DID happen
@@ -616,7 +632,8 @@ class versusGame:
                         self.InicialTimePowder=0
                     self.takeInicalTimePowder=True
         #Timer
-        self.window.after(50, self.regenerateAttacks)
+        if not self.gameOver:
+            self.window.after(50, self.regenerateAttacks)
 
     def generateAnimation(self, type:int ,x, y, angle):
         if type==1:
@@ -638,6 +655,12 @@ class versusGame:
 
         self.window.after(1000, self.AnimationsManager)
 
+    def gameOverByattacker(self): 
+        self.pauseFunction()
+        self.musicLogicControler.stopMusic()
+        self.mainframe.destroy()
+        self.gameOver=True
+        app= hallOfFameGui.HallOfFameGui(self.parentFrame,self.window, self.width, self.height, self.attackerUser.user, self.attackerTime-self.posiblePoints)
     #--------------------------------------Defender functionalities----------------------------------------------------------------#
     def DefenderRotate(self, image):
         """"""
@@ -677,9 +700,14 @@ class versusGame:
     def deleteWall(self, wall_id, index):
         self.canvas.delete(wall_id)
         self.wallList = self.wallList[0:index]+self.wallList[index+1:]
-
+    def gameOverByTime(self):
+        self.pauseFunction()
+        self.musicLogicControler.stopMusic()
+        self.mainframe.destroy()
+        self.gameOver=True
+        app= hallOfFameGui.HallOfFameGui(self.parentFrame, self.window, self.width, self.height, self.attackerUser.user, self.posiblePoints)
     def RegenerateBlocks(self):
-        if not self.pause:
+        if not self.pause and not self.playerGaming=="defender":
         #Wood blocks regeneration
             if not self.defenderPlaying:
                 if self.woodBlocksAmount < self.maxBlocks: 
@@ -721,7 +749,8 @@ class versusGame:
                             self.takeInicalTimeMetal = True
             
             #Timer
-        self.window.after(50, self.RegenerateBlocks)
+        if not self.gameOver:
+            self.window.after(50, self.RegenerateBlocks)
 
         #---------------------------------------------------General Functionalities-------------------------------------------------#
     def changeTurn(self): 
@@ -729,10 +758,12 @@ class versusGame:
             if not (self.ondefense):
                 self.defenderPlaying=False
                 self.FinishDefenderTurnbtn.destroy()
+                self.musicLogicControler.stopMusic()
+                self.musicLogicControler.setUpMusic(os.path.abspath("Code/GraphicalUserInterface/songs/attacker.mp3"))
             else: 
                 messagebox.showwarning  ("Eagle Defender", "Debes poner el águila")
 
-if __name__ == "__main__":
+"""if __name__ == "__main__":
     root = tk.Tk()
     screenWidth = root.winfo_screenwidth()
     screenheight = root.winfo_screenheight()
@@ -740,5 +771,5 @@ if __name__ == "__main__":
     root.geometry(f"{screenWidth}x{screenheight}")
     user1=User.LoadJson("Frederick24")
     user2=User.LoadJson("Isaac90@gmail.com")
-    new = versusGame(root, screenWidth, screenheight, [user2, user1])
-    root.mainloop()
+    new = versusGame(root, screenWidth, screenheight, [user2, user1], None)
+    root.mainloop()"""
