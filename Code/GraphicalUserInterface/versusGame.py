@@ -416,12 +416,15 @@ class versusGame:
                 if '3' in self.pressedkeys and self.ondefense==False:
                     self.Shoot(3)
                     self.canvas.itemconfig(self.ammo2, text=str(10-self.fireProjectileAmount))
+                    self.musicLogicControler.playSFX("fire")#Plays the sound effect
                 if '4' in self.pressedkeys and self.ondefense==False:
                     self.Shoot(2)
                     self.canvas.itemconfig(self.ammo1, text=str(10-self.waterProjectileAmount))
+                    self.musicLogicControler.playSFX("water")#Plays the sound effect
                 if '5' in self.pressedkeys and self.ondefense==False:
                     self.Shoot(1)
                     self.canvas.itemconfig(self.ammo3, text=str(10-self.PowderProjectileAmount))
+                    self.musicLogicControler.playSFX("powder")#Plays the sound effect
 
             #----------Defener controls----------#
             #Movement
@@ -458,7 +461,7 @@ class versusGame:
             if '8' in self.pressedkeys and self.woodBlocksAmount>0:
                 self.Place(1, self.defenderAngle, self.defenderPos[0], self.defenderPos[1])
                 self.woodBlocksAmount-=1
-            self.canvas.itemconfig(self.mats1, text=f"{self.woodBlocksAmount}")
+                self.canvas.itemconfig(self.mats1, text=f"{self.woodBlocksAmount}")
 
             if '9' in self.pressedkeys and self.stoneBlocksAmount>0:
                 self.Place(2, self.defenderAngle, self.defenderPos[0], self.defenderPos[1])
@@ -560,8 +563,10 @@ class versusGame:
             if flagTwo and flagOne:
                 #Change wall health upon impact and/or remove it from screen
                 self.wallList[counter][2]-=dmg
+                self.musicLogicControler.playSFX("impact")#Plays the sound effect
                 if self.wallList[counter][2] <=0:
                     self.deleteWall(self.wallList[counter][0], counter)
+                    self.musicLogicControler.playSFX("explosion")#Plays the sound effect
                 #Return as collision DID happen
                 return True
             counter+=1

@@ -67,16 +67,24 @@ class musicLogic:
         pygame.mixer.init()
         self.musicPath = musicPath
         pygame.mixer.music.load(self.musicPath)
+        pygame.mixer.music.set_volume(0.4)
         pygame.mixer.music.set_endevent(pygame.USEREVENT + 1)
         pygame.mixer.music.play(loops=-1)  # Establece loops=-1 para que se reproduzca en bucle
 
     def stopMusic(self):
         pygame.mixer.music.stop()
-
     def pauseMusic(self):
         pygame.mixer.music.pause()
     def unpauseMusic(self): 
         pygame.mixer.music.unpause()
+    
+    @classmethod
+    def playSFX(cls, name:str):
+        pygame.mixer.init()
+        soundpath = "Code/GraphicalUserInterface/sfx/"+name+".wav"
+        sound_effect = pygame.mixer.Sound(soundpath)
+        sound_effect.set_volume(0.9)
+        sound_effect.play()
     
     def setUpVideoMusic(self, videoPath):
         try: 
