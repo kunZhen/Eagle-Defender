@@ -1,9 +1,6 @@
 import os
 from tkinter import *
-
-import pygame
 from musicControl import *
-
 from jsonManager import JsonManager
 
 class HallOfFameGui:

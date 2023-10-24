@@ -1,12 +1,28 @@
 {
     "results": [
         {
+            "name": "Frederick24",
+            "time": 0
+        },
+        {
+            "name": "Frederick24",
+            "time": 6
+        },
+        {
+            "name": "Frederick24",
+            "time": 25
+        },
+        {
             "name": "Diego",
             "time": 50
         },
         {
             "name": "Ale",
             "time": 50
+        },
+        {
+            "name": "Frederick24",
+            "time": 77
         },
         {
             "name": "Sofia",
@@ -23,22 +39,6 @@
         {
             "name": "Ana",
             "time": 230
-        },
-        {
-            "name": "Mario",
-            "time": 231
-        },
-        {
-            "name": "rachel",
-            "time": 250
-        },
-        {
-            "name": "Rodrigo",
-            "time": 251
-        },
-        {
-            "name": "Luis",
-            "time": 300
         }
     ]
 }
