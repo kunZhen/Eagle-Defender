@@ -1,5 +1,7 @@
+import os.path
 from tkinter import *
 from tkinter import ttk, filedialog, messagebox
+from PIL import Image, ImageTk
 from tkinter import colorchooser
 from User import *
 import tkinter
@@ -15,6 +17,13 @@ from ColorRGB import ColorRGB
 
 class modificateDataGui:
     def __init__(self, window, width, height, user, parent: PrincipalGui, number):
+        self.avatarImage = None
+        self.animation1Image = None
+        self.animation2Image = None
+        self.animation3Image = None
+        self.texture1Image = None
+        self.texture2Image = None
+        self.texture3Image = None
         self.window = window
         self.width = width
         self.height = height
@@ -155,9 +164,9 @@ class modificateDataGui:
 
         self.photoCanvas.place(x=330 + z, y=400, anchor="center")
 
-        #self.imagen = PhotoImage(file=os.path.abspath("perfiles/perfil.png"))
+        # self.imagen = PhotoImage(file=os.path.abspath("perfiles/perfil.png"))
 
-        #self.photoCanvas.create_image(0, 0, anchor="nw", image=self.imagen)
+        # self.photoCanvas.create_image(0, 0, anchor="nw", image=self.imagen)
 
         self.addBtn = Button(self.photoCanvas, text="+", font=(font, 15), command=self.takeAPhoto)
         self.addBtn.config(bg=colorPalette[2], fg=colorPalette[4])
@@ -175,18 +184,32 @@ class modificateDataGui:
 
         self.showSong()
 
-        # ____________________________________Photo and biometrical information_____________________________________ #
-        self.avatarOpt = {"Goblin": 1, "Shaman": 2, "Champion": 3}
+        # _______________________________Avatar, Animation and Texture information_________________________________ #
+        self.avatarOpt = {"Seleccionar avatar": 0, "Goblin": 1, "Shaman": 2, "Champion": 3}
         self.avatarCB = ttk.Combobox(self.dataFrame, values=list(self.avatarOpt.keys()))
+        self.avatarCB.config(font=(font, 15))
+        self.avatarCB.current(0)
         self.avatarCB.place(x=330 + z, y=700, anchor="center")
 
-        self.animationOpt = {"Leves": "S", "Moderadas": "M", "Bruscas": "L"}
+        self.animationOpt = {"Seleccionar animación": 0, "Leves": "S", "Moderadas": "M", "Bruscas": "L"}
         self.animationCB = ttk.Combobox(self.dataFrame, values=list(self.animationOpt.keys()))
+        self.animationCB.config(font=(font, 15))
+        self.animationCB.current(0)
         self.animationCB.place(x=330 + z, y=750, anchor="center")
 
-        self.textureOpt = {"Rustica": 1, "Moderna": 2, "Medieval": 3}
+        self.textureOpt = {"Seleccionar textura": 0, "Rustica": 1, "Moderna": 2, "Medieval": 3}
         self.textureCB = ttk.Combobox(self.dataFrame, values=list(self.textureOpt.keys()))
+        self.textureCB.config(font=(font, 15))
+        self.textureCB.current(0)
         self.textureCB.place(x=330 + z, y=800, anchor="center")
+
+        self.showCanvas = Canvas(self.dataFrame, width=210, height=200)
+        self.showCanvas.config(bg=colorPalette[1])
+        self.showCanvas.place(x=470 + z, y=750, anchor="w")
+
+        self.showBtn = Button(self.dataFrame, text="Mostrar configuración", font=(font, 15), command=self.ShowConfig)
+        self.showBtn.config(bg=colorPalette[2], fg=colorPalette[4])
+        self.showBtn.place(x=330 + z, y=850, anchor="center")
 
         # ________________________________________________________________________________________________________ #
 
@@ -356,11 +379,11 @@ class modificateDataGui:
                         user = self.questionOneEntry.get()
                     if not self.userPalette == None:
                         color = self.userPalette
-                    if selAvatar is not None:
+                    if selAvatar != 0:
                         avatar = selAvatar
-                    if selAnimation is not None:
+                    if selAnimation != 0:
                         animation = selAnimation
-                    if selTexture is not None:
+                    if selTexture != 0:
                         texture = selTexture
                     User.DeleteJson(self.user.mail, self.user.user)
                     newUser: User = User(user, password, mail, color, self.songs, self.user.answers, "", "")
@@ -413,3 +436,34 @@ class modificateDataGui:
         self.userPalette = GeneratePalette(color[1]).GenerateColors()
 
         self.canvasColor.config(bg=self.userPalette[0])
+
+    def ShowConfig(self):
+        selAvatar = self.avatarOpt.get(self.avatarCB.get())
+        selAnimation = self.animationOpt.get(self.animationCB.get())
+        selTexture = self.textureOpt.get(self.textureCB.get())
+
+        if selAvatar != 0:
+            self.avatarImage = (Image.open(f"Code/GraphicalUserInterface/sprites/attacker/GoblinFront{selAvatar}.png"))
+            self.showCanvas.create_image(x=10, y=10, anchor="ne", image=ImageTk.PhotoImage(self.avatarImage))
+
+        if selAnimation != 0:
+            self.animation1Image = (Image.open(f"Code/GraphicalUserInterface/sprites/attacker/Fire{selAnimation}.png")
+                                    .resize((60, 60)))
+            self.showCanvas.create_image(x=50, y=50, anchor="ne", image=ImageTk.PhotoImage(self.animation1Image))
+            self.animation2Image = (Image.open(f"Code/GraphicalUserInterface/sprites/attacker/Water{selAnimation}.png")
+                                    .resize((50, 50)))
+            self.showCanvas.create_image(x=80, y=70, anchor="ne", image=ImageTk.PhotoImage(self.animation2Image))
+            self.animation3Image = (Image.open(f"Code/GraphicalUserInterface/sprites/attacker/Powder{selAnimation}.png")
+                                    .resize((50, 50)))
+            self.showCanvas.create_image(x=80, y=130, anchor="ne", image=ImageTk.PhotoImage(self.animation3Image))
+
+        if selTexture != 0:
+            self.texture1Image = (Image.open(f"Code/GraphicalUserInterface/sprites/defender/metal{selTexture}.png")
+                                  .resize((50, 50)))
+            self.showCanvas.create_image(80, 10, anchor="ne", image=ImageTk.PhotoImage(self.texture1Image))
+            self.texture2Image = (Image.open(f"Code/GraphicalUserInterface/sprites/attacker/stone{selTexture}.png")
+                                  .resize((50, 50)))
+            self.showCanvas.create_image(80, 70, anchor="ne", image=ImageTk.PhotoImage(self.texture2Image))
+            self.texture3Image = (Image.open(f"Code/GraphicalUserInterface/sprites/attacker/wood{selTexture}.png")
+                                  .resize((50, 50)))
+            self.showCanvas.create_image(80, 130, anchor="ne", image=ImageTk.PhotoImage(self.texture3Image))

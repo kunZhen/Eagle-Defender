@@ -11,7 +11,7 @@ import hallOfFameGui
 
 
 class versusGame:
-    def __init__(self, window:tk.Tk, w:int, h:int, users:list, parentFrame):
+    def __init__(self, window:tk.Tk, w:int, h:int, users:list, parentFrame, temporalFrame):
         #----------------------------PLayer preference setup setup---------------------------#
             #Load players json here:
         self.defenderUser:User=users[0]
@@ -41,9 +41,10 @@ class versusGame:
         self.width = w
         self.height = h
         self.parentFrame=parentFrame
+        self.temporalFrame=temporalFrame
 
         self.mainframe = tk.Frame(self.window, width= self.width, height= self.height)
-        self.mainframe.place(x=0, y=0)
+        
 
         self.canvas = tk.Canvas(self.mainframe, width= self.width, height=self.height, bg="black")
         self.canvas.pack()
@@ -288,6 +289,9 @@ class versusGame:
         self.regenerateAttacks()
         self.AnimationsManager()
         self.RegenerateBlocks()
+
+        self.mainframe.place(x=0, y=0)
+        self.temporalFrame.destroy()
         #------------------------------------------------------------------------------------------#
         
     #--------------------------------Show Time-------------------------------------#
@@ -475,16 +479,19 @@ class versusGame:
                 self.Place(1, self.defenderAngle, self.defenderPos[0], self.defenderPos[1])
                 self.woodBlocksAmount-=1
                 self.canvas.itemconfig(self.mats1, text=f"{self.woodBlocksAmount}")
+                self.musicLogicControler.playSFX("pop")#Plays the sound effect
 
             if '4' in self.pressedkeys and self.stoneBlocksAmount>0:
                 self.Place(2, self.defenderAngle, self.defenderPos[0], self.defenderPos[1])
                 self.stoneBlocksAmount-=1
                 self.canvas.itemconfig(self.mats2, text=f"{self.stoneBlocksAmount}")
+                self.musicLogicControler.playSFX("pop")#Plays the sound effect
 
             if '5' in self.pressedkeys and self.metalBlocksAmount>0:
                 self.Place(3, self.defenderAngle, self.defenderPos[0], self.defenderPos[1])
                 self.metalBlocksAmount-=1
                 self.canvas.itemconfig(self.mats3, text=f"{self.metalBlocksAmount}")
+                self.musicLogicControler.playSFX("pop")#Plays the sound effect
             #----------Defener controls----------#
 
     #------------------------------------------Attacker functionalities-------------------------------------------------------#

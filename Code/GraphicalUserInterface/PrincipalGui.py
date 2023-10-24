@@ -1,8 +1,9 @@
+import time
 from tkinter import *
 from versusGame import versusGame 
 from modificateDataGui import *
 import tkinter as tk
-
+import temporalGui
 
 
 class PrincipalGui:
@@ -14,10 +15,13 @@ class PrincipalGui:
 
         font = "Helvetica"
 
-        colorPalette = ["#8B0000", "#630000", "#1C1C1C", "#000000", "#FFFFFF"]
 
+        colorPalette = ["#8B0000", "#630000", "#1C1C1C", "#000000", "#FFFFFF"]
+        self.colorPalette=colorPalette
         centerX = width / 2
+        self.centerX=centerX
         centerY = height / 2
+        self.centerY=centerY
 
         self.principalFrame = Frame(window, width=width, height=height, bg=colorPalette[0])
         self.principalFrame.pack()
@@ -48,6 +52,7 @@ class PrincipalGui:
         self.hallFameBtn.place(x=centerX, y=centerY + 200, anchor="center")
         self.helpBtn.place(x=centerX, y=centerY + 250, anchor="center")
 
+        
     def changeDataUser1(self):
         self.principalFrame.pack_forget()
         app = modificateDataGui(self.window, self.width, self.height, self.users[0], self, 0)
@@ -59,11 +64,27 @@ class PrincipalGui:
     def updateLb(self):
         self.user1Btn.config(text=self.users[0])
         self.user2Btn.config(text=self.users[1])
+    def tempFrame(self):
+        self.temporalFrame = temporalGui.temporalFrame(self.window, self.width, self.height,self.principalFrame)
+   
+        self.window.update_idletasks()  # Forzar la actualización de la interfaz gráfica
+
     def play(self): 
+        self.principalFrame.pack_forget()
+        self.tempFrame()
+
+        self.window.after(500, self.afterFrame)
+      
+    def afterFrame(self):
         user1=User.LoadJson(self.users[0])
         user2=User.LoadJson(self.users[1])
-        self.principalFrame.forget()
-        new = versusGame(root, screenWidth, screenheight, [user2, user1], self.principalFrame)
+        
+        new = versusGame(root, screenWidth, screenheight, [user2, user1], self.principalFrame, self.temporalFrame.initialFrame)
+
+    def prueba(self, temporalFrame):
+        self.play()
+
+       
 
 if __name__ == "__main__":
     root = tk.Tk()
