@@ -2,6 +2,8 @@ import time
 from tkinter import *
 from musicLogic import musicLogic
 from versusGame import versusGame 
+from jsonManager import JsonManager
+from musicControl import MusicControl
 from modificateDataGui import *
 import tkinter as tk
 import temporalGui
@@ -14,6 +16,11 @@ class PrincipalGui:
         self.width = width
         self.height = height
         self.users = users
+
+        self.players = []
+        self.jsonManager = JsonManager()
+        self.musicControl:MusicControl = MusicControl()
+        self.logo = PhotoImage(file=os.path.abspath("Code/GraphicalUserInterface/GameData/EagleDefender.png"))
 
         font = "Helvetica"
 
@@ -34,9 +41,17 @@ class PrincipalGui:
         self.principalFrame = Frame(window, width=width, height=height, bg=colorPalette[0])
         self.principalFrame.pack()
 
+        self.hallOfFameFrameOnTop = Frame(self.principalFrame, width=width - (width / 19.2), height=height - (height / 10.8), bg=self.colorPalette[2])
+        self.hallOfFameFrameOnTop.place(x=centerX, y=centerY, anchor="center")
+
+        self.logoCanva = Canvas(self.hallOfFameFrameOnTop, width=400, height=580, bg=self.colorPalette[2])
+        self.logoCanva.config(borderwidth=0, highlightthickness=0)
+        self.logoCanva.place(x=centerX - (centerX / 18), y=centerY, anchor="center")
+        self.logoCanva.create_image(200, 290, anchor="center", image=self.logo)
+
         self.titleLb = Label(self.principalFrame, text="Eagle Defender", font=(font, 50))
-        self.titleLb.config(bg=colorPalette[0], fg=colorPalette[3])
-        self.titleLb.place(x=centerX, y=75, anchor="center")
+        self.titleLb.config(bg=self.colorPalette[2], fg=self.colorPalette[4])
+        self.titleLb.place(x=centerX, y=centerY - (height / 2.8), anchor="center")
 
         self.user1Btn = Button(self.principalFrame, text=users[0], font=(font, 15), command=self.changeDataUser1)
         self.user1Btn.config(bg=colorPalette[2], fg=colorPalette[4])
@@ -56,9 +71,12 @@ class PrincipalGui:
         self.helpBtn = Button(self.principalFrame, text="Sección de ayuda", font=(font, 15))
         self.helpBtn.config(bg=colorPalette[2], fg=colorPalette[4])
 
-        self.playBtn.place(x=centerX, y=centerY + 150, anchor="center")
-        self.hallFameBtn.place(x=centerX, y=centerY + 200, anchor="center")
-        self.helpBtn.place(x=centerX, y=centerY + 250, anchor="center")
+        self.playBtn.place(x=centerX, y=centerY + (height / 3), anchor="center")
+        self.hallFameBtn.place(x=centerX, y=centerY + (height / 2.6), anchor="center")
+        self.helpBtn.place(x=centerX, y=centerY + (height / 2.3), anchor="center")
+
+        self.getPlayers()
+        self.__setUpFameLabels()
 
         #self.startPlaylist()
 
@@ -109,10 +127,35 @@ class PrincipalGui:
                 self.songNumber = 1
         self.window.after(100, self.startPlaylist)
 
+    # ----- [Hall of Fame] ----- #
+    def __setUpFameLabels(self):
+        pX = int((self.width) / 4)
+        pY = int((self.height) / 5)
+        cont = 0
+
+        if self.players != []:
+            for player in self.players:
+                cont += 1
+                
+                hallName = Label(self.hallOfFameFrameOnTop, text=f"{cont}. {player['name']}", font=("Helvetica", 20))
+                hallName.config(bg=self.colorPalette[2], fg=self.colorPalette[4])
+                hallName.place(x=pX, y=pY, anchor="center")
+
+                hallTime = Label(self.hallOfFameFrameOnTop, text=f"{player['time']}", font=("Helvetica", 20))
+                hallTime.config(bg=self.colorPalette[2], fg=self.colorPalette[4])   
+                hallTime.place(x= pX + int((self.width) / 2), y=pY, anchor="center")
+
+
+                pY += int((self.height) / 14 )
+
+    def getPlayers(self):
+        self.players = self.jsonManager.readJson('Code/GraphicalUserInterface/GameData/playersFame.json')['results']
+    
+
 if __name__ == "__main__":
     root = tk.Tk()
-    screenWidth = root.winfo_screenwidth()
-    screenheight = root.winfo_screenheight()
+    screenWidth = root.winfo_screenwidth() - 100
+    screenheight = root.winfo_screenheight() - 100
     print(screenWidth, screenheight)
     root.geometry(f"{screenWidth}x{screenheight}")
     new = PrincipalGui(root, screenWidth, screenheight, ["Frederick24", "Isaac90@gmail.com"])

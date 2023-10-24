@@ -1,5 +1,7 @@
+import datetime
 import os
 from tkinter import *
+from apiX_Twitter import ApiX_Twitter
 from musicControl import *
 from jsonManager import JsonManager
 
@@ -11,9 +13,12 @@ class HallOfFameGui:
         self.name = username
         self.time = time  
         self.parentFrame:Frame=parentFrame
+        self.publishPlayers = " --------------------- SALÓN DE LA FAMA --------------------- \n"
         self.players = []
+        self.apiX_Twitter = ApiX_Twitter()
         self.jsonManager = JsonManager()
         self.musicControl:MusicControl = MusicControl()
+        self.date = datetime.datetime.now()
 
         font = "Helvetica"
 
@@ -46,6 +51,7 @@ class HallOfFameGui:
         self.getPlayers()
         self.updateJson()
         self.__setUpFameLabels()
+        self.publishTweet()
         self.musicControl.setUpMusic("Code/GraphicalUserInterface/songs/victoryMusic.mp3")
         #self.musicControl.setUpVideoMusic("data/rosas.mp4")
         
@@ -55,6 +61,7 @@ class HallOfFameGui:
         cont = 0
 
         if self.players != []:
+            self.publishPlayers = self.publishPlayers + f"Fecha y Hora: {self.date.strftime('%d/%m/%Y %H:%M:%S')} \n"
             for player in self.players:
                 cont += 1
                 
@@ -65,6 +72,8 @@ class HallOfFameGui:
                 hallTime = Label(self.hallOfFameFrame, text=f"{player['time']}", font=("Helvetica", 20))
                 hallTime.config(bg=self.colorPalette[2], fg=self.colorPalette[4])   
                 hallTime.place(x= pX + int((self.width) / 2), y=pY, anchor="center")
+
+                self.publishPlayers = self.publishPlayers + "\n" + f"{cont}. {player['name']} - {player['time']}"
 
                 pY += int((self.height) / 14 )
             
@@ -88,7 +97,9 @@ class HallOfFameGui:
             print(f"bestPlayers: {bestPlayers}")
             self.jsonManager.writeJson({"results":bestPlayers}, 'Code/GraphicalUserInterface/GameData/playersFame.json')
             self.getPlayers()
-        
+    
+    def publishTweet(self):
+        self.apiX_Twitter.publishTweet(self.publishPlayers)
 
     def comeBackToMain(self):
         self.hallOfFameFrame.destroy()
