@@ -1,10 +1,10 @@
-from tkinter import * #Tkinter import
+import time
+from tkinter import *
 from musicLogic import musicLogic
 from versusGame import versusGame 
 from modificateDataGui import *
 import tkinter as tk
-import time
-
+import temporalGui
 
 
 class PrincipalGui:
@@ -24,9 +24,11 @@ class PrincipalGui:
         #-------------------[Music playlist and timer settings]--------------------#
 
         colorPalette = ["#8B0000", "#630000", "#1C1C1C", "#000000", "#FFFFFF"]
-
+        self.colorPalette=colorPalette
         centerX = width / 2
+        self.centerX=centerX
         centerY = height / 2
+        self.centerY=centerY
 
         self.principalFrame = Frame(window, width=width, height=height, bg=colorPalette[0])
         self.principalFrame.pack()
@@ -70,12 +72,25 @@ class PrincipalGui:
     def updateLb(self):
         self.user1Btn.config(text=self.users[0])
         self.user2Btn.config(text=self.users[1])
+    def tempFrame(self):
+        self.temporalFrame = temporalGui.temporalFrame(self.window, self.width, self.height,self.principalFrame)
+   
+        self.window.update_idletasks()  # Forzar la actualización de la interfaz gráfica
 
     def play(self): 
+        self.principalFrame.pack_forget()
+        self.tempFrame()
+
+        self.window.after(500, self.afterFrame)
+      
+    def afterFrame(self):
         user1=User.LoadJson(self.users[0])
         user2=User.LoadJson(self.users[1])
-        self.principalFrame.forget()
-        new = versusGame(root, screenWidth, screenheight, [user2, user1], self.principalFrame)
+        
+        new = versusGame(root, screenWidth, screenheight, [user2, user1], self.principalFrame, self.temporalFrame.initialFrame)
+
+    def prueba(self, temporalFrame):
+        self.play()
 
     def startPlaylist(self):
         songName = f"default{self.songNumber}"
@@ -83,7 +98,7 @@ class PrincipalGui:
             # If the timer is staring or has been reset it sets to a time counter(in seconds)
             self.musicTimer = time.time()
             self.musicManager.setUpMusic(f"Code/GraphicalUserInterface/songs/{songName}.mp3")
-        if(self.musicTimer==300):
+        if(self.musicTimer==275):
             # Reset the music timer back to 0
             self.muiscTimer = 0
             # Update the song number once 300 seconds have passed

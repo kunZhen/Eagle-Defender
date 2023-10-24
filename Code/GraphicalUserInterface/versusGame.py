@@ -11,7 +11,7 @@ import hallOfFameGui
 
 
 class versusGame:
-    def __init__(self, window:tk.Tk, w:int, h:int, users:list, parentFrame):
+    def __init__(self, window:tk.Tk, w:int, h:int, users:list, parentFrame, temporalFrame):
         #----------------------------PLayer preference setup setup---------------------------#
             #Load players json here:
         self.defenderUser:User=users[0]
@@ -41,9 +41,10 @@ class versusGame:
         self.width = w
         self.height = h
         self.parentFrame=parentFrame
+        self.temporalFrame=temporalFrame
 
         self.mainframe = tk.Frame(self.window, width= self.width, height= self.height)
-        self.mainframe.place(x=0, y=0)
+        
 
         self.canvas = tk.Canvas(self.mainframe, width= self.width, height=self.height, bg="black")
         self.canvas.pack()
@@ -288,6 +289,9 @@ class versusGame:
         self.regenerateAttacks()
         self.AnimationsManager()
         self.RegenerateBlocks()
+
+        self.mainframe.place(x=0, y=0)
+        self.temporalFrame.destroy()
         #------------------------------------------------------------------------------------------#
         
     #--------------------------------Show Time-------------------------------------#
