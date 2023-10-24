@@ -318,6 +318,7 @@ class versusGame:
                     self.musicLogicControler.setUpMusic("canciones/attacker.mp3")
                     self.window.after(50, self.showTime,self.attackerTime)
                 else: 
+                    self.gameOverByTime()
                     self.timeLb.config(text=f"Fin")
                     self.playerGaming=None
         else: 
@@ -656,7 +657,7 @@ class versusGame:
         self.musicLogicControler.stopMusic()
         self.mainframe.destroy()
         self.gameOver=True
-        app= hallOfFameGui.HallOfFameGui(self.window, self.width, self.height, self.attackerUser.user, self.attackerTime-self.posiblePoints)
+        app= hallOfFameGui.HallOfFameGui(self.parentFrame,self.window, self.width, self.height, self.attackerUser.user, self.attackerTime-self.posiblePoints)
     #--------------------------------------Defender functionalities----------------------------------------------------------------#
     def DefenderRotate(self, image):
         """"""
@@ -696,7 +697,12 @@ class versusGame:
     def deleteWall(self, wall_id, index):
         self.canvas.delete(wall_id)
         self.wallList = self.wallList[0:index]+self.wallList[index+1:]
-
+    def gameOverByTime(self):
+        self.pauseFunction()
+        self.musicLogicControler.stopMusic()
+        self.mainframe.destroy()
+        self.gameOver=True
+        app= hallOfFameGui.HallOfFameGui(self.parentFrame, self.window, self.width, self.height, self.attackerUser.user, self.posiblePoints)
     def RegenerateBlocks(self):
         if not self.pause and not self.playerGaming=="defender":
         #Wood blocks regeneration
@@ -754,7 +760,7 @@ class versusGame:
             else: 
                 messagebox.showwarning  ("Eagle Defender", "Debes poner el águila")
 
-if __name__ == "__main__":
+"""if __name__ == "__main__":
     root = tk.Tk()
     screenWidth = root.winfo_screenwidth()
     screenheight = root.winfo_screenheight()
@@ -763,4 +769,4 @@ if __name__ == "__main__":
     user1=User.LoadJson("Frederick24")
     user2=User.LoadJson("Isaac90@gmail.com")
     new = versusGame(root, screenWidth, screenheight, [user2, user1], None)
-    root.mainloop()
+    root.mainloop()"""

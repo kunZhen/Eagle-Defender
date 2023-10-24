@@ -6,7 +6,31 @@
         },
         {
             "name": "Frederick24",
+            "time": 0
+        },
+        {
+            "name": "Frederick24",
             "time": 6
+        },
+        {
+            "name": "Frederick24",
+            "time": 6
+        },
+        {
+            "name": "Frederick24",
+            "time": 7
+        },
+        {
+            "name": "Frederick24",
+            "time": 8
+        },
+        {
+            "name": "Frederick24",
+            "time": 15
+        },
+        {
+            "name": "Frederick24",
+            "time": 17
         },
         {
             "name": "Frederick24",
@@ -15,30 +39,6 @@
         {
             "name": "Diego",
             "time": 50
-        },
-        {
-            "name": "Ale",
-            "time": 50
-        },
-        {
-            "name": "Frederick24",
-            "time": 77
-        },
-        {
-            "name": "Sofia",
-            "time": 110
-        },
-        {
-            "name": "Juana",
-            "time": 110
-        },
-        {
-            "name": "Maria",
-            "time": 230
-        },
-        {
-            "name": "Ana",
-            "time": 230
         }
     ]
 }
