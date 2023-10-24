@@ -5,6 +5,7 @@ from versusGame import versusGame
 from modificateDataGui import *
 import tkinter as tk
 import temporalGui
+from User import *
 
 
 class PrincipalGui:
@@ -59,7 +60,7 @@ class PrincipalGui:
         self.hallFameBtn.place(x=centerX, y=centerY + 200, anchor="center")
         self.helpBtn.place(x=centerX, y=centerY + 250, anchor="center")
 
-        self.startPlaylist()
+        #self.startPlaylist()
 
     def changeDataUser1(self):
         self.principalFrame.pack_forget()
