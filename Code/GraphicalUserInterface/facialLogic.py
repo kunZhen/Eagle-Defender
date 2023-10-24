@@ -46,7 +46,7 @@ class facialRecognogtion:
                     ssh_transfer.__exit__()
                 else:
                     cv2.imwrite("Code/GraphicalUserInterface/Faces/"+self.userName+"LOG.jpg",roi_gray)
-                break
+                cv2.destroyAllWindows()
 
     def comparation(self): 
         regFace = cv2.imread("Code/GraphicalUserInterface/Faces/"+self.userName+".jpg",0)     #Importamos el rostro del registro

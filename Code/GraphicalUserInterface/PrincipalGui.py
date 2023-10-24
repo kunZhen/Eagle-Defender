@@ -87,8 +87,8 @@ class PrincipalGui:
         user1=User.LoadJson(self.users[0])
         user2=User.LoadJson(self.users[1])
         
-        new = versusGame(root, screenWidth, screenheight, [user2, user1], self.principalFrame, self.temporalFrame.initialFrame)
-
+        new = versusGame(self.window, self.width, self.height, [user2, user1], self.principalFrame, self.temporalFrame.initialFrame)
+                
     def prueba(self, temporalFrame):
         self.play()
 
