@@ -763,7 +763,7 @@ class versusGame:
             else: 
                 messagebox.showwarning  ("Eagle Defender", "Debes poner el águila")
 
-"""if __name__ == "__main__":
+""""if __name__ == "__main__":
     root = tk.Tk()
     screenWidth = root.winfo_screenwidth()
     screenheight = root.winfo_screenheight()
