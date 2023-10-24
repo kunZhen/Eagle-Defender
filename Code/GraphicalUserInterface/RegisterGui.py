@@ -152,7 +152,7 @@ class registerGui:
         # ________________________________________________________________________________________________________ #
 
         # ____________________________________Photo and biometric information_____________________________________ #
-        self.photoCanvas = Canvas(self.InformationFrame, width=400, height=400)
+        """self.photoCanvas = Canvas(self.InformationFrame, width=400, height=400)
         self.photoCanvas.config(bg=self.colorPalette[1])
         self.photoCanvas.place(x=330, y=400, anchor="center")
 
@@ -171,7 +171,7 @@ class registerGui:
         self.biometricalBtn = Button(self.InformationFrame, text="Datos biómetricos", font=(font, 15),
                                      command=self.savePhotoInformation)
         self.biometricalBtn.config(bg=self.colorPalette[4])
-        self.biometricalBtn.place(x=330, y=650, anchor="center")
+        self.biometricalBtn.place(x=330, y=650, anchor="center")"""
         # ________________________________________________________________________________________________________ #
 
     def nextPage(self):

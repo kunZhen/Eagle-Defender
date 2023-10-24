@@ -291,7 +291,7 @@ class versusGame:
         self.RegenerateBlocks()
 
         self.mainframe.place(x=0, y=0)
-        self.temporalFrame.destroy()
+        self.temporalFrame.pack_forget()
         #------------------------------------------------------------------------------------------#
         
     #--------------------------------Show Time-------------------------------------#
