@@ -13,7 +13,7 @@ class HallOfFameGui:
         self.name = username
         self.time = time  
         self.parentFrame:Frame=parentFrame
-        self.publishPlayers = " --------------------- SALÓN DE LA FAMA --------------------- \n"
+        self.publishPlayers = "--- SALÓN DE LA FAMA --- \n"
         self.players = []
         self.apiX_Twitter = ApiX_Twitter()
         self.jsonManager = JsonManager()
@@ -87,7 +87,7 @@ class HallOfFameGui:
             self.players.append(value)
             print(f"self.players: {self.players}")
             print(f"value: {value}")
-            sortedPlayers = sorted(self.players, key=lambda k: k['time'])
+            sortedPlayers = sorted(self.players, key=lambda k: k['time'], reverse=True)
             
             if len (sortedPlayers) > 10:
                 bestPlayers = sortedPlayers[:10]
