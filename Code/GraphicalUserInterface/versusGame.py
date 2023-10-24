@@ -664,7 +664,8 @@ class versusGame:
         self.musicLogicControler.stopMusic()
         self.mainframe.destroy()
         self.gameOver=True
-        app= hallOfFameGui.HallOfFameGui(self.parentFrame,self.window, self.width, self.height, self.attackerUser.user, self.attackerTime-self.posiblePoints)
+        print(self.attackerTime-self.posiblePoints)
+        app= hallOfFameGui.HallOfFameGui(self.parentFrame,self.window, self.width, self.height, self.attackerUser.user, self.posiblePoints)
     #--------------------------------------Defender functionalities----------------------------------------------------------------#
     def DefenderRotate(self, image):
         """"""
@@ -709,7 +710,7 @@ class versusGame:
         self.musicLogicControler.stopMusic()
         self.mainframe.destroy()
         self.gameOver=True
-        app= hallOfFameGui.HallOfFameGui(self.parentFrame, self.window, self.width, self.height, self.attackerUser.user, self.posiblePoints)
+        app= hallOfFameGui.HallOfFameGui(self.parentFrame, self.window, self.width, self.height, self.attackerUser.user, self.attackerTime-self.posiblePoints)
     def RegenerateBlocks(self):
         if not self.pause and not self.playerGaming=="defender":
         #Wood blocks regeneration
