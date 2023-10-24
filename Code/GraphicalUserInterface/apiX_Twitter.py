@@ -18,6 +18,8 @@ class ApiX_Twitter:
     def publishTweet(self, publishText):
         if publishText is not None:
             try:
+                if len (publishText)>280: 
+                    publishText=publishText[:280]
                 self.client.create_tweet(text=publishText)
             except:
                 print("Error al publicar el tweet")
