@@ -462,16 +462,19 @@ class versusGame:
                 self.Place(1, self.defenderAngle, self.defenderPos[0], self.defenderPos[1])
                 self.woodBlocksAmount-=1
                 self.canvas.itemconfig(self.mats1, text=f"{self.woodBlocksAmount}")
+                self.musicLogicControler.playSFX("pop")#Plays the sound effect
 
             if '9' in self.pressedkeys and self.stoneBlocksAmount>0:
                 self.Place(2, self.defenderAngle, self.defenderPos[0], self.defenderPos[1])
                 self.stoneBlocksAmount-=1
                 self.canvas.itemconfig(self.mats2, text=f"{self.stoneBlocksAmount}")
+                self.musicLogicControler.playSFX("pop")#Plays the sound effect
 
             if '0' in self.pressedkeys and self.metalBlocksAmount>0:
                 self.Place(3, self.defenderAngle, self.defenderPos[0], self.defenderPos[1])
                 self.metalBlocksAmount-=1
                 self.canvas.itemconfig(self.mats3, text=f"{self.metalBlocksAmount}")
+                self.musicLogicControler.playSFX("pop")#Plays the sound effect
             #----------Defener controls----------#
 
     #------------------------------------------Attacker functionalities-------------------------------------------------------#
