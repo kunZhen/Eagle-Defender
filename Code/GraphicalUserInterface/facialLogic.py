@@ -21,7 +21,8 @@ class facialRecognogtion:
         
         cap = cv2.VideoCapture(0)
         face_cascade = cv2.CascadeClassifier(os.path.abspath("Code/haarcascade_frontalface_default.xml"))
-        while True:
+        flag=True
+        while flag:
             ret, frame= cap.read()
 
             gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
@@ -47,6 +48,7 @@ class facialRecognogtion:
                 else:
                     cv2.imwrite("Code/GraphicalUserInterface/Faces/"+self.userName+"LOG.jpg",roi_gray)
                 cv2.destroyAllWindows()
+                flag=False
 
     def comparation(self): 
         regFace = cv2.imread("Code/GraphicalUserInterface/Faces/"+self.userName+".jpg",0)     #Importamos el rostro del registro

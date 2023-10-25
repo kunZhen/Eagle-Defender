@@ -676,7 +676,7 @@ class versusGame:
         """"""
         self.defenderPhotoImage = self.DefenderRotate(self.defenderOpenImage)
         self.canvas.itemconfig(self.defender, image=self.defenderPhotoImage)
-    
+
     def Place(self, type:int, angle, X, Y):
         if self.placingEagle==True:
             health = 30
@@ -710,7 +710,7 @@ class versusGame:
         self.musicLogicControler.stopMusic()
         self.mainframe.destroy()
         self.gameOver=True
-        app= hallOfFameGui.HallOfFameGui(self.parentFrame, self.window, self.width, self.height, self.attackerUser.user, self.attackerTime-self.posiblePoints)
+        app= hallOfFameGui.HallOfFameGui(self.parentFrame, self.window, self.width, self.height, self.defenderUser.user, self.attackerTime-self.posiblePoints)
     def RegenerateBlocks(self):
         if not self.pause and not self.playerGaming=="defender":
         #Wood blocks regeneration

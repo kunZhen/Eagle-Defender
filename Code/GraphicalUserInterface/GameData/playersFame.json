@@ -2,6 +2,18 @@
     "results": [
         {
             "name": "Frederick24",
+            "time": 237
+        },
+        {
+            "name": "Josue",
+            "time": 220
+        },
+        {
+            "name": "Josue",
+            "time": 111
+        },
+        {
+            "name": "Frederick24",
             "time": 25
         },
         {
@@ -27,18 +39,6 @@
         {
             "name": "Isaac90@gmail.com",
             "time": 7
-        },
-        {
-            "name": "Frederick24",
-            "time": 6
-        },
-        {
-            "name": "Frederick24",
-            "time": 6
-        },
-        {
-            "name": "Isaac90@gmail.com",
-            "time": 6
         }
     ]
 }
