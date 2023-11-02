@@ -10,6 +10,8 @@ from facialLogic import *
 from User import User
 from passRetrieve import *
 
+from musicLogic import musicLogic
+
 
 class LoginGui:
     def __init__(self, window, width, height, user: User, parentFrame):
@@ -76,6 +78,13 @@ class LoginGui:
             self.loginFrame.pack_forget()
             self.parentFrame.pack()
         else:
+            musicController = musicLogic()
+            songsList = self.user.music
+            counter = 1
+            for song in songsList:
+                url = song[1]
+                musicController.downloadSongs(url, f"{self.user.user}{counter}")
+                counter+=1
             principal = PrincipalGui(self.window, self.width, self.height, [self.userOne, self.userTwo])
 
     def nextPass(self):
@@ -87,64 +96,72 @@ class LoginGui:
         elif self.userTxt.get() == self.user.password == self.user.password:
             self.allow.set("False")
             self.loginFrame.pack_forget()
+            musicController = musicLogic()
+            songsList = self.user.music
+            counter = 1
+            for song in songsList:
+                url = song[1]
+                musicController.downloadSongs(url, f"{self.user.user}{counter}")
+                counter+=1
             principal = PrincipalGui(self.window, self.width, self.height, [self.userOne, self.userTwo])
 
     def Validate(self):
         self.loginFrame.pack_forget()
         recover = PassRetrieve(self.window, self.width, self.height, self.user.user, self.loginFrame)
+
     def showImage(self):
-            inicialTime = time.time()
-            frequence = 10
-            cap = cv2.VideoCapture(0)
+        inicialTime = time.time()
+        frequence = 10
+        cap = cv2.VideoCapture(0)
 
-            face_cascade = cv2.CascadeClassifier(os.path.abspath('Code/haarcascade_frontalface_default.xml'))
-            print(self.allow.get())
-            while self.allow.get() == "True":
-                currentTime = time.time()
-                transcurredTime = -inicialTime + currentTime
+        face_cascade = cv2.CascadeClassifier(os.path.abspath('Code/haarcascade_frontalface_default.xml'))
+        print(self.allow.get())
+        while self.allow.get() == "True":
+            currentTime = time.time()
+            transcurredTime = -inicialTime + currentTime
 
-                ret, frame = cap.read()
+            ret, frame = cap.read()
 
-                gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-                faces = face_cascade.detectMultiScale(gray, 1.3, 5)
+            gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+            faces = face_cascade.detectMultiScale(gray, 1.3, 5)
 
-                for (x, y, w, h) in faces:
-                    cv2.rectangle(frame, (x, y), (x + w, y + h), (255, 0, 0, 5))
-                    roi_gray = gray[y:y + w, x:x + w]
+            for (x, y, w, h) in faces:
+                cv2.rectangle(frame, (x, y), (x + w, y + h), (255, 0, 0, 5))
+                roi_gray = gray[y:y + w, x:x + w]
 
-                if len(faces) != 0:
-                    cv2.imwrite("Code/GraphicalUserInterface/Faces/" + self.user.user + "LOG.jpg", roi_gray)
-                    controler = facialRecognogtion(self.user.user)
-                    flag = controler.comparation()
-                    if flag and transcurredTime < frequence:
-                        self.faceLb.config(text="Se reconoció su rostro")
-                        self.loginFrame.pack_forget()
-                        self.next()
-                        break
+            if len(faces) != 0:
+                cv2.imwrite("Code/GraphicalUserInterface/Faces/" + self.user.user + "LOG.jpg", roi_gray)
+                controler = facialRecognogtion(self.user.user)
+                flag = controler.comparation()
+                if flag and transcurredTime < frequence:
+                    self.faceLb.config(text="Se reconoció su rostro")
+                    self.loginFrame.pack_forget()
+                    self.next()
+                    break
 
-                # Crear una máscara circular
-                mask = Image.new("L", (frame.shape[1], frame.shape[0]), 0)
-                draw = ImageDraw.Draw(mask)
-                radius = min(mask.width, mask.height) // 2
-                center = (mask.width // 2, mask.height // 2)
-                draw.ellipse((center[0] - radius, center[1] - radius, center[0] + radius, center[1] + radius), fill=255)
+            # Crear una máscara circular
+            mask = Image.new("L", (frame.shape[1], frame.shape[0]), 0)
+            draw = ImageDraw.Draw(mask)
+            radius = min(mask.width, mask.height) // 2
+            center = (mask.width // 2, mask.height // 2)
+            draw.ellipse((center[0] - radius, center[1] - radius, center[0] + radius, center[1] + radius), fill=255)
 
-                # Aplicar la máscara a la imagen
-                frame_pil = Image.fromarray(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
-                frame_pil.putalpha(mask)
+            # Aplicar la máscara a la imagen
+            frame_pil = Image.fromarray(cv2.cvtColor(frame, cv2.COLOR_BGR2RGB))
+            frame_pil.putalpha(mask)
 
-                # Convierte Image de PIL a PhotoImage de tkinter
-                frame_tk = ImageTk.PhotoImage(image=frame_pil)
+            # Convierte Image de PIL a PhotoImage de tkinter
+            frame_tk = ImageTk.PhotoImage(image=frame_pil)
 
-                colorPallete=["#8B0000", "#630000", "#1C1C1C", "#000000", "#FFFFFF"]
-                self.photoCanvas.configure(bg=colorPallete[0], highlightbackground=colorPallete[0])
+            colorPallete=["#8B0000", "#630000", "#1C1C1C", "#000000", "#FFFFFF"]
+            self.photoCanvas.configure(bg=colorPallete[0], highlightbackground=colorPallete[0])
 
-                # Mostrar la imagen en el Canvas
-                self.photoCanvas.create_image(0, 0, anchor="nw", image=frame_tk)
-                self.window.update()
-                self.faceLb.config(text="Analizando...")
+            # Mostrar la imagen en el Canvas
+            self.photoCanvas.create_image(0, 0, anchor="nw", image=frame_tk)
+            self.window.update()
+            self.faceLb.config(text="Analizando...")
 
-                if transcurredTime >= frequence:
-                    self.faceLb.config(text="No se reconoció su rostro")
-                    self.recoverBtn.config(state="normal")
-                    self.passwordBtn.config(state="normal")
+            if transcurredTime >= frequence:
+                self.faceLb.config(text="No se reconoció su rostro")
+                self.recoverBtn.config(state="normal")
+                self.passwordBtn.config(state="normal")
