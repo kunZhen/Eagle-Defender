@@ -2,22 +2,44 @@ import pygame
 from pytube import YouTube
 import youtube_dl 
 from moviepy.editor import AudioFileClip
+import spotipy
+from spotipy.oauth2 import SpotifyClientCredentials
+import librosa
+
+import time
+import threading
 
 class musicLogic:
     def __init__(self): 
-        
+        """Creates an instance of a musicLogic controller"""
         self.nameSongListForUser=[]
         self.urlSongList=[]
         self.fileName=""
 
-    def searchYoutubeSongs(self, query):
+        # >>> Spotify module initiation <<<
+        self.credentials = SpotifyClientCredentials(client_id="455c4c1a988c4de28aec7afbe6b25798", client_secret="1e2791559d1d4adea1e13f67328958d8")
+        self.spotify = spotipy.Spotify(client_credentials_manager=self.credentials)
+
+    def searchSong(self, query):
+        """
+        This method looks for a song both in Spotify and the on Youtube
+
+        Parameters
+            - query(str): name of the song requested
+        """
+        # >>> Look for the song on Spotify and set a name <<<
+        results = self.spotify.search(q=f"track:{query}", type='track') #-> Looks for a spotify track similar to the request
+        track = results['tracks']['items'][0]
+        songname = track['name']
+
+        # >>> Look for the songname found from Spotify on Youtube <<<
         ydl_opts = {
         'quiet': True,        # Evita que youtube-dl imprima mensajes en la consola
         'extract_flat': True,  # Extrae solo la información básica del video
         }
 
         with youtube_dl.YoutubeDL(ydl_opts) as ydl:
-            search_results = ydl.extract_info(f"ytsearch3:{query}", download=False)
+            search_results = ydl.extract_info(f"ytsearch3:{songname}", download=False)
 
         self.nameSongListForUser = []  # Lista de nombres de canciones para el usuario
         self.urlSongList = []          # Lista de URL de videos
@@ -37,23 +59,44 @@ class musicLogic:
 
                 seen_videos.add(video_url)  # Agrega el URL al conjunto para evitar duplicados
 
-
-
     def getName(self,videoUrl):
         yt = YouTube(videoUrl)
         audioStream = yt.streams.filter(only_audio=True).first()
         return audioStream.default_filename
+    
+    def downloadSongs(self, url:str, username:str):
+        """
+        Downloads a youtube song from a given URL and names it after an username
 
+        Parameters:
+            -url(str): link to youtube video
+            -username(str): name of the user that will user to name the file
+        """
+        thread = threading.Thread(target=self.aux_download(url, username), daemon=True)
+        thread.start()
+
+    def aux_download(self, url:str, username:str):
+        yt = YouTube(url)
+        audioStream = yt.streams.filter(only_audio=True).first()
+
+        # Limpia el título para que sea válido como nombre de archivo
+        outputFolder = "Code/GraphicalUserInterface/songs"
+
+        # Crea la carpeta "canciones" si no existe
+        audioStream.download(outputFolder, filename=username)
+        self.setUpVideoMusic(f'{outputFolder}/{username}')
+    
     def downloadYoutubeAudio(self,videoUrl):
         yt = YouTube(videoUrl)
         audioStream = yt.streams.filter(only_audio=True).first()
 
-        # Limpia el título para que sea válido como nombre de archi
+        # Limpia el título para que sea válido como nombre de archivo
         outputFolder = "Code/GraphicalUserInterface/songs"
     
 
         # Crea la carpeta "canciones" si no existe
         audioStream.download(outputFolder, filename=self.fileName)
+
     def duration(self, video_url):
         try:
             yt = YouTube(video_url)

@@ -230,7 +230,7 @@ class registerGui:
     def searchSongs(self):
         self.saveBtn.config(text="Cargando...")
         self.saveBtn.update()
-        self.controler.searchYoutubeSongs(self.nameSongEntry.get())
+        self.controler.searchSong(self.nameSongEntry.get())
         self.songOptions['values'] = self.controler.nameSongListForUser
         self.saveBtn.config(text="Guardar")
         self.saveBtn.config(state="normal")
