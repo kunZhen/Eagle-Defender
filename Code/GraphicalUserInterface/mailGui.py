@@ -29,7 +29,7 @@ class mailGui:
         self.mailFrame.pack()
         self.userAmount = userAmount
 
-        self.loginLb = Label(self.mailFrame, text="Ingrese su usuario/correo" + f" (Usuario {self.userAmount})",
+        self.loginLb = Label(self.mailFrame, text="Ingrese su usuario/correo" + f" (Usuario Atacante)",
                              font=(font, 35))
         self.loginLb.config(bg=colorPalette[0], fg=colorPalette[3])
         self.loginLb.place(x=centerX, y=75, anchor="center")
@@ -65,8 +65,7 @@ class mailGui:
                     self.userOneName = user.user
                     self.userAmount = 2
                     self.userTxt.delete(0, "end")
-
-                    self.loginLb.config(text="Ingrese su usuario/correo" + f" (Usuario {self.userAmount})")
+                    self.loginLb.config(text="Ingrese su usuario/correo" + f" (Usuario Defensor)")
                 else:
                     self.userTwoName = user.user
                     app.userTwo = self.userTwoName

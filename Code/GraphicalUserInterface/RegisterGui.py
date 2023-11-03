@@ -111,7 +111,7 @@ class registerGui:
         self.nameSongEntry = Entry(self.InformationFrame, width=18, font=(font, 15))
         self.nameSongEntry.place(x=centerX - 30, y=250 + 440, anchor="center")
 
-        self.searchBtn = Button(self.InformationFrame, text="Search", font=(font, 10), command=self.searchSongs)
+        self.searchBtn = Button(self.InformationFrame, text="Buscar", font=(font, 10), command=self.searchSongs)
         self.searchBtn.config(bg=self.colorPalette[2], fg=self.colorPalette[4])
         self.searchBtn.place(x=centerX + 118, y=250 + 440, anchor="center")
 
@@ -148,7 +148,7 @@ class registerGui:
 
         self.nextBtn = Button(self.InformationFrame, text="Siguiente", font=(font, 15), command=self.nextPage)
         self.nextBtn.config(bg=self.colorPalette[2], fg=self.colorPalette[4])
-        self.nextBtn.place(x=2 * centerX - 100, y=650, anchor="nw")
+        self.nextBtn.place(x=1.80*centerX , y=650, anchor="nw")
         # ________________________________________________________________________________________________________ #
 
         # ____________________________________Photo and biometric information_____________________________________ #

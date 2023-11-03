@@ -7,8 +7,8 @@ from InitialGui import InitialGui
 if __name__ == '__main__':
     root = Tk()
     # take the dimensions of the computer screen
-    widthScreen = root.winfo_screenwidth() - 25
-    heightScreen = root.winfo_screenheight() - 25
+    widthScreen = root.winfo_screenwidth() - 70
+    heightScreen = root.winfo_screenheight() - 70
 
     # set game screen size
     root.geometry(f"{widthScreen}x{heightScreen}")

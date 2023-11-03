@@ -46,7 +46,7 @@ class LoginGui:
 
         self.photoCanvas = Canvas(self.loginFrame, width=600, height=600)
         self.photoCanvas.config(bg=colorPalette[1])
-        self.photoCanvas.place(x=150 + centerX, y=130, anchor="nw")
+        self.photoCanvas.place(x=centerX*1.15, y=130, anchor="nw")
 
         self.userLb = Label(self.loginFrame,
                             text="Hola jugador " + self.user.user + ", por favor ingrese su contraseña:", width=60,
@@ -70,7 +70,7 @@ class LoginGui:
 
         self.faceLb = Label(self.loginFrame, text="No se detectó su rostro", width=40, font=(font, 16))
         self.faceLb.config(bg=colorPalette[1], fg=colorPalette[4])
-        self.faceLb.place(x=centerX + 720, y=640, anchor="e")
+        self.faceLb.place(x=centerX*1.75 , y=640, anchor="e")
 
     def next(self):
         self.loginFrame.destroy()
@@ -97,11 +97,10 @@ class LoginGui:
 
     def showImage(self):
         inicialTime = time.time()
-        frequence = 10
+        frequence = 15
         cap = cv2.VideoCapture(0)
 
         face_cascade = cv2.CascadeClassifier(os.path.abspath('Code/haarcascade_frontalface_default.xml'))
-        print(self.allow.get())
         while self.allow.get() == "True":
             currentTime = time.time()
             transcurredTime = -inicialTime + currentTime
@@ -119,7 +118,7 @@ class LoginGui:
                 cv2.imwrite("Code/GraphicalUserInterface/Faces/" + self.user.user + "LOG.jpg", roi_gray)
                 controler = facialRecognogtion(self.user.user)
                 flag = controler.comparation()
-                if flag and transcurredTime < frequence:
+                if flag and transcurredTime < frequence and transcurredTime>5:
                     self.faceLb.config(text="Se reconoció su rostro")
                     self.loginFrame.pack_forget()
                     self.next()
@@ -146,7 +145,6 @@ class LoginGui:
             self.photoCanvas.create_image(0, 0, anchor="nw", image=frame_tk)
             self.window.update()
             self.faceLb.config(text="Analizando...")
-
             if transcurredTime >= frequence:
                 self.faceLb.config(text="No se reconoció su rostro")
                 self.recoverBtn.config(state="normal")

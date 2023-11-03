@@ -1,0 +1,34 @@
+{
+    "User": "kzheng",
+    "Password": "kzheng@estudiantec.crK1",
+    "Mail": "kzheng@estudiantec.cr",
+    "Favorite Color": [
+        "#ecff14",
+        "#c4d410",
+        "#9daa0d",
+        "#000000",
+        "#ffffff"
+    ],
+    "Favorite Music": [
+        [
+            [
+                "La Oreja de Van Gogh - Rosas (V\u00eddeo Oficial)"
+            ],
+            [
+                "https://www.youtube.com/watch?v=nYnLVWXmRm8"
+            ]
+        ]
+    ],
+    "Answers": [
+        "huevo",
+        "Santaa Luc\u00eda",
+        "Irvin",
+        "Luna",
+        "Ing. Computaci\u00f3n"
+    ],
+    "Avatar": 1,
+    "Animation": "S",
+    "Textures": 1,
+    "Profile": " ",
+    "Facial Recognition": ""
+}

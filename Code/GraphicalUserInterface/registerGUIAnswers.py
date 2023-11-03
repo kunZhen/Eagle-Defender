@@ -68,9 +68,9 @@ class registerGUIAnswers:
         self.questionFiveEntry = Entry(self.AnswersFrame, width=25, font=(font, 15))
         self.questionFiveEntry.place(x=centerX, y=620, anchor="center")
 
-        self.nextBtn = Button(self.AnswersFrame, text="next", font=(font, 15), command=self.nextPage)
+        self.nextBtn = Button(self.AnswersFrame, text="Siguiente", font=(font, 15), command=self.nextPage)
         self.nextBtn.config(bg=colorPalette[2], fg=colorPalette[4])
-        self.nextBtn.place(x=2 * centerX - 100, y=670, anchor="nw")
+        self.nextBtn.place(x=1.8 * centerX , y=670, anchor="nw")
 
     def nextPage(self):
         print(self.user)
