@@ -78,13 +78,6 @@ class LoginGui:
             self.loginFrame.pack_forget()
             self.parentFrame.pack()
         else:
-            musicController = musicLogic()
-            songsList = self.user.music
-            counter = 1
-            for song in songsList:
-                url = song[1]
-                musicController.downloadSongs(url, f"{self.user.user}{counter}")
-                counter+=1
             principal = PrincipalGui(self.window, self.width, self.height, [self.userOne, self.userTwo])
 
     def nextPass(self):
@@ -96,13 +89,6 @@ class LoginGui:
         elif self.userTxt.get() == self.user.password == self.user.password:
             self.allow.set("False")
             self.loginFrame.pack_forget()
-            musicController = musicLogic()
-            songsList = self.user.music
-            counter = 1
-            for song in songsList:
-                url = song[1]
-                musicController.downloadSongs(url, f"{self.user.user}{counter}")
-                counter+=1
             principal = PrincipalGui(self.window, self.width, self.height, [self.userOne, self.userTwo])
 
     def Validate(self):

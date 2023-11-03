@@ -1,0 +1,34 @@
+{
+    "User": "carlitos",
+    "Password": "carlitOs25@gmail.com",
+    "Mail": "carlitOs25@gmail.com",
+    "Favorite Color": [
+        "#33b98c",
+        "#2a9a74",
+        "#227b5d",
+        "#000000",
+        "#ffffff"
+    ],
+    "Favorite Music": [
+        [
+            [
+                "REGGAETON CHAMPAGNE - Bellakath ft Dani Flow (Video Oficial)"
+            ],
+            [
+                "https://www.youtube.com/watch?v=h6qbOjac8qo"
+            ]
+        ]
+    ],
+    "Answers": [
+        "arroz",
+        "francia",
+        "A",
+        "A",
+        "C"
+    ],
+    "Avatar": 1,
+    "Animation": "S",
+    "Textures": 1,
+    "Profile": " ",
+    "Facial Recognition": ""
+}

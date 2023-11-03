@@ -20,9 +20,6 @@ class musicLogic:
         self.credentials = SpotifyClientCredentials(client_id="455c4c1a988c4de28aec7afbe6b25798", client_secret="1e2791559d1d4adea1e13f67328958d8")
         self.spotify = spotipy.Spotify(client_credentials_manager=self.credentials)
 
-    def removeSongs(self, filename):
-        pass
-
     def searchSong(self, query):
         """
         This method looks for a song both in Spotify and the on Youtube
@@ -75,7 +72,7 @@ class musicLogic:
             -url(str): link to youtube video
             -username(str): name of the user that will user to name the file
         """
-        thread = threading.Thread(target=self.aux_download(url, username))
+        thread = threading.Thread(target=self.aux_download(url, username), daemon=True)
         thread.start()
 
     def aux_download(self, url:str, username:str):
@@ -87,6 +84,7 @@ class musicLogic:
 
         # Crea la carpeta "canciones" si no existe
         audioStream.download(outputFolder, filename=username)
+        self.setUpVideoMusic(f'{outputFolder}/{username}')
     
     def downloadYoutubeAudio(self,videoUrl):
         yt = YouTube(videoUrl)
