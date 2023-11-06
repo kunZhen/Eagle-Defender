@@ -33,8 +33,8 @@ class RegisterGuiPhoto:
         self.profileCanvas = Canvas(self.registerFrame, width=400, height=400)
         self.profileCanvas.config(bg=colorPalette[1])
 
-        # self.imagen = PhotoImage(file=os.path.abspath("Code/GraphicalUserInterface/Profile/perfil.png"))
-        # self.profileCanvas.create_image(0, 0, anchor="nw", image=self.imagen)
+        self.imagen = PhotoImage(file=os.path.abspath("Code/GraphicalUserInterface/Profile/perfil.png"))
+        self.profileCanvas.create_image(0, 0, anchor="nw", image=self.imagen)
 
         self.editBtn = Button(self.profileCanvas, text="✎", font=(font, 15), command=self.chooseAPhoto)
         self.editBtn.config(bg=colorPalette[2], fg=colorPalette[4])

@@ -94,9 +94,11 @@ class modificateDataGui:
 
         # --------------------------------------------Profile Information-------------------------------------------- #
         self.profileCanvas = Canvas(self.dataFrame, width=400, height=400, bg=self.user.color[1])
-        self.editBtn = Button(self.profileCanvas, text="✎", font=(self.font, 15), state="disabled")
+        self.editBtn = Button(self.profileCanvas, text="✎", font=(self.font, 15), state="disabled",
+                              command=self.chooseAPhoto)
         self.editBtn.config(bg=colorPalette[1], fg=colorPalette[2])
-        self.addBtn = Button(self.profileCanvas, text="📷", font=(self.font, 15), state="disabled")
+        self.addBtn = Button(self.profileCanvas, text="📷", font=(self.font, 15), state="disabled" ,
+                             command=self.takeAPhoto)
         self.addBtn.config(bg=colorPalette[1], fg=colorPalette[2])
 
         self.profileCanvas.place(x=secX1, y=400, anchor="n")
@@ -132,16 +134,17 @@ class modificateDataGui:
 
         self.songOptions = ttk.Combobox(self.dataFrame, textvariable=self.choosenSong, height=40, width=40, values=[])
         self.songTxt = Entry(self.dataFrame, width=18, font=(self.font, 15), state="disabled")
-        self.searchBtn = Button(self.dataFrame, text="🔍", font=(self.font, 15), state="disabled")
+        self.searchBtn = Button(self.dataFrame, text="🔍", font=(self.font, 15), state="disabled", command=self.searchSongs)
         self.searchBtn.config(bg=colorPalette[1], fg=colorPalette[2])
-        self.saveBtn = Button(self.dataFrame, text="Esperando...", font=(self.font, 10), state="disabled")
+        self.saveBtn = Button(self.dataFrame, text="Esperando...", font=(self.font, 10), state="disabled", command=self.saveSong)
         self.saveBtn.config(bg=colorPalette[1], fg=colorPalette[2])
 
         self.songLabel.place(x=secX2, y=490, anchor="center")
-        self.songOptions.place(x=secX2 - 30, y=530, anchor="center")
-        self.searchBtn.place(x=secX2 + 175, y=530, anchor="center")
-        self.songListLb.place(x=secX2, y=570, anchor="center")
-        self.saveBtn.place(x=secX2, y=610, anchor="center")
+        self.songTxt.place(x=secX2 - 30, y=530, anchor="center")
+        self.searchBtn.place(x=secX2 + 125, y=530, anchor="center")
+        self.songOptions.place(x=secX2 - 30, y=570, anchor="center")
+        self.songListLb.place(x=secX2, y=610, anchor="center")
+        self.saveBtn.place(x=secX2, y=650, anchor="center")
 
         self.showSong()
         # ----------------------------------------------------------------------------------------------------------- #
