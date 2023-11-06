@@ -23,48 +23,39 @@ class RegisterGuiPhoto:
 
         colorPalette = ["#8B0000", "#630000", "#1C1C1C", "#000000", "#FFFFFF"]
 
-        # Esta es el frame de esta sección
         self.registerFrame = Frame(window, width=self.width, height=self.height, bg=colorPalette[0])
         self.registerFrame.pack()
 
-        # Etiqueta
+        self.titleLb = Label(self.registerFrame, text=" Registro de usuario: \n Información de imagen ")
+        self.titleLb.config(bg=colorPalette[0], fg=colorPalette[3], font=(font, 35))
+        self.titleLb.place(x=centerX, y=25, anchor="n")
 
-        self.registerLb = Label(self.registerFrame, text="Registro de usuario", font=(font, 35))
-        self.registerLb.config(bg=colorPalette[0], fg=colorPalette[3])
-        self.registerLb.place(x=centerX, y=50, anchor="center")
+        self.profileCanvas = Canvas(self.registerFrame, width=400, height=400)
+        self.profileCanvas.config(bg=colorPalette[1])
 
-        self.registerLb = Label(self.registerFrame,
-                                text="                Está sección es para guardar su información de imagen               ",
-                                font=(font, 20))
-        self.registerLb.config(bg=colorPalette[1], fg=colorPalette[4])
-        self.registerLb.place(x=centerX, y=125, anchor="center")
+        # self.imagen = PhotoImage(file=os.path.abspath("Code/GraphicalUserInterface/Profile/perfil.png"))
+        # self.profileCanvas.create_image(0, 0, anchor="nw", image=self.imagen)
 
-        self.photoCanvas = Canvas(self.registerFrame, width=400, height=400)
-        self.photoCanvas.config(bg=colorPalette[1])
-        self.photoCanvas.place(x=centerX - 200, y=230, anchor="nw")
+        self.editBtn = Button(self.profileCanvas, text="✎", font=(font, 15), command=self.chooseAPhoto)
+        self.editBtn.config(bg=colorPalette[2], fg=colorPalette[4])
 
-        self.imagen = PhotoImage(file=os.path.abspath("Code/GraphicalUserInterface/Profile/perfil.png"))
+        self.addBtn = Button(self.profileCanvas, text="📷", font=(font, 15), command=self.takeAPhoto)
+        self.addBtn.config(bg=colorPalette[2], fg=colorPalette[4])
 
-        self.photoCanvas.create_image(0, 0, anchor="nw", image=self.imagen)
+        self.bioBtn = Button(self.registerFrame, text="Datos biómetricos", width=30, font=(font, 15),
+                             command=self.savePhotoInformation)
+        self.bioBtn.config(bg=colorPalette[2], fg=colorPalette[4])
 
-        self.choosePhotoBtn = Button(self.registerFrame, text="Foto de perfil", width=25, font=(font, 15),
-                                     command=self.chooseAPhoto)
-        self.choosePhotoBtn.config(bg=colorPalette[2], fg=colorPalette[4])
-        self.choosePhotoBtn.place(x=centerX - 460, y=650, anchor="nw")
-
-        self.profileBtn = Button(self.registerFrame, text="Tómate una foto", width=25, font=(font, 15),
-                                 command=self.takeAPhoto)
-        self.profileBtn.config(bg=colorPalette[2], fg=colorPalette[4])
-        self.profileBtn.place(x=centerX - 145, y=650, anchor="nw")
-
-        self.biometricalBtn = Button(self.registerFrame, text="Datos biómetricos", width=25, font=(font, 15),
-                                     command=self.savePhotoInformation)
-        self.biometricalBtn.config(bg=colorPalette[2], fg=colorPalette[4])
-        self.biometricalBtn.place(x=centerX + 170, y=650, anchor="nw")
-
-        self.nextBtn = Button(self.registerFrame, text="Terminar", width=30, font=(font, 15), command=self.comeBack)
+        self.nextBtn = Button(self.registerFrame, text="Finalizar", width=30, font=(font, 15), command=self.comeBack)
         self.nextBtn.config(bg=colorPalette[2], fg=colorPalette[4])
-        self.nextBtn.place(x=centerX - 170, y=750, anchor="nw")
+
+        self.profileCanvas.place(x=centerX, y=400, anchor="center")
+        self.editBtn.place(x=400, y=400, anchor="se")
+        self.addBtn.place(x=340, y=400, anchor="se")
+        self.bioBtn.place(x=centerX, y=650, anchor="center")
+        self.nextBtn.place(x=centerX, y=750, anchor="center")
+
+    # ------------------------------------------------------------------------------------------------------------------- #
 
     def takeAPhoto(self):
         faceInformation = facialRecognogtion(self.user.user)
@@ -80,20 +71,20 @@ class RegisterGuiPhoto:
         faceInformation = facialRecognogtion(self.user.user)
         faceInformation.savePhoto(imagePath)
 
-        self.photoCanvas.delete("all")
+        self.profileCanvas.delete("all")
 
         # Cargar la nueva imagen
         newImage = PhotoImage(file=imagePath)
 
         # Obtener el tamaño del Canvas
-        canvasWidth = self.photoCanvas.winfo_width()
-        canvasHeight = self.photoCanvas.winfo_height()
+        canvasWidth = self.profileCanvas.winfo_width()
+        canvasHeight = self.profileCanvas.winfo_height()
 
         # Redimensionar la imagen al tamaño del Canvas
         resizedImage = newImage.subsample(newImage.width() // canvasWidth, newImage.height() // canvasHeight)
 
         # Mostrar la nueva imagen en el Canvas
-        self.photoCanvas.create_image(0, 0, anchor="nw", image=resizedImage)
+        self.profileCanvas.create_image(0, 0, anchor="nw", image=resizedImage)
 
         # Asigna la nueva imagen redimensionada a la variable de instancia
         self.imagen = resizedImage

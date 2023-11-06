@@ -5,11 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5058e1ca-bd3f-4ff3-9fc5-b16ad3f2963b" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_10_14_23,_5_05_AM_[Changes]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_10_14_23__5_05_AM__Changes_.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Code/GraphicalUserInterface/GeneratePalette.py" beforeDir="false" afterPath="$PROJECT_DIR$/Code/GraphicalUserInterface/GeneratePalette.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Code/GraphicalUserInterface/modificateDataGui.py" beforeDir="false" afterPath="$PROJECT_DIR$/Code/GraphicalUserInterface/modificateDataGui.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Code/GraphicalUserInterface/registerGUIPhoto.py" beforeDir="false" afterPath="$PROJECT_DIR$/Code/GraphicalUserInterface/registerGUIPhoto.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -124,7 +122,7 @@
       <workItem from="1699019050730" duration="1173000" />
       <workItem from="1699121283940" duration="5686000" />
       <workItem from="1699223056526" duration="379000" />
-      <workItem from="1699277437066" duration="6068000" />
+      <workItem from="1699277437066" duration="8441000" />
     </task>
     <servers />
   </component>

@@ -96,7 +96,7 @@ class modificateDataGui:
         self.profileCanvas = Canvas(self.dataFrame, width=400, height=400, bg=self.user.color[1])
         self.editBtn = Button(self.profileCanvas, text="✎", font=(self.font, 15), state="disabled")
         self.editBtn.config(bg=colorPalette[1], fg=colorPalette[2])
-        self.addBtn = Button(self.profileCanvas, text="+", font=(self.font, 15), state="disabled")
+        self.addBtn = Button(self.profileCanvas, text="📷", font=(self.font, 15), state="disabled")
         self.addBtn.config(bg=colorPalette[1], fg=colorPalette[2])
 
         self.profileCanvas.place(x=secX1, y=400, anchor="n")
@@ -154,6 +154,7 @@ class modificateDataGui:
                         self.showPasswordBtn, self.infoPasswordBtn, self.editBtn, self.addBtn, self.colorBtn,
                         self.songTxt, self.searchBtn]
 
+# ------------------------------------------------------------------------------------------------------------------- #
     def ConfigUser(self):
         if self.configBtn["text"] == "Editar":
             self.configBtn["text"] = "Guardar"
