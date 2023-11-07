@@ -79,10 +79,12 @@ class registerGui:
             "❌ - carácter en minúscula",
             "❌ - carácter en MAYÚSCULA",
             "❌ - carácter numérico",
-            "❌ - carácter especial"
+            "❌ - carácter especial",
+            "❌ - ingrese nuevamente la contraseña"
         ]
 
         self.password1Txt.bind("<KeyRelease>", self.PassInfo)
+        self.password2Txt.bind("<KeyRelease>", self.PassInfo)
         message = "\n".join(self.requirements)
 
         self.passInfoLb = Label(self.informationFrame, text=message, font=(self.font, 20))
@@ -279,6 +281,7 @@ class registerGui:
 
     def PassInfo(self, event):
         passTxt = self.password1Txt.get()
+        pass2Txt = self.password2Txt.get()
         if len(passTxt) >= 8:
             self.requirements[1] = "✔ - 8 caracteres"
         else:
@@ -299,6 +302,10 @@ class registerGui:
             self.requirements[5] = "✔ - carácter especial"
         else:
             self.requirements[5] = "❌ - carácter especial"
+        if passTxt == pass2Txt:
+            self.requirements[6] = "✔ - ingrese nuevamente la contraseña"
+        else:
+            self.requirements[6] = "❌ - ingrese nuevamente la contraseña"
 
         message = "\n".join(self.requirements)
         self.passInfoLb.config(text=message)
