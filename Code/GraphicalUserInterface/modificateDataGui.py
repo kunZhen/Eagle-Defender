@@ -351,7 +351,7 @@ class modificateDataGui:
 
         auxList = ["Lista de canciones"] + auxList
         info = "\n".join(auxList)
-        self.songsListsLb.config(text=info)
+        self.songListLb.config(text=info)
 
     def searchSongs(self):
         self.saveBtn.config(text="Cargando...")
