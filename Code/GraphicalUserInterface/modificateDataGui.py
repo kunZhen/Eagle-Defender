@@ -80,16 +80,16 @@ class modificateDataGui:
         self.password2Lb.config(bg=colorPalette[0], fg=colorPalette[2])
         self.password2Txt = Entry(self.dataFrame, show="♦", width=20, font=(self.font, 15), state="disabled")
 
-        self.userLb.place(x=secX1 - 2.5, y=150, anchor="ne")
-        self.userTxt.place(x=secX1 + 2.5, y=150, anchor="nw")
-        self.mailLb.place(x=secX1 - 2.5, y=190, anchor="ne")
-        self.mailTxt.place(x=secX1 + 2.5, y=190, anchor="nw")
-        self.password1Lb.place(x=secX1 - 2.5, y=230, anchor="ne")
-        self.password1Txt.place(x=secX1 + 2.5, y=230, anchor="nw")
-        self.password2Lb.place(x=secX1 - 2.5, y=270, anchor="ne")
-        self.password2Txt.place(x=secX1 + 2.5, y=270, anchor="nw")
-        self.showPasswordBtn.place(x=secX1 + 57.5, y=310, anchor="nw")
-        self.infoPasswordBtn.place(x=secX1 + 2.5, y=310, anchor="nw")
+        self.userLb.place(x=secX1 - 2.5, y=250, anchor="ne")
+        self.userTxt.place(x=secX1 + 2.5, y=250, anchor="nw")
+        self.mailLb.place(x=secX1 - 2.5, y=290, anchor="ne")
+        self.mailTxt.place(x=secX1 + 2.5, y=290, anchor="nw")
+        self.password1Lb.place(x=secX1 - 2.5, y=330, anchor="ne")
+        self.password1Txt.place(x=secX1 + 2.5, y=330, anchor="nw")
+        self.password2Lb.place(x=secX1 - 2.5, y=370, anchor="ne")
+        self.password2Txt.place(x=secX1 + 2.5, y=370, anchor="nw")
+        self.showPasswordBtn.place(x=secX1 + 57.5, y=410, anchor="nw")
+        self.infoPasswordBtn.place(x=secX1 + 2.5, y=410, anchor="nw")
         # ----------------------------------------------------------------------------------------------------------- #
 
         # --------------------------------------------Profile Information-------------------------------------------- #
