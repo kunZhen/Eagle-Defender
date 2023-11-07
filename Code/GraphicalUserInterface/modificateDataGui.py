@@ -107,7 +107,7 @@ class modificateDataGui:
         # ----------------------------------------------------------------------------------------------------------- #
 
         # ---------------------------------------------Edit Color---------------------------------------------------- #
-        self.userPalette = None
+        self.userPalette = self.user.color
 
         self.colorCanvas = Canvas(self.dataFrame, width=300, height=150, bg=self.user.color[0])
         self.colorLb = Label(self.dataFrame, text="Color favorito:", font=(self.font, 15))
@@ -139,23 +139,55 @@ class modificateDataGui:
         self.saveBtn = Button(self.dataFrame, text="Esperando...", font=(self.font, 10), state="disabled", command=self.saveSong)
         self.saveBtn.config(bg=colorPalette[1], fg=colorPalette[2])
 
-        self.songLabel.place(x=secX2, y=490, anchor="center")
-        self.songTxt.place(x=secX2 - 30, y=530, anchor="center")
-        self.searchBtn.place(x=secX2 + 125, y=530, anchor="center")
-        self.songOptions.place(x=secX2 - 30, y=570, anchor="center")
-        self.songListLb.place(x=secX2, y=610, anchor="center")
-        self.saveBtn.place(x=secX2, y=650, anchor="center")
+        self.songLabel.place(x=secX2, y=470, anchor="center")
+        self.songTxt.place(x=secX2 - 30, y=510, anchor="center")
+        self.searchBtn.place(x=secX2 + 125, y=510, anchor="center")
+        self.songOptions.place(x=secX2 - 30, y=550, anchor="center")
+        self.songListLb.place(x=secX2, y=590, anchor="center")
+        self.saveBtn.place(x=secX2, y=630, anchor="center")
 
         self.showSong()
         # ----------------------------------------------------------------------------------------------------------- #
 
         # ----------------------------------Edit Avatar, Animation and Textures-------------------------------------- #
+        self.avatarCanvas = Canvas(self.dataFrame, width=450, height=200)
+        self.avatarCanvas.config(bg=self.user.color[1])
+        self.animationCanvas = Canvas(self.dataFrame, width=300, height=300)
+        self.animationCanvas.config(bg=self.user.color[1])
+        self.textureCanvas = Canvas(self.dataFrame, width=300, height=300)
+        self.textureCanvas.config(bg=self.user.color[1])
 
+        self.avatarOpt = {"Goblin": 1, "Shaman": 2, "Champion": 3}
+        self.animationOpt = {"Animacion leve": "S", "Animacion moderada": "M", "Animacion brusca": "L"}
+        self.textureOpt = {"Bloques rusticos": 1, "Bloques modernos": 2, "Bloques medievales": 3}
+
+        self.animationIndex = 0
+        if self.user.animation == "M":
+            self.animationIndex = 1
+        elif self.user.animation == "L":
+            self.animationIndex = 2
+
+        self.avatarCB = ttk.Combobox(self.dataFrame, font=(self.font, 15), values=list(self.avatarOpt.keys()))
+        self.avatarCB.current(self.user.avatar - 1)
+        self.avatarCB.config(state="disabled")
+        self.animationCB = ttk.Combobox(self.dataFrame, font=(self.font, 15), values=list(self.animationOpt.keys()))
+        self.animationCB.current(0)
+        self.animationCB.config(state="disabled")
+        self.textureCB = ttk.Combobox(self.dataFrame, font=(self.font, 15), values=list(self.textureOpt.keys()))
+        self.textureCB.current(self.user.textures - 1)
+        self.textureCB.config(state="disabled")
+
+        self.avatarCB.place(x=secX2, y=690, anchor="center")
+        self.avatarCanvas.place(x=secX2, y=710, anchor="n")
+        self.textureCanvas.place(x=secX3, y=520, anchor="n")
+        self.animationCB.place(x=secX3, y=150, anchor="center")
+        self.animationCanvas.place(x=secX3, y=170, anchor="n")
+        self.textureCB.place(x=secX3, y=500, anchor="center")
         # ----------------------------------------------------------------------------------------------------------- #
 
         self.widgets = [self.userTxt, self.mailTxt, self.password1Txt, self.password2Txt,
                         self.showPasswordBtn, self.infoPasswordBtn, self.editBtn, self.addBtn, self.colorBtn,
-                        self.songTxt, self.searchBtn]
+                        self.songTxt, self.searchBtn, self.avatarCB, self.animationCB, self.textureCB]
 
 # ------------------------------------------------------------------------------------------------------------------- #
     def ConfigUser(self):
@@ -163,14 +195,14 @@ class modificateDataGui:
             self.configBtn["text"] = "Guardar"
             self.closeBtn.config(state="disabled")
             for widget in self.widgets:
-                if isinstance(widget, (Entry, Button)):
+                if isinstance(widget, (Entry, Button, ttk.Combobox)):
                     widget.config(state="normal")
         else:
             self.SaveUser()
             self.configBtn["text"] = "Editar"
             self.closeBtn.config(state="normal")
             for widget in self.widgets:
-                if isinstance(widget, (Entry, Button)):
+                if isinstance(widget, (Entry, Button, ttk.Combobox)):
                     widget.config(state="disabled")
 
     def ShowPassword(self):
@@ -251,22 +283,26 @@ class modificateDataGui:
             newAvatar = None
             newAnimation = None
             newTexture = None
-            if newUser != self.user.user:
-                self.user.SetUser(newUser, None, None)
+            if newUser == self.user.user:
+                newUser = None
             if newMail != self.user.mail:
-                self.user.SetUser(None, None, newMail)
+                newMail = None
             if newPassword != self.user.password:
-                self.user.SetUser(None, newPassword, None)
-            if newColor is not None:
-                self.user.SetAttributes(newColor, None, None, None, None, None, None)
-            if newSong != self.user.music:
-                self.user.SetAttributes(None, newSong, None, None, None, None, None)
-            if newAvatar != 0:
-                self.user.SetAttributes(None, None, None, None, None, None, None)
-            if newAnimation != 0:
-                self.user.SetAttributes(None, None, None, None, None, None, None)
-            if newTexture != 0:
-                self.user.SetAttributes(None, None, None, None, None, None, None)
+                newPassword = None
+            if newColor is None:
+                newColor = None
+            if newSong == self.user.music:
+                newSong = None
+            if newAvatar == self.user.avatar:
+                newAvatar = None
+            if newAnimation == self.user.animation:
+                newAnimation = None
+            if newTexture == self.user.textures:
+                newTexture = None
+
+            self.user.SetUser(newUser, newPassword, newMail)
+            self.user.SetAttributes(newColor, newSong, None, None, None, newAvatar,
+                                    newAnimation, newTexture)
 
     def takeAPhoto(self):
         faceInformation = facialRecognogtion(self.user.user)
