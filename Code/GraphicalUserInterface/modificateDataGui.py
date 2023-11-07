@@ -122,7 +122,7 @@ class modificateDataGui:
         # ----------------------------------------------------------------------------------------------------------- #
 
         # --------------------------------------------------Edit Song------------------------------------------------ #
-        self.choosenSong = StringVar()
+        self.chosenSong = StringVar()
         self.songListLb = Label(self.dataFrame, text="Lista de canciones", font=(self.font, 11), width=28,
                                 wraplength=275)
         self.songListLb.config(bg=colorPalette[0], fg=colorPalette[2])
@@ -132,7 +132,7 @@ class modificateDataGui:
         self.songLabel = Label(self.dataFrame, text="Canción favorita:", font=(self.font, 15))
         self.songLabel.config(bg=colorPalette[0], fg=colorPalette[2])
 
-        self.songOptions = ttk.Combobox(self.dataFrame, textvariable=self.choosenSong, height=40, width=40, values=[])
+        self.songOptions = ttk.Combobox(self.dataFrame, textvariable=self.chosenSong, height=40, width=40, values=[])
         self.songTxt = Entry(self.dataFrame, width=18, font=(self.font, 15), state="disabled")
         self.searchBtn = Button(self.dataFrame, text="🔍", font=(self.font, 15), state="disabled", command=self.searchSongs)
         self.searchBtn.config(bg=colorPalette[1], fg=colorPalette[2])
@@ -356,7 +356,7 @@ class modificateDataGui:
     def searchSongs(self):
         self.saveBtn.config(text="Cargando...")
         self.saveBtn.update()
-        self.controler.searchYoutubeSongs(self.nameSongEntry.get())
+        self.controler.searchYoutubeSongs(self.songTxt.get())
         self.songOptions['values'] = self.controler.nameSongListForUser
         self.saveBtn.config(text="Guardar")
         self.saveBtn.config(state="normal")
@@ -394,7 +394,7 @@ class modificateDataGui:
                     self.showSong()
                     break
                 counter += 1
-            self.choosenSong.set("")
+            self.chosenSong.set("")
 
     def showSong(self):
         counter = 0
