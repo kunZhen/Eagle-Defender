@@ -56,8 +56,6 @@ class registerGui:
 
         self.showPasswordBtn = Button(self.informationFrame, text="👁", font=(self.font, 15), command=self.ShowPassword)
         self.showPasswordBtn.config(bg=self.colorPalette[2], fg=self.colorPalette[4])
-        self.infoPasswordBtn = Button(self.informationFrame, text="!", font=(self.font, 15), command=self.InfoPassword)
-        self.infoPasswordBtn.config(bg=self.colorPalette[2], fg=self.colorPalette[4])
 
         self.password2Lb = Label(self.informationFrame, text="Confirme contraseña:", font=(self.font, 15))
         self.password2Lb.config(bg=self.colorPalette[1], fg=self.colorPalette[4])
@@ -71,8 +69,25 @@ class registerGui:
         self.password1Txt.place(x=secX1 + 2.5, y=330, anchor="nw")
         self.password2Lb.place(x=secX1 - 2.5, y=370, anchor="ne")
         self.password2Txt.place(x=secX1 + 2.5, y=370, anchor="nw")
-        self.showPasswordBtn.place(x=secX1 + 57.5, y=410, anchor="nw")
-        self.infoPasswordBtn.place(x=secX1 + 2.5, y=410, anchor="nw")
+        self.showPasswordBtn.place(x=secX1 + 2.5, y=410, anchor="nw")
+        # ----------------------------------------------------------------------------------------------------------- #
+
+        # -----------------------------------------Password Information---------------------------------------------- #
+        self.requirements = [
+            "Requisitos de contraseña:\n",
+            "❌ - 8 caracteres",
+            "❌ - carácter en minúscula",
+            "❌ - carácter en MAYÚSCULA",
+            "❌ - carácter numérico",
+            "❌ - carácter especial"
+        ]
+
+        self.password1Txt.bind("<KeyRelease>", self.PassInfo)
+        message = "\n".join(self.requirements)
+
+        self.passInfoLb = Label(self.informationFrame, text=message, font=(self.font, 20))
+        self.passInfoLb.config(bg=self.colorPalette[2], fg=self.colorPalette[4])
+        self.passInfoLb.place(x=secX1, y=500, anchor="n")
         # ----------------------------------------------------------------------------------------------------------- #
 
         # ---------------------------------------------Edit Color---------------------------------------------------- #
@@ -85,9 +100,9 @@ class registerGui:
                                command=self.GenerateColor)
         self.colorBtn.config(bg=self.colorPalette[2], fg=self.colorPalette[4])
 
-        self.colorCanvas.place(x=secX2, y=300, anchor="n")
-        self.colorLb.place(x=secX2, y=250, anchor="ne")
-        self.colorBtn.place(x=secX2, y=475, anchor="n")
+        self.colorLb.place(x=secX3, y=250, anchor="ne")
+        self.colorCanvas.place(x=secX3, y=300, anchor="n")
+        self.colorBtn.place(x=secX3, y=475, anchor="n")
         # ----------------------------------------------------------------------------------------------------------- #
 
         # _______________________________________Get favorite song__________________________________________________ #
@@ -110,13 +125,14 @@ class registerGui:
         self.saveBtn = Button(self.informationFrame, text="Esperando...", font=(self.font, 10), command=self.saveSong)
         self.saveBtn.config(bg=self.colorPalette[2], fg=self.colorPalette[4], state="disabled")
 
-        self.songLabel.place(x=secX3, y=300, anchor="center")
-        self.nameSongEntry.place(x=secX3 - 30, y=350, anchor="center")
-        self.searchBtn.place(x=secX3 + 105, y=350, anchor="center")
-        self.songOptions.place(x=secX3, y=400, anchor="center")
-        self.saveBtn.place(x=secX3, y=430, anchor="center")
-        self.songsListsLb.place(x=secX3, y=480, anchor="center")
+        self.songLabel.place(x=secX3, y=550, anchor="center")
+        self.nameSongEntry.place(x=secX3 - 30, y=600, anchor="center")
+        self.searchBtn.place(x=secX3 + 105, y=600, anchor="center")
+        self.songOptions.place(x=secX3, y=650, anchor="center")
+        self.saveBtn.place(x=secX3, y=680, anchor="center")
+        self.songsListsLb.place(x=secX3, y=730, anchor="center")
         # __________________________________________________________________________________________________________ #
+
         # ____________________________________Photo and biometric information_____________________________________ #
         """self.photoCanvas = Canvas(self.InformationFrame, width=400, height=400)
         self.photoCanvas.config(bg=self.colorPalette[1])
@@ -261,17 +277,31 @@ class registerGui:
             self.password2Txt["show"] = "♦"
             self.showPasswordBtn["text"] = "👁"
 
-    def InfoPassword(self):
-        requirements = [
-            "La contraseña debe tener los siguientes caracteres:",
-            "Mínimo 8 caracteres",
-            "Al menos un carácter en minúscula",
-            "Al menos un carácter en MAYÚSCULA",
-            "Al menos un carácter numérico",
-            "Al menos un carácter especial"
-        ]
-        message = "\n".join(requirements)
-        messagebox.showinfo("Requisitos de contraseña", message)
+    def PassInfo(self, event):
+        passTxt = self.password1Txt.get()
+        if len(passTxt) >= 8:
+            self.requirements[1] = "✔ - 8 caracteres"
+        else:
+            self.requirements[1] = "❌ - 8 caracteres"
+        if any(c.islower() for c in passTxt):
+            self.requirements[2] = "✔ - carácter en minúscula"
+        else:
+            self.requirements[2] = "❌ - carácter en minúscula"
+        if any(c.isupper() for c in passTxt):
+            self.requirements[3] = "✔ - carácter en MAYÚSCULA"
+        else:
+            self.requirements[3] = "❌ - carácter en MAYÚSCULA"
+        if any(c.isdigit() for c in passTxt):
+            self.requirements[4] = "✔ - carácter en numérico"
+        else:
+            self.requirements[4] = "❌ - carácter en numérico"
+        if any(c in string.punctuation for c in passTxt):
+            self.requirements[5] = "✔ - carácter especial"
+        else:
+            self.requirements[5] = "❌ - carácter especial"
+
+        message = "\n".join(self.requirements)
+        self.passInfoLb.config(text=message)
 
     # Adaptar codigo para que funcione sin la clase user
     """def takeAPhoto(self):
