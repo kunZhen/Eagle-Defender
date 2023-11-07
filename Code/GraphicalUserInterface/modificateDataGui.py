@@ -201,6 +201,9 @@ class modificateDataGui:
             self.SaveUser()
             self.configBtn["text"] = "Editar"
             self.closeBtn.config(state="normal")
+            self.password1Txt.delete(0, "end")
+            self.password2Txt.delete(0, "end")
+            self.ShowPassword()
             for widget in self.widgets:
                 if isinstance(widget, (Entry, Button, ttk.Combobox)):
                     widget.config(state="disabled")
