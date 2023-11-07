@@ -55,7 +55,11 @@ class RegisterGuiPhoto:
         self.bioBtn.place(x=centerX, y=650, anchor="center")
         self.nextBtn.place(x=centerX, y=750, anchor="center")
 
-    # ------------------------------------------------------------------------------------------------------------------- #
+        # ----------------------------------------------------------------------------------------------------------- #
+        self.infoBtn = Button(self.registerFrame, text="!", font=(font, 35), command=self.InfoPage)
+        self.infoBtn.config(bg=colorPalette[2], fg=colorPalette[4])
+        self.infoBtn.place(x=100, y=150, anchor="nw")
+        # ----------------------------------------------------------------------------------------------------------- #
 
     def takeAPhoto(self):
         faceInformation = facialRecognogtion(self.user.user)
@@ -96,3 +100,20 @@ class RegisterGuiPhoto:
         else:
             messagebox.showwarning("Datos biométricos",
                                    "Debe guardar sus datos biométricos (toque el botón 'Datos biométricos')")
+
+    def InfoPage(self):
+        information = [
+            "1 - Es primordial realizar el reconocimiento facial para crear el usuario",
+            "2 - Explicacion de botones:\n",
+            "[📷]:",
+            "  - abre ventana para tomar una foto para la foto de perfil\n",
+            "[✎]:",
+            "  - subir foto de perfil desde computador\n",
+            "[Reconocimiento facial]:",
+            "  - abre ventana para registrar los datos biometricos\n",
+            "Ⓠ: ",
+            "  - toma la foto para reconocimiento facial o foto de perfil"
+        ]
+        message = "\n".join(information)
+        messagebox.showinfo("Foto de perfil y Reconocimiento facial", message)
+
