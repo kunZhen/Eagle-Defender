@@ -254,9 +254,9 @@ class modificateDataGui:
             if newUser != self.user.user:
                 self.user.SetUser(newUser, None, None)
             if newMail != self.user.mail:
-                self.user.SetUSer(None, newMail, None)
+                self.user.SetUser(None, None, newMail)
             if newPassword != self.user.password:
-                self.user.SetUser(None, None, newPassword)
+                self.user.SetUser(None, newPassword, None)
             if newColor is not None:
                 self.user.SetAttributes(newColor, None, None, None, None, None, None)
             if newSong != self.user.music:
