@@ -1,0 +1,34 @@
+{
+    "User": "Usuario2",
+    "Password": "Usuario2@gmail.com",
+    "Mail": "Usuario2@gmail.com",
+    "Favorite Color": [
+        "#13b484",
+        "#0f966e",
+        "#0c7858",
+        "#000000",
+        "#ffffff"
+    ],
+    "Favorite Music": [
+        [
+            [
+                "Love In The Dark"
+            ],
+            [
+                "https://www.youtube.com/watch?v=oytOOA9sOiE"
+            ]
+        ]
+    ],
+    "Answers": [
+        "f",
+        "f",
+        "f",
+        "ff",
+        "f"
+    ],
+    "Avatar": 1,
+    "Animation": "S",
+    "Textures": 1,
+    "Profile": " ",
+    "Facial Recognition": ""
+}

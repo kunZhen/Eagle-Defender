@@ -16,6 +16,8 @@ class versusGame:
             #Load players json here:
         self.defenderUser:User=users[0]
         self.attackerUser:User=users[1]
+
+        print(f"Attacker:{self.attackerUser.user} ; Defender:{self.defenderUser.user}")
             #Load players json here:
 
         # ---> Retrieving players proffile pictures <---
@@ -51,6 +53,7 @@ class versusGame:
 
         #Set the defender side screen
         self.canvas.create_rectangle(0, 0, self.width//2, self.height, fill=self.defenderPalette[0])
+
         #Set the attacker side screen
         self.canvas.create_rectangle(self.width, 0, self.width//2, self.height, fill=self.attackerPalette[0])
 
@@ -60,12 +63,16 @@ class versusGame:
 
 
         #----------------------------------Game time-------------------------------------#
-        randNumber=random.randint(0,len(self.attackerUser.music)-1)
         self.musicLogicControler=musicLogic()
-        self.attackerTime= self.musicLogicControler.duration(self.attackerUser.music[randNumber][1][0])
-        randNumber=random.randint(0,len(self.defenderUser.music)-1)
+        
+        randNumber1=random.randint(0,len(self.attackerUser.music)-1)
+        attackerSong = self.attackerUser.music[randNumber1][1][0]
+        self.attackerTime= self.musicLogicControler.duration(attackerSong)
 
-        self.defenderTime=self.musicLogicControler.duration(self.defenderUser.music[randNumber][1][0])
+        randNumber2=random.randint(0,len(self.defenderUser.music)-1)
+        defenderSong = self.defenderUser.music[randNumber2][1][0]
+        self.defenderTime=self.musicLogicControler.duration(defenderSong)
+
         print(self.attackerTime, self.defenderTime)
 
         self.timeLb=tk.Label(self.canvas, text=f"Tiempo restante: {self.defenderTime}s", font=("Helvetica", 35))
@@ -74,6 +81,15 @@ class versusGame:
         self.inicialGameTime=time.time()
         self.playerGaming="defender"
 
+        # Get the regen times for each user based on their song
+        print(self.defenderUser.music[randNumber2][0][0], self.attackerUser.music[randNumber1][0][0])
+        self.defenderRegen = self.musicLogicControler.generateTimer(self.defenderUser.music[randNumber2][0][0], self.defenderTime) # In ms
+        self.defenderRegen = self.defenderRegen/1000 # Cast to seconds
+
+        self.attackerRegen = self.musicLogicControler.generateTimer(self.attackerUser.music[randNumber1][0][0], self.attackerTime)
+        self.attackerRegen = (1/(self.attackerRegen/1000))*100 # Cast to seconds
+
+        print(f"Attacker:{self.attackerRegen} s ", f"Defender:{self.defenderRegen} s")
         
         #---------------------------------------------------------------------------------#
 
@@ -214,14 +230,20 @@ class versusGame:
 
         #------------------------------UI Creation--------------------------#
         uiCoord = [225, 50] # [X, Y]
+
+        #Common images & resources
+        self.keyPng = Image.open("Code/GraphicalUserInterface/sprites/key.png").resize((35,35))
+        self.keyPng = ImageTk.PhotoImage(self.keyPng)
         
         #Defender side
             #Wood
         self.block1pngOpen = Image.open(f"Code/GraphicalUserInterface/sprites/defender/wood{self.textures}.png")
         self.block1pngPhoto = ImageTk.PhotoImage(self.block1pngOpen)
-        self.canvas.create_rectangle(uiCoord[0]-40,uiCoord[1]-40, uiCoord[0]+40, uiCoord[1]+40,fill="red")
+        self.canvas.create_rectangle(uiCoord[0]-40,uiCoord[1]-40, uiCoord[0]+40, uiCoord[1]+40,fill="red", outline="black")
         self.block1 = self.canvas.create_image(uiCoord[0],uiCoord[1], image=self.block1pngPhoto)
-        self.mats1 = self.canvas.create_text(uiCoord[0]-30, uiCoord[1]+32, text=f"{self.woodBlocksAmount}", fill="yellow", font=self.font)
+        self.canvas.create_image(uiCoord[0],uiCoord[1]+35, image=self.keyPng)
+        self.canvas.create_text(uiCoord[0]+1, uiCoord[1]+37, text="3", fill="white", font=(self.font[0], self.font[1]-5))
+        self.mats1 = self.canvas.create_text(uiCoord[0], uiCoord[1], text=f"{self.woodBlocksAmount}", fill="white", font=self.font)
         uiCoord[0]+= 100
 
              #Stone
@@ -229,7 +251,9 @@ class versusGame:
         self.block2pngPhoto = ImageTk.PhotoImage(self.block2pngOpen)
         self.canvas.create_rectangle(uiCoord[0]-40,uiCoord[1]-40, uiCoord[0]+40, uiCoord[1]+40,fill="red")
         self.block2 = self.canvas.create_image(uiCoord[0],uiCoord[1], image=self.block2pngPhoto)
-        self.mats2 = self.canvas.create_text(uiCoord[0]-30, uiCoord[1]+32, text=f"{self.stoneBlocksAmount}", fill="yellow", font=self.font)
+        self.canvas.create_image(uiCoord[0],uiCoord[1]+35, image=self.keyPng)
+        self.canvas.create_text(uiCoord[0]+1, uiCoord[1]+37, text="4", fill="white", font=(self.font[0], self.font[1]-5))
+        self.mats2 = self.canvas.create_text(uiCoord[0], uiCoord[1], text=f"{self.stoneBlocksAmount}", fill="white", font=self.font)
         uiCoord[0]+= 100
 
             #Metal
@@ -237,8 +261,11 @@ class versusGame:
         self.block3pngPhoto = ImageTk.PhotoImage(self.block3pngOpen)
         self.canvas.create_rectangle(uiCoord[0]-40,uiCoord[1]-40, uiCoord[0]+40, uiCoord[1]+40,fill="red")
         self.block3 = self.canvas.create_image(uiCoord[0],uiCoord[1], image=self.block3pngPhoto)
-        self.mats3 = self.canvas.create_text(uiCoord[0]-30, uiCoord[1]+32, text=f"{self.metalBlocksAmount}", fill="yellow", font=self.font)
+        self.canvas.create_image(uiCoord[0],uiCoord[1]+35, image=self.keyPng)
+        self.canvas.create_text(uiCoord[0]+1, uiCoord[1]+37, text="5", fill="white", font=(self.font[0], self.font[1]-5))
+        self.mats3 = self.canvas.create_text(uiCoord[0], uiCoord[1], text=f"{self.metalBlocksAmount}", fill="white", font=self.font)
         uiCoord[0]+= 1075
+
             #FinishButton
         self.FinishDefenderTurnbtn=tk.Button(self.canvas, text="Listo",font=("Helvetica,15"))
         self.FinishDefenderTurnbtn.config(bg=colorPalette[2], fg=colorPalette[4], command=self.changeTurn)
@@ -252,37 +279,44 @@ class versusGame:
         self.bullet1pngPhoto = ImageTk.PhotoImage(self.bullet1pngOpen)
         self.canvas.create_rectangle(uiCoord[0]-40,uiCoord[1]-40, uiCoord[0]+40, uiCoord[1]+40,fill="red")
         self.bullet1 = self.canvas.create_image(uiCoord[0], uiCoord[1]+5, image=self.bullet1pngPhoto)
-        self.ammo1 = self.canvas.create_text(uiCoord[0]-30, uiCoord[1]+32, text=f"{str(10-self.waterProjectileAmount)}", fill="yellow", font=self.font)
+        self.canvas.create_image(uiCoord[0],uiCoord[1]+35, image=self.keyPng)
+        self.canvas.create_text(uiCoord[0]+1, uiCoord[1]+37, text="8", fill="white", font=(self.font[0], self.font[1]-5))
+        self.ammo1 = self.canvas.create_text(uiCoord[0], uiCoord[1], text=f"{str(10-self.waterProjectileAmount)}", fill="white", font=self.font)
         uiCoord[0]+= 100
 
             #Fire
         self.bullet2pngOpen = self.firepngOpen.resize((90,90))
         self.bullet2pngPhoto = ImageTk.PhotoImage(self.bullet2pngOpen)
         self.canvas.create_rectangle(uiCoord[0]-40,uiCoord[1]-40, uiCoord[0]+40, uiCoord[1]+40,fill="red")
-        self.bullet2 = self.canvas.create_image(uiCoord[0]+2, uiCoord[1]+5, image=self.bullet2pngPhoto)
-        self.ammo2 = self.canvas.create_text(uiCoord[0]-30, uiCoord[1]+32, text=f"{str(10-self.fireProjectileAmount)}", fill="yellow", font=self.font)
+        self.bullet2 = self.canvas.create_image(uiCoord[0]+2, uiCoord[1]+3, image=self.bullet2pngPhoto)
+        self.canvas.create_image(uiCoord[0],uiCoord[1]+35, image=self.keyPng)
+        self.canvas.create_text(uiCoord[0]+1, uiCoord[1]+37, text="9", fill="white", font=(self.font[0], self.font[1]-5))
+        self.ammo2 = self.canvas.create_text(uiCoord[0], uiCoord[1], text=f"{str(10-self.fireProjectileAmount)}", fill="white", font=self.font)
         uiCoord[0]+= 100
 
             #Powder
         self.bullet3pngOpen = self.powderpngOpen.resize((90,90))
         self.bullet3pngPhoto = ImageTk.PhotoImage(self.bullet3pngOpen)
         self.canvas.create_rectangle(uiCoord[0]-40,uiCoord[1]-40, uiCoord[0]+40, uiCoord[1]+40,fill="red")
-        self.bullet3 = self.canvas.create_image(uiCoord[0], uiCoord[1]+5, image=self.bullet3pngPhoto)
-        self.ammo3 = self.canvas.create_text(uiCoord[0]-30, uiCoord[1]+32, text=f"{str(10-self.PowderProjectileAmount)}", fill="yellow", font=self.font)
+        self.bullet3 = self.canvas.create_image(uiCoord[0], uiCoord[1]+3, image=self.bullet3pngPhoto)
+        self.canvas.create_image(uiCoord[0],uiCoord[1]+35, image=self.keyPng)
+        self.canvas.create_text(uiCoord[0]+1, uiCoord[1]+37, text="0", fill="white", font=(self.font[0], self.font[1]-5))
+        self.ammo3 = self.canvas.create_text(uiCoord[0], uiCoord[1], text=f"{str(10-self.PowderProjectileAmount)}", fill="white", font=self.font)
         #-----------------------------------This must to be at the end-----------------------------#
         
-        #defender song#
+        # Defender song 
         self.musicLogicControler.fileName="defender.mp4"
-        self.musicLogicControler.downloadYoutubeAudio(self.defenderUser.music[randNumber][1][0])
-             
 
-        #atacker song#
+        self.musicLogicControler.downloadYoutubeAudio(defenderSong)
+        self.musicLogicControler.setUpVideoMusic("Code/GraphicalUserInterface/songs/defender.mp4")
+             
+        # Atacker song 
         self.musicLogicControler.fileName="attacker.mp4"
 
-        self.musicLogicControler.downloadYoutubeAudio(self.attackerUser.music[randNumber][1][0])
+        self.musicLogicControler.downloadYoutubeAudio(attackerSong)
         self.musicLogicControler.setUpVideoMusic("Code/GraphicalUserInterface/songs/attacker.mp4")
-        self.musicLogicControler.setUpVideoMusic("Code/GraphicalUserInterface/songs/defender.mp4")
 
+        # Setup music for the game
         self.musicLogicControler.setUpMusic("Code/GraphicalUserInterface/songs/defender.mp3")
         self.inicialGameTime=time.time()
         self.showTime(self.defenderTime)
@@ -302,7 +336,8 @@ class versusGame:
         else:
             self.musicLogicControler.pauseMusic()
             self.pauseTime.set(time.time())
-            self.pause=True    
+            self.pause=True   
+
     def showTime(self, gameTime): 
         currentTime=time.time()
         if not self.defenderPlaying and not self.playerGaming=="attacker": 
@@ -319,7 +354,7 @@ class versusGame:
                 if self.playerGaming=="defender": 
                     self.playerGaming="attacker"
                     self.inicialGameTime=currentTime
-                    self.musicLogicControler.setUpMusic("canciones/attacker.mp3")
+                    self.musicLogicControler.setUpMusic("Code/GraphicalUserInterface/songs/attacker.mp3")
                     self.window.after(50, self.showTime,self.attackerTime)
                 else: 
                     self.gameOverByTime()
@@ -443,7 +478,7 @@ class versusGame:
                     self.canvas.itemconfig(self.ammo3, text=str(10-self.PowderProjectileAmount))
                     self.musicLogicControler.playSFX("powder")#Plays the sound effect
 
-            #----------Defener controls----------#
+            #----------Defender controls----------#
             #Movement
             if 'w' in self.pressedkeys:
                 if self.defenderPos[1]>0:
@@ -604,7 +639,7 @@ class versusGame:
                     self.takeInicalTimeFire=False
                 else: 
                     self.FinalTimeFire=time.time()
-                    if self.FinalTimeFire - self.InicialTimeFire >=15: 
+                    if self.FinalTimeFire - self.InicialTimeFire >= self.attackerRegen: 
                         self.fireProjectileAmount-=1
                         self.canvas.itemconfig(self.ammo2, text=str(10-self.fireProjectileAmount))
                         self.InicialTimeFire=0
@@ -617,7 +652,7 @@ class versusGame:
                     self.takeInicalTimeWater=False
                 else: 
                     self.FinalTimeWater=time.time()
-                    if self.FinalTimeWater - self.InicialTimeWater >=15: 
+                    if self.FinalTimeWater - self.InicialTimeWater >= self.attackerRegen: 
                         self.waterProjectileAmount-=1
                         self.canvas.itemconfig(self.ammo1, text=str(10-self.waterProjectileAmount))
                         self.InicialTimeWater=0
@@ -630,7 +665,7 @@ class versusGame:
                     self.takeInicalTimePowder=False
                 else: 
                     self.FinalTimePowder=time.time()
-                    if self.FinalTimePowder - self.InicialTimePowder >=15: 
+                    if self.FinalTimePowder - self.InicialTimePowder >= self.attackerRegen: 
                         self.PowderProjectileAmount-=1
                         self.canvas.itemconfig(self.ammo3, text=str(10-self.PowderProjectileAmount))
                         self.InicialTimePowder=0
@@ -705,12 +740,14 @@ class versusGame:
     def deleteWall(self, wall_id, index):
         self.canvas.delete(wall_id)
         self.wallList = self.wallList[0:index]+self.wallList[index+1:]
+
     def gameOverByTime(self):
         self.pauseFunction()
         self.musicLogicControler.stopMusic()
         self.mainframe.destroy()
         self.gameOver=True
         app= hallOfFameGui.HallOfFameGui(self.parentFrame, self.window, self.width, self.height, self.defenderUser.user, self.attackerTime-self.posiblePoints)
+
     def RegenerateBlocks(self):
         if not self.pause and not self.playerGaming=="defender":
         #Wood blocks regeneration
@@ -721,7 +758,7 @@ class versusGame:
                         self.takeInicalTimeWood = False
                     else: 
                         self.FinalTimeWood = time.time()
-                        if self.FinalTimeWood- self.InicialTimeWood >= 12: 
+                        if self.FinalTimeWood- self.InicialTimeWood >= self.defenderRegen: 
                             self.woodBlocksAmount += 1
                             self.canvas.itemconfig(self.mats1, text=f"{self.woodBlocksAmount}")
                             self.InicialTimeWood = 0
@@ -734,7 +771,7 @@ class versusGame:
                         self.takeInicalTimeStone = False
                     else: 
                         self.FinalTimeStone = time.time()
-                        if self.FinalTimeStone - self.InicialTimeStone >= 12: 
+                        if self.FinalTimeStone - self.InicialTimeStone >= self.defenderRegen: 
                             self.stoneBlocksAmount += 1
                             self.canvas.itemconfig(self.mats2, text=f"{self.stoneBlocksAmount}")
                             self.InicialTimeStone = 0
@@ -747,7 +784,7 @@ class versusGame:
                         self.takeInicalTimeMetal = False
                     else: 
                         self.FinalTimeMetal = time.time()
-                        if self.FinalTimeMetal - self.InicialTimeWood >= 12: 
+                        if self.FinalTimeMetal - self.InicialTimeWood >= self.defenderRegen: 
                             self.metalBlocksAmount += 1
                             self.canvas.itemconfig(self.mats3, text=f"{self.metalBlocksAmount}")
                             self.InicialTimeMetal = 0
@@ -768,7 +805,7 @@ class versusGame:
             else: 
                 messagebox.showwarning  ("Eagle Defender", "Debes poner el águila")
 
-""""if __name__ == "__main__":
+"""if __name__ == "__main__":
     root = tk.Tk()
     screenWidth = root.winfo_screenwidth()
     screenheight = root.winfo_screenheight()

@@ -1,0 +1,34 @@
+{
+    "User": "Usuario1",
+    "Password": "Usuario1@gmail.com",
+    "Mail": "Usuario1@gmail.com",
+    "Favorite Color": [
+        "#d92358",
+        "#b41d49",
+        "#90173a",
+        "#000000",
+        "#ffffff"
+    ],
+    "Favorite Music": [
+        [
+            [
+                "MTG - PISTA TOMA (BRAZILIAN PHONK)"
+            ],
+            [
+                "https://www.youtube.com/watch?v=gui2FJtvmMo"
+            ]
+        ]
+    ],
+    "Answers": [
+        "a",
+        "a",
+        "a",
+        "a",
+        "a"
+    ],
+    "Avatar": 1,
+    "Animation": "S",
+    "Textures": 1,
+    "Profile": " ",
+    "Facial Recognition": ""
+}
