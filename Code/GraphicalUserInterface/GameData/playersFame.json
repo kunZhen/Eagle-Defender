@@ -10,11 +10,27 @@
         },
         {
             "name": "Usuario1",
+            "time": 210
+        },
+        {
+            "name": "Usuario3",
+            "time": 174
+        },
+        {
+            "name": "Usuario1",
+            "time": 128
+        },
+        {
+            "name": "Usuario1",
             "time": 127
         },
         {
             "name": "Usuario1",
             "time": 124
+        },
+        {
+            "name": "Usuario1",
+            "time": 117
         },
         {
             "name": "Josue",
@@ -23,22 +39,6 @@
         {
             "name": "Usuario1",
             "time": 108
-        },
-        {
-            "name": "Usuario1",
-            "time": 103
-        },
-        {
-            "name": "Frederick24",
-            "time": 25
-        },
-        {
-            "name": "Frederick24",
-            "time": 17
-        },
-        {
-            "name": "Frederick24",
-            "time": 15
         }
     ]
 }
