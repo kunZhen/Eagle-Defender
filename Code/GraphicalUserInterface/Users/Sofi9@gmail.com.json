@@ -1,0 +1,31 @@
+{
+    "User": "Sofia",
+    "Password": "Sofi9@gmail.com",
+    "Mail": "Sofi9@gmail.com",
+    "Favorite Color": [
+        "#74d920",
+        "#ffff50"
+    ],
+    "Favorite Music": [
+        [
+            [
+                "Gorillaz - Silent Running ft. Adeleye Omotayo (Official Video)"
+            ],
+            [
+                "https://www.youtube.com/watch?v=_0Pf48RqSsg"
+            ]
+        ]
+    ],
+    "Answers": [
+        "F",
+        "F",
+        "G",
+        "J",
+        "a"
+    ],
+    "Avatar": 1,
+    "Animation": "S",
+    "Textures": 1,
+    "Profile": " ",
+    "Facial Recognition": ""
+}

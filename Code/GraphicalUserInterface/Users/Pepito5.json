@@ -1,0 +1,31 @@
+{
+    "User": "Pepito5",
+    "Password": "Pepito5@gmail.com",
+    "Mail": "Pepito5@gmail.com",
+    "Favorite Color": [
+        "#d90ed9",
+        "#ff23ff"
+    ],
+    "Favorite Music": [
+        [
+            [
+                "MTG - PISTA TOMA (BRAZILIAN PHONK)"
+            ],
+            [
+                "https://www.youtube.com/watch?v=gui2FJtvmMo"
+            ]
+        ]
+    ],
+    "Answers": [
+        "Arroz",
+        "China",
+        "Juan",
+        "Perro",
+        "Cientifico"
+    ],
+    "Avatar": 1,
+    "Animation": "S",
+    "Textures": 1,
+    "Profile": " ",
+    "Facial Recognition": ""
+}

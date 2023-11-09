@@ -154,3 +154,11 @@ class LoginGui:
                 self.faceLb.config(text="No se reconoció su rostro")
                 self.recoverBtn.config(state="normal")
                 self.passwordBtn.config(state="normal")
+
+    def ShowPassword(self):
+        if self.showPasswordBtn["text"] == "👁":
+            self.userTxt["show"] = ""
+            self.showPasswordBtn["text"] = "❌"
+        else:
+            self.userTxt["show"] = "♦"
+            self.showPasswordBtn["text"] = "👁"
