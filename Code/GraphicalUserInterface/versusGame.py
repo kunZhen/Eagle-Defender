@@ -61,6 +61,12 @@ class versusGame:
         self.canvas.create_rectangle(self.width//2-10, 0, self.width//2+10, self.height, fill=colorPalette[0])
         self.canvas.create_rectangle(self.width//2-5, 0, self.width//2+5, self.height, fill="black")
 
+        #Set up the profile buttons
+        self.buttonDefender = tk.Button( self.canvas, text=f"{self.defenderUser.user}", command=lambda: self.ShowLabels(True, False) )
+        self.buttonDefender.place(x=45, y=30)
+
+        self.buttonAttacker = tk.Button( self.canvas, text=f"{self.attackerUser.user}", command=lambda: self.ShowLabels(False, True) )
+        self.buttonAttacker.place(x=self.width-105, y=30)
         """"self.pauseBtn=tk.Button(self.canvas, text="▶", command=self.pauseFunction)
         self.pauseBtn.config(bg=colorPalette[2], fg=colorPalette[4])
         self.pauseBtn.place(x= (self.width/2), y=80, anchor="nw")"""
@@ -105,8 +111,9 @@ class versusGame:
         self.defenderPhotoImage = self.DefenderRotate(self.defenderOpenImage)
         self.defender = self.canvas.create_image(self.defenderPos[0], self.defenderPos[1], image=self.defenderPhotoImage)
 
-        self.pickUpState = [False, None] # This variable holds the currently held block
+        self.pickUpState = [True, "Eagle", 0] # This variable holds the currently held block
         self.wallList = list()
+
         #Placing the Eagle
         self.eagleAlive = True
         self.ondefense = True
@@ -114,17 +121,26 @@ class versusGame:
         self.eagleOpenImage = Image.open("Code/GraphicalUserInterface/sprites/Eagle.png")
         self.eaglePhotoImage = ImageTk.PhotoImage(self.eagleOpenImage)
 
+        self.currentSelection = self.canvas.create_image(self.defenderPos[0], self.defenderPos[1], image= self.eaglePhotoImage)
+        self.canvas.tag_raise(self.defender)
+
         #Blocks
         self.maxBlocks = 10 # Limit of block in-game
 
+        #--------Load wood textures--------#
+        self.woodOpenImage = Image.open(f"Code/GraphicalUserInterface/sprites/defender/wood{self.textures}.png")
         self.woodReserve = 10
-        #self.woodOnScreen = 0 PROTOTYPE
+        """self.woodOnScreen = 0 PROTOTYPE"""
         
+        #--------Load stone textures--------#
+        self.stoneOpenImage = Image.open(f"Code/GraphicalUserInterface/sprites/defender/stone{self.textures}.png")
         self.stoneReserve = 10
-        #self.stoneOnScreen = 0 PROTOTYPE
+        """self.stoneOnScreen = 0 PROTOTYPE"""
 
+        #--------Load metal textures--------#
+        self.metalOpenImage = Image.open(f"Code/GraphicalUserInterface/sprites/defender/metal{self.textures}.png")
         self.metalReserve = 10
-        #self.metalReserve = 0 PROTOTYPE
+        """self.metalReserve = 0 PROTOTYPE"""
         #----------------------------Attacker Settings----------------------#
         self.playerAngle = 180
         self.attackerPos = [self.width//2+100, self.height//2]
@@ -206,7 +222,7 @@ class versusGame:
 
         #---------------------------Tkinter: keybind setup----------------------------------------#
         #            ______________________________________________
-        #___________/Attacker setup
+        #___________/Defender setup
             #Movement
         self.window.bind("<KeyPress-w>", self.Append_W)
         self.window.bind("<KeyPress-a>", self.Append_A)
@@ -215,13 +231,13 @@ class versusGame:
             #Rotation
         self.window.bind("<KeyPress-q>", self.Append_Q)
         self.window.bind("<KeyPress-e>",self.Append_E)
-            #Shoot projectile
+            #Place block
         self.window.bind("<KeyPress-3>", self.Append_3)
         self.window.bind("<KeyPress-4>", self.Append_4)
         self.window.bind("<KeyPress-5>", self.Append_5)
 
         #            ______________________________________________
-        #___________/Defender setup
+        #___________/Attacker setup
             #Movement
         self.window.bind("<KeyPress-i>", self.Append_I)
         self.window.bind("<KeyPress-j>", self.Append_J)
@@ -230,15 +246,15 @@ class versusGame:
             #Rotation
         self.window.bind("<KeyPress-o>", self.Append_O)
         self.window.bind("<KeyPress-u>", self.Append_U)
-            #Place block
+            #Shoot projectiles
         self.window.bind("<KeyPress-8>", self.Append_8)
         self.window.bind("<KeyPress-9>", self.Append_9)
         self.window.bind("<KeyPress-0>", self.Append_0)
         #            ______________________________________________
         #___________/Extra setup
         self.window.bind("<KeyRelease>", self.RemoveKey)
-        self.window.bind("<Escape>", self.Append_Esc)
-        self.window.bind("<Tab>", self.Append_Tab)
+        self.window.bind("<Escape>", self.Append_Esc) # >> For pausing the game
+        self.window.bind("<Tab>", self.Append_Tab) # >> For changinng turns
         self.pressedkeys = set()
 
         #------------------------------UI Creation--------------------------#
@@ -261,8 +277,7 @@ class versusGame:
         
         #Defender side
             #Wood
-        self.block1pngOpen = Image.open(f"Code/GraphicalUserInterface/sprites/defender/wood{self.textures}.png")
-        self.block1pngPhoto = ImageTk.PhotoImage(self.block1pngOpen)
+        self.block1pngPhoto = ImageTk.PhotoImage(self.woodOpenImage)
 
         self.canvas.create_rectangle(uiCoord[0]-40,uiCoord[1]-40, uiCoord[0]+40, uiCoord[1]+40,fill="red", outline="black") # Item box
         self.block1 = self.canvas.create_image(uiCoord[0],uiCoord[1], image=self.block1pngPhoto) # Block type
@@ -273,8 +288,7 @@ class versusGame:
         uiCoord[0]+= 100
 
              #Stone
-        self.block2pngOpen = Image.open(f"Code/GraphicalUserInterface/sprites/defender/stone{self.textures}.png")
-        self.block2pngPhoto = ImageTk.PhotoImage(self.block2pngOpen)
+        self.block2pngPhoto = ImageTk.PhotoImage(self.stoneOpenImage)
 
         self.canvas.create_rectangle(uiCoord[0]-40,uiCoord[1]-40, uiCoord[0]+40, uiCoord[1]+40,fill="red") # Item box
         self.block2 = self.canvas.create_image(uiCoord[0],uiCoord[1], image=self.block2pngPhoto) # Block type
@@ -285,8 +299,7 @@ class versusGame:
         uiCoord[0]+= 100
 
             #Metal
-        self.block3pngOpen = Image.open(f"Code/GraphicalUserInterface/sprites/defender/metal{self.textures}.png")
-        self.block3pngPhoto = ImageTk.PhotoImage(self.block3pngOpen)
+        self.block3pngPhoto = ImageTk.PhotoImage(self.metalOpenImage)
 
         self.canvas.create_rectangle(uiCoord[0]-40,uiCoord[1]-40, uiCoord[0]+40, uiCoord[1]+40,fill="red") # Item box
         self.block3 = self.canvas.create_image(uiCoord[0],uiCoord[1], image=self.block3pngPhoto) # Block type
@@ -363,6 +376,8 @@ class versusGame:
         self.mainframe.place(x=0, y=0)
         self.temporalFrame.pack_forget()
         #------------------------------------------------------------------------------------------#
+
+        self.ShowLabels(True, True)
         
     #--------------------------------Show Time-------------------------------------#
     def pauseFunction(self): 
@@ -400,7 +415,49 @@ class versusGame:
             self.pausedTime=currentTime-self.pauseTime.get()
             if not self.gameOver:
                 self.window.after(50, self.showTime,gameTime)
-    #------------------------------------------------------------------------------#
+
+    #-----------------------------------Show prompt-----------------------------------#
+    def ShowLabels(self, showToDefender:bool, showToAttacker:bool):
+        if self.ondefense==True:
+            if showToDefender:
+                prompt1 = "Defender Side:\nPlace the Eagle with 3,4 or 5\nPlace the walls to defend!"
+            if showToAttacker:
+                prompt2 = "Attacker Side:\nWait for the defender to setup the defenses"
+        else:
+            if showToDefender:
+                prompt1 = "Defender Side:\nKeep placing defenses until time expires"
+            if showToAttacker:
+                prompt2 = "Attacker Side:\nDestroy the Eagle before the time expires"
+
+        if showToDefender:
+            #Set the Label
+            text1 = tk.Label(self.canvas, text=prompt1, font=self.font, fg=self.attackerPalette[0], bg="black")
+            #Get the label coordinates
+            labelWidth = text1.winfo_width()
+            labelHeight = text1.winfo_height()
+            #Place the label
+            text1.place(x=(self.width/8)-(labelWidth/2), y=self.height//4-30)
+        else:
+            text1 = None
+
+        if showToAttacker:
+            #Set the label
+            text2 = tk.Label(self.canvas, text=prompt2, font= self.font, fg=self.defenderPalette[0], bg="black")
+            #Get the label coordinates
+            labelWidth = text2.winfo_width()
+            labelHeight = text2.winfo_height()
+            #Place the label
+            text2.place(x=(self.width/2+self.width/8)-(labelWidth/2), y=self.height//4-30)
+        else:
+            text2 = None
+
+        self.window.after(7000, self.RemoveLabels, text1, text2) # Remove them from screen after 7 s
+
+    def RemoveLabels(self, text1:tk.Label, text2:tk.Label):
+        if text1!=None:
+            text1.destroy()
+        if text2!=None:
+            text2.destroy()
     #--------------------------------Common Events-------------------------------#
     def Append_Tab(self, event):
         if self.defenderPlaying:
@@ -528,22 +585,26 @@ class versusGame:
                 if self.defenderPos[1]>0:
                     self.defenderPos[1]-=10
                     self.canvas.coords(self.defender, self.defenderPos[0], self.defenderPos[1])
+                    self.canvas.coords(self.currentSelection, self.defenderPos[0], self.defenderPos[1])
 
             
             if 's' in self.pressedkeys:
                 if self.defenderPos[1]<self.height:
                     self.defenderPos[1]+=10
                     self.canvas.coords(self.defender, self.defenderPos[0], self.defenderPos[1])
+                    self.canvas.coords(self.currentSelection, self.defenderPos[0], self.defenderPos[1])
             
             if 'a' in self.pressedkeys:
                 if self.defenderPos[0]>0:
                     self.defenderPos[0]-=10
                     self.canvas.coords(self.defender, self.defenderPos[0], self.defenderPos[1])
+                    self.canvas.coords(self.currentSelection, self.defenderPos[0], self.defenderPos[1])
             
             if 'd' in self.pressedkeys:
                 if self.defenderPos[0]<self.width//2:
                     self.defenderPos[0]+=10
                     self.canvas.coords(self.defender, self.defenderPos[0], self.defenderPos[1])
+                    self.canvas.coords(self.currentSelection, self.defenderPos[0], self.defenderPos[1])
 
             #Rotation
             if 'q' in self.pressedkeys:
@@ -555,22 +616,28 @@ class versusGame:
 
             #Placement
             if '3' in self.pressedkeys and self.woodReserve>0:
+                if self.pickUpState[2]!=0 and self.placingEagle==False:
+                    self.woodReserve-=1
+                    self.canvas.itemconfig(self.mats1, text=f"{self.woodReserve}")
+                    self.musicLogicControler.playSFX("pop")#Plays the sound effect
+                
                 self.Place(1, self.defenderAngle, self.defenderPos[0], self.defenderPos[1])
-                self.woodReserve-=1
-                self.canvas.itemconfig(self.mats1, text=f"{self.woodReserve}")
-                self.musicLogicControler.playSFX("pop")#Plays the sound effect
 
             if '4' in self.pressedkeys and self.stoneReserve>0:
+                if self.pickUpState[2]!=0 and self.placingEagle==False:
+                    self.stoneReserve-=1
+                    self.canvas.itemconfig(self.mats2, text=f"{self.stoneReserve}")
+                    self.musicLogicControler.playSFX("pop")#Plays the sound effect
+
                 self.Place(2, self.defenderAngle, self.defenderPos[0], self.defenderPos[1])
-                self.stoneReserve-=1
-                self.canvas.itemconfig(self.mats2, text=f"{self.stoneReserve}")
-                self.musicLogicControler.playSFX("pop")#Plays the sound effect
 
             if '5' in self.pressedkeys and self.metalReserve>0:
+                if self.pickUpState[2]!=0 and self.placingEagle==False:
+                    self.metalReserve-=1
+                    self.canvas.itemconfig(self.mats3, text=f"{self.metalReserve}")
+                    self.musicLogicControler.playSFX("pop")#Plays the sound effect
+
                 self.Place(3, self.defenderAngle, self.defenderPos[0], self.defenderPos[1])
-                self.metalReserve-=1
-                self.canvas.itemconfig(self.mats3, text=f"{self.metalReserve}")
-                self.musicLogicControler.playSFX("pop")#Plays the sound effect
             #----------Defener controls----------#
 
     #------------------------------------------Attacker functionalities-------------------------------------------------------#
@@ -737,6 +804,7 @@ class versusGame:
         self.musicLogicControler.stopMusic()
         self.mainframe.destroy()
         self.gameOver=True
+        value = self.calculatePoints("attacker")
         print(self.attackerTime-self.posiblePoints)
         app= hallOfFameGui.HallOfFameGui(self.parentFrame,self.window, self.width, self.height, self.attackerUser.user, self.posiblePoints)
     #--------------------------------------Defender functionalities----------------------------------------------------------------#
@@ -749,31 +817,74 @@ class versusGame:
         """"""
         self.defenderPhotoImage = self.DefenderRotate(self.defenderOpenImage)
         self.canvas.itemconfig(self.defender, image=self.defenderPhotoImage)
+        if self.pickUpState[0] == True:
+            images = self.pickUpState[2]
+            openImage = images[0]
+            openImage = self.DefenderRotate(openImage)
+            self.pickUpState[2][1] = openImage
+            self.canvas.itemconfig(self.currentSelection, image=openImage)
 
     def Place(self, type:int, angle, X, Y):
-        if self.placingEagle==True:
-            health = 30
-            Photo_Image = self.eaglePhotoImage
-            eagle_id = self.canvas.create_image(X, Y, image=Photo_Image)
-            self.canvas.tag_raise(self.defender)
-            self.wallList.append([eagle_id, Photo_Image, health])
-            self.placingEagle = False
-            self.ondefense = False
-        else:
+        # >>> Current selection is none and selects the currently held one <<<
+        if self.pickUpState[0] == False:
             if type == 1:
-                OpenImage = Image.open(f"Code/GraphicalUserInterface/sprites/defender/wood{self.textures}.png")
-                health = 1
+                OpenImage = self.woodOpenImage
+                self.pickUpState[1] = "Wood"
             if type == 2:
-                OpenImage = Image.open(f"Code/GraphicalUserInterface/sprites/defender/stone{self.textures}.png")
-                health = 6
+                OpenImage = self.stoneOpenImage
+                self.pickUpState[1] = "Stone"
             if type == 3:
-                OpenImage = Image.open(f"Code/GraphicalUserInterface/sprites/defender/metal{self.textures}.png")
-                health = 4
+                OpenImage = self.metalOpenImage
+                self.pickUpState[1] = "Metal"
             OpenImage = OpenImage.resize((55,55))
             Photo_Image = self.DefenderRotate(OpenImage)
-            wall_id = self.canvas.create_image(X, Y, image=Photo_Image)
+            self.pickUpState[0] = True
+            self.pickUpState[2] = [OpenImage, Photo_Image]
+            self.canvas.itemconfig(self.currentSelection, image=Photo_Image)
             self.canvas.tag_raise(self.defender)
-            self.wallList.append([wall_id, Photo_Image, health])
+        # >>> Current selection is already a block and must be placed <<<
+        elif self.pickUpState[0] == True:
+            if self.placingEagle==True:
+                #Place the Eagle
+                health = 30
+                Photo_Image = self.eaglePhotoImage
+                eagle_id = self.canvas.create_image(X, Y, image=Photo_Image)
+                self.canvas.tag_raise(self.defender)
+                self.wallList.append([eagle_id, Photo_Image, health])
+                self.placingEagle = False
+                self.ondefense = False
+                #Modify the properties on the selection and pick up state of the game
+                self.pickUpState = [False, ".", 0]
+                self.canvas.itemconfig(self.currentSelection, image=self.defenderPhotoImage)
+            else:
+                #Set the wall-to-place properties
+                if type == 1:
+                    OpenImage = self.woodOpenImage
+                    health = 1
+                    confirm = "Wood"
+                if type == 2:
+                    OpenImage = self.stoneOpenImage
+                    health = 6
+                    confirm = "Stone"
+                if type == 3:
+                    OpenImage = self.metalOpenImage
+                    health = 4
+                    confirm = "Metal"
+                #Verify if the block-to-place is the same as the one in the selection
+                OpenImage = OpenImage.resize((55,55))
+                Photo_Image = self.DefenderRotate(OpenImage)
+                if confirm == self.pickUpState[1]:
+                    #Place the block
+                    wall_id = self.canvas.create_image(X, Y, image=Photo_Image)
+                    self.canvas.tag_raise(self.defender)
+                    self.wallList.append([wall_id, Photo_Image, health])
+                    #Modify the properties on the selection and pick up state of the game
+                    self.pickUpState = [False, ".", 0]
+                    self.canvas.itemconfig(self.currentSelection, image=self.defenderPhotoImage)
+                else:
+                    #Modify the properties on the selection and pick up state of the game
+                    self.pickUpState = [True, confirm, [OpenImage, Photo_Image]]
+                    self.canvas.itemconfig(self.currentSelection, image=Photo_Image)
         
     def deleteWall(self, wall_id, index):
         self.canvas.delete(wall_id)
@@ -784,6 +895,7 @@ class versusGame:
         self.musicLogicControler.stopMusic()
         self.mainframe.destroy()
         self.gameOver=True
+        value = self.calculatePoints("defender")
         app= hallOfFameGui.HallOfFameGui(self.parentFrame, self.window, self.width, self.height, self.defenderUser.user, self.attackerTime-self.posiblePoints)
 
     def RegenerateBlocks(self):
@@ -840,8 +952,18 @@ class versusGame:
                 #self.FinishDefenderTurnbtn.destroy()
                 self.musicLogicControler.stopMusic()
                 self.musicLogicControler.setUpMusic(os.path.abspath("Code/GraphicalUserInterface/songs/attacker.mp3"))
+                self.ShowLabels(True, True)
             else: 
                 messagebox.showwarning  ("Eagle Defender", "Debes poner el águila")
+    def calculatePoints(self,winner:str):
+        """Gets the final points of the winner side. The formula changes based on who won"""
+        formula = 0
+        if winner=="attacker":
+            formula = int((1/(self.posiblePoints)*0.5)*100000)
+        if winner=="defender":
+            formula = int(1/(1/(self.woodReserve*1)+1/(self.stoneReserve*6)+1/(self.metalReserve*4))*0.5*1000)
+        print(formula)
+        return formula
 
 """if __name__ == "__main__":
     root = tk.Tk()
