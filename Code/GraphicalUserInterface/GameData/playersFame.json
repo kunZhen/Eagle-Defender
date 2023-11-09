@@ -5,6 +5,14 @@
             "time": 275
         },
         {
+            "name": "Bill4",
+            "time": 271
+        },
+        {
+            "name": "Ricky2",
+            "time": 261
+        },
+        {
             "name": "Frederick24",
             "time": 237
         },
@@ -17,6 +25,10 @@
             "time": 210
         },
         {
+            "name": "Bill4",
+            "time": 205
+        },
+        {
             "name": "Usuario3",
             "time": 174
         },
@@ -27,18 +39,6 @@
         {
             "name": "Usuario1",
             "time": 130
-        },
-        {
-            "name": "Usuario1",
-            "time": 130
-        },
-        {
-            "name": "Usuario1",
-            "time": 128
-        },
-        {
-            "name": "Usuario1",
-            "time": 128
         }
     ]
 }

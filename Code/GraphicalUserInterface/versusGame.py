@@ -420,14 +420,14 @@ class versusGame:
     def ShowLabels(self, showToDefender:bool, showToAttacker:bool):
         if self.ondefense==True:
             if showToDefender:
-                prompt1 = "Defender Side:\nPlace the Eagle with 3,4 or 5\nPlace the walls to defend!"
+                prompt1 = "Rol Defensor:\nColoque el águila con teclas 3,4 or 5\nColoque sus barreras para defenderse!"
             if showToAttacker:
-                prompt2 = "Attacker Side:\nWait for the defender to setup the defenses"
+                prompt2 = "Rol Atacante:\nEspere a que el defensor prepare sus defensas"
         else:
             if showToDefender:
-                prompt1 = "Defender Side:\nKeep placing defenses until time expires"
+                prompt1 = "Rol Defensor:\nContinue poniendo defensas hasta que termine el tiempo"
             if showToAttacker:
-                prompt2 = "Attacker Side:\nDestroy the Eagle before the time expires"
+                prompt2 = "Rol Atacante:\nDestruye el águila antes de que termine el tiempo"
 
         if showToDefender:
             #Set the Label
@@ -806,7 +806,7 @@ class versusGame:
         self.gameOver=True
         value = self.calculatePoints("attacker")
         print(self.attackerTime-self.posiblePoints)
-        app= hallOfFameGui.HallOfFameGui(self.parentFrame,self.window, self.width, self.height, self.attackerUser.user, self.posiblePoints)
+        app= hallOfFameGui.HallOfFameGui(self.parentFrame,self.window, self.width, self.height, self.attackerUser.user, value)
     #--------------------------------------Defender functionalities----------------------------------------------------------------#
     def DefenderRotate(self, image):
         """"""
@@ -896,7 +896,7 @@ class versusGame:
         self.mainframe.destroy()
         self.gameOver=True
         value = self.calculatePoints("defender")
-        app= hallOfFameGui.HallOfFameGui(self.parentFrame, self.window, self.width, self.height, self.defenderUser.user, self.attackerTime-self.posiblePoints)
+        app= hallOfFameGui.HallOfFameGui(self.parentFrame, self.window, self.width, self.height, self.defenderUser.user, value)
 
     def RegenerateBlocks(self):
         if not self.pause and not self.playerGaming=="defender":
@@ -955,6 +955,7 @@ class versusGame:
                 self.ShowLabels(True, True)
             else: 
                 messagebox.showwarning  ("Eagle Defender", "Debes poner el águila")
+
     def calculatePoints(self,winner:str):
         """Gets the final points of the winner side. The formula changes based on who won"""
         formula = 0

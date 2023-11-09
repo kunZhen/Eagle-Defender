@@ -342,60 +342,55 @@ class modificateDataGui:
         # Asigna la nueva imagen redimensionada a la variable de instancia
         self.imagen = resizedImage
 
-    def showSong(self):
-        counter = 0
-        auxList = []
-        while counter != len(self.songs):
-            auxList = auxList + [str(counter + 1) + "." + self.songs[counter][1][0]]
-            counter += 1
-
-        auxList = ["Lista de canciones"] + auxList
-        info = "\n".join(auxList)
-        self.songListLb.config(text=info)
-
     def searchSongs(self):
         self.saveBtn.config(text="Cargando...")
         self.saveBtn.update()
-        self.controler.searchYoutubeSongs(self.songTxt.get())
-        self.songOptions['values'] = self.controler.nameSongListForUser
+        self.controler.searchSong(self.nameSongEntry.get())
+        # Iterate over list
+        tempList = self.controler.nameSongListForUser
+        newSongs = []
+        for tuple in tempList:
+            newSongs.append(tuple[0])
+        self.songOptions['values'] = newSongs
         self.saveBtn.config(text="Guardar")
         self.saveBtn.config(state="normal")
-        self.chosenSong.set(self.controler.nameSongListForUser[0])
+        self.chosenSong.set(self.controler.nameSongListForUser[0][0])
         self.saveBtn.update()
 
     def saveSong(self):
-        flag = True
-
-        if not self.songsAmount != 3:
-            answer = messagebox.askyesno("Confirmación",
-                                         "Solo puedes guardar tres canciones, eliminarás la última que esté en la lista, ¿Deseas continuar?")
-            if not answer:
-                flag = False
-
+        flag=True
+        
+        if not self.songsAmount!=3: 
+            answer=messagebox.askyesno("Confirmación", "Solo puedes guardar tres canciones, eliminarás la última que esté en la lista, ¿Deseas continuar?")
+            if not answer: 
+                flag=False
+            
         if flag:
-            counter = 0
+            counter=0
             self.saveBtn.config(state="disabled")
-            self.songOptions['values'] = []
+            self.songOptions['values']=[]
             self.saveBtn.config(text="Esperando")
-
-            while counter != len(self.controler.nameSongListForUser):
-                if self.controler.nameSongListForUser[counter] == self.chosenSong.get():
-                    if not self.songsAmount != 3:
-                        auxFirstSong = self.songs[0]
-                        auxSecondSong = self.songs[1]
-                        self.songs[1] = auxFirstSong
-                        self.songs[2] = auxSecondSong
-                        self.songs[0] = [[self.controler.nameSongListForUser[counter]],
-                                         [self.controler.urlSongList[counter]]]
+                                
+            while counter!= len(self.controler.nameSongListForUser):
+                if self.controler.nameSongListForUser[counter][0]==self.chosenSong.get():
+                    if not self.songsAmount!=3:
+                        auxFirstSong=self.songs[0]
+                        auxSecondSong=self.songs[1]
+                        self.songs[1]=auxFirstSong
+                        self.songs[2]=auxSecondSong
+                        self.songs[0]=[[self.controler.nameSongListForUser[counter][0], 
+                                        self.controler.nameSongListForUser[counter][1]],
+                                        [self.controler.urlSongList[counter]]]
                     else:
-                        self.songs = [[[self.controler.nameSongListForUser[counter]],
-                                       [self.controler.urlSongList[counter]]]] + self.songs
-                        self.songsAmount += 1
+                        self.songs=[[[self.controler.nameSongListForUser[counter][0], 
+                                        self.controler.nameSongListForUser[counter][1]],
+                                        [self.controler.urlSongList[counter] ]]]+self.songs
+                        self.songsAmount+=1
                     self.showSong()
                     break
-                counter += 1
+                counter+=1
             self.chosenSong.set("")
-
+    
     def showSong(self):
         counter = 0
         auxList = []
