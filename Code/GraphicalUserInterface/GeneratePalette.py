@@ -10,17 +10,19 @@ class GeneratePalette:
         self.palette = [colorHex]
 
     def GenerateColors(self):
-        for i in range(2):
-            factor = (5 - i) / 6.0
+        if self.r < 50 or self.g < 50 or self.b < 50:
+            factor = 2.5
+            newR = int(self.r * factor)
+            newG = int(self.g * factor)
+            newB = int(self.b * factor)
+        else:
+            factor = 2 / 5
             newR = int(self.r * factor)
             newG = int(self.g * factor)
             newB = int(self.b * factor)
 
-            newColor = ColorRGB(newR, newG, newB).getHex()
-            self.palette.append(newColor)
-
-        self.palette.append("#000000")
-        self.palette.append("#ffffff")
+        newColor = ColorRGB(newR, newG, newB).getHex()
+        self.palette.append(newColor)
 
         print(self.palette)
         return self.palette

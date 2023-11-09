@@ -72,6 +72,11 @@ class LoginGui:
         self.faceLb.config(bg=colorPalette[1], fg=colorPalette[4])
         self.faceLb.place(x=centerX*1.75 , y=640, anchor="e")
 
+        self.showPasswordBtn = Button(self.loginFrame, text="👁", font=(font, 15), command=self.ShowPassword)
+        self.showPasswordBtn.config(bg=colorPalette[2], fg=colorPalette[4])
+
+        self.showPasswordBtn.place(x=centerX - 325, y=205, anchor="w")
+
     def next(self):
         self.loginFrame.destroy()
         if self.userTwo is None:

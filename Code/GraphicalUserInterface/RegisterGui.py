@@ -1,8 +1,6 @@
 from tkinter import *
-from tkinter import messagebox, filedialog
-from tkinter import ttk
-from tkinter import colorchooser
-import tkinter as tk
+from tkinter import messagebox, filedialog, colorchooser
+from tkinter.ttk import Combobox
 
 from facialLogic import facialRecognogtion
 from GeneratePalette import GeneratePalette
@@ -14,142 +12,128 @@ from musicLogic import *
 
 class registerGui:
     def __init__(self, window, width, height, parentFrame):
-
         self.window = window
         self.width = width
         self.height = height
         self.parentFrame = parentFrame
+
         self.songs = []
         self.controler = musicLogic()
 
-        centerX = width / 2
-        centrerY = width / 2
+        secX1 = width / 4 - 100
+        secX2 = 2 * width / 4
+        secX3 = 3 * width / 4 + 100
 
-        font = "Helvetica"
+        self.font = "Helvetica"
 
         self.colorPalette = ["#8B0000", "#630000", "#1C1C1C", "#000000", "#FFFFFF"]
 
-        # Esta es el frame de esta sección
+        self.informationFrame = Frame(self.window, width=self.width, height=self.height, bg=self.colorPalette[0])
+        self.informationFrame.pack()
 
-        self.InformationFrame = Frame(window, width=self.width, height=self.height, bg=self.colorPalette[0])
-        self.InformationFrame.pack()
+        self.titleLb = Label(self.informationFrame, text="Registro de usuario\nIngresar su información general",
+                             font=(self.font, 35))
+        self.titleLb.config(bg=self.colorPalette[0], fg=self.colorPalette[3])
 
-        self.registerLb = Label(self.InformationFrame, text="Registro de usuario", font=(font, 35))
-        self.registerLb.config(bg=self.colorPalette[0], fg=self.colorPalette[3])
-        self.registerLb.place(x=centerX, y=50, anchor="center")
+        self.nextBtn = Button(self.informationFrame, text="Siguiente", font=(self.font, 15), command=self.nextPage)
+        self.nextBtn.config(bg=self.colorPalette[2], fg=self.colorPalette[4])
 
-        self.InformationFrame.grid_rowconfigure(1, minsize=100)
-        self.InformationFrame.grid_columnconfigure(0, minsize=200)
+        self.titleLb.place(x=secX2, y=25, anchor="n")
+        self.nextBtn.place(x=width - 100, y=height - 200, anchor="se")
 
-        self.registerLb = Label(self.InformationFrame,
-                                text="                    En esta sección se debe ingresar su información general                    ",
-                                font=(font, 20))
-        self.registerLb.config(bg=self.colorPalette[1], fg=self.colorPalette[4])
-        self.registerLb.place(x=centerX, y=125, anchor="center")
+        # -----------------------------------------User Information-------------------------------------------------- #
+        self.userLb = Label(self.informationFrame, text="Nombre de Usuario:", font=(self.font, 15))
+        self.userLb.config(bg=self.colorPalette[1], fg=self.colorPalette[4])
+        self.userTxt = Entry(self.informationFrame, width=20, font=(self.font, 15))
 
-        # _______________________________Choose favorite color_____________________________________ #
+        self.mailLb = Label(self.informationFrame, text="Correo:", font=(self.font, 15))
+        self.mailLb.config(bg=self.colorPalette[1], fg=self.colorPalette[4])
+        self.mailTxt = Entry(self.informationFrame, width=20, font=(self.font, 15))
 
-        self.r = None
-        self.g = None
-        self.g = None
+        self.password1Lb = Label(self.informationFrame, text="Contraseña:", font=(self.font, 15))
+        self.password1Lb.config(bg=self.colorPalette[1], fg=self.colorPalette[4])
+        self.password1Txt = Entry(self.informationFrame, show="♦", width=20, font=(self.font, 15))
+
+        self.showPasswordBtn = Button(self.informationFrame, text="👁", font=(self.font, 15), command=self.ShowPassword)
+        self.showPasswordBtn.config(bg=self.colorPalette[2], fg=self.colorPalette[4])
+
+        self.password2Lb = Label(self.informationFrame, text="Confirme contraseña:", font=(self.font, 15))
+        self.password2Lb.config(bg=self.colorPalette[1], fg=self.colorPalette[4])
+        self.password2Txt = Entry(self.informationFrame, show="♦", width=20, font=(self.font, 15))
+
+        self.userLb.place(x=secX1 - 2.5, y=250, anchor="ne")
+        self.userTxt.place(x=secX1 + 2.5, y=250, anchor="nw")
+        self.mailLb.place(x=secX1 - 2.5, y=290, anchor="ne")
+        self.mailTxt.place(x=secX1 + 2.5, y=290, anchor="nw")
+        self.password1Lb.place(x=secX1 - 2.5, y=330, anchor="ne")
+        self.password1Txt.place(x=secX1 + 2.5, y=330, anchor="nw")
+        self.password2Lb.place(x=secX1 - 2.5, y=370, anchor="ne")
+        self.password2Txt.place(x=secX1 + 2.5, y=370, anchor="nw")
+        self.showPasswordBtn.place(x=secX1 + 2.5, y=410, anchor="nw")
+        # ----------------------------------------------------------------------------------------------------------- #
+
+        # -----------------------------------------Password Information---------------------------------------------- #
+        self.requirements = [
+            "Requisitos de contraseña:\n",
+            "❌ - 8 caracteres",
+            "❌ - carácter en minúscula",
+            "❌ - carácter en MAYÚSCULA",
+            "❌ - carácter numérico",
+            "❌ - carácter especial",
+            "❌ - ingrese nuevamente la contraseña"
+        ]
+
+        self.password1Txt.bind("<KeyRelease>", self.PassInfo)
+        self.password2Txt.bind("<KeyRelease>", self.PassInfo)
+        message = "\n".join(self.requirements)
+
+        self.passInfoLb = Label(self.informationFrame, text=message, font=(self.font, 20))
+        self.passInfoLb.config(bg=self.colorPalette[2], fg=self.colorPalette[4])
+        self.passInfoLb.place(x=secX1, y=500, anchor="n")
+        # ----------------------------------------------------------------------------------------------------------- #
+
+        # ---------------------------------------------Edit Color---------------------------------------------------- #
         self.userPalette = None
 
-        self.redLb = Label(self.InformationFrame, text="R: ", font=(font, 15))
-        self.redLb.config(bg=self.colorPalette[1], fg=self.colorPalette[4])
-        self.greenLb = Label(self.InformationFrame, text="G: ", font=(font, 15))
-        self.greenLb.config(bg=self.colorPalette[1], fg=self.colorPalette[4])
-        self.blueLb = Label(self.InformationFrame, text="B: ", font=(font, 15))
-        self.blueLb.config(bg=self.colorPalette[1], fg=self.colorPalette[4])
-
-        self.redTxt = Entry(self.InformationFrame, width=10, font=(font, 15))
-        self.greenTxt = Entry(self.InformationFrame, width=10, font=(font, 15))
-        self.blueTxt = Entry(self.InformationFrame, width=10, font=(font, 15))
-
-        self.redLb.place(x=centerX + 300, y=250, anchor="w")
-        self.redTxt.place(x=centerX + 320, y=290, anchor="w")
-        self.greenLb.place(x=centerX + 300, y=330, anchor="w")
-        self.greenTxt.place(x=centerX + 320, y=370, anchor="w")
-        self.blueLb.place(x=centerX + 300, y=410, anchor="w")
-        self.blueTxt.place(x=centerX + 320, y=450, anchor="w")
-
-        self.canvasColor = Canvas(self.InformationFrame, width=100, height=100)
-        self.canvasColor.place(x=centerX + 550, y=330, anchor="center")
-
-        self.colorLb = Label(self.InformationFrame, text="Seleccione un color", font=(font, 15))
+        self.colorCanvas = Canvas(self.informationFrame, width=300, height=150)
+        self.colorLb = Label(self.informationFrame, text="Color favorito:", font=(self.font, 15))
         self.colorLb.config(bg=self.colorPalette[1], fg=self.colorPalette[4])
-        self.colorLb.place(x=centerX + 330, y=200, anchor="center")
+        self.colorBtn = Button(self.informationFrame, text="Seleccionar color", font=(self.font, 15),
+                               command=self.GenerateColor)
+        self.colorBtn.config(bg=self.colorPalette[2], fg=self.colorPalette[4])
 
-        self.chooseColorBtn = Button(self.InformationFrame, text="Color picker", font=(font, 15),
-                                     command=self.ChooseColor)
-        self.chooseColorBtn.config(bg=self.colorPalette[2], fg=self.colorPalette[4])
-        self.chooseColorBtn.place(x=centerX + 420, y=500, anchor="center")
-
-        self.generateBtn = Button(self.InformationFrame, text="Generar", font=(font, 15), command=self.GenerateColor)
-        self.generateBtn.config(bg=self.colorPalette[2], fg=self.colorPalette[4])
-        self.generateBtn.place(x=centerX + 420, y=550, anchor="center")
-
-        # __________________________________________________________________________________________________________ #
+        self.colorLb.place(x=secX3, y=250, anchor="ne")
+        self.colorCanvas.place(x=secX3, y=300, anchor="n")
+        self.colorBtn.place(x=secX3, y=475, anchor="n")
+        # ----------------------------------------------------------------------------------------------------------- #
 
         # _______________________________________Get favorite song__________________________________________________ #
 
-        self.chosenSong = tk.StringVar()
+        self.chosenSong = StringVar()
         self.songsAmount = 0
 
-        self.songsListsLb = Label(self.InformationFrame, text="Lista de canciones", font=(font, 11), width=30,
+        self.songsListsLb = Label(self.informationFrame, text="Lista de canciones", font=(self.font, 11), width=30,
                                   wraplength=275)
         self.songsListsLb.config(bg=self.colorPalette[1], fg=self.colorPalette[4])
-        self.songsListsLb.place(x=centerX - 30, y=380 + 440, anchor="n")
 
-        self.songOptions = ttk.Combobox(self.InformationFrame, textvariable=self.chosenSong, height=40, width=40,
-                                        values=[])
-        self.songOptions.place(x=centerX - 30, y=300 + 440, anchor="center")
-
-        self.songLabel = Label(self.InformationFrame, text="Canción favorita", font=(font, 15))
+        self.songOptions = Combobox(self.informationFrame, textvariable=self.chosenSong, height=40, width=40,
+                                    values=[])
+        self.songLabel = Label(self.informationFrame, text="Canción favorita", font=(self.font, 15))
         self.songLabel.config(bg=self.colorPalette[1], fg=self.colorPalette[4])
-        self.songLabel.place(x=centerX - 30, y=200 + 440, anchor="center")
 
-        self.nameSongEntry = Entry(self.InformationFrame, width=18, font=(font, 15))
-        self.nameSongEntry.place(x=centerX - 30, y=250 + 440, anchor="center")
-
-        self.searchBtn = Button(self.InformationFrame, text="Buscar", font=(font, 10), command=self.searchSongs)
+        self.nameSongEntry = Entry(self.informationFrame, width=18, font=(self.font, 15))
+        self.searchBtn = Button(self.informationFrame, text="🔍", font=(self.font, 10), command=self.searchSongs)
         self.searchBtn.config(bg=self.colorPalette[2], fg=self.colorPalette[4])
-        self.searchBtn.place(x=centerX + 118, y=250 + 440, anchor="center")
+        self.saveBtn = Button(self.informationFrame, text="Esperando...", font=(self.font, 10), command=self.saveSong)
+        self.saveBtn.config(bg=self.colorPalette[2], fg=self.colorPalette[4], state="disabled")
 
-        self.saveBtn = Button(self.InformationFrame, text="Esperando...", font=(font, 10), command=self.saveSong)
-        self.saveBtn.config(bg=self.colorPalette[2], fg=self.colorPalette[4])
-        self.saveBtn.place(x=centerX - 30, y=330 + 440, anchor="center")
-        self.saveBtn.config(state="disabled")
+        self.songLabel.place(x=secX3, y=550, anchor="center")
+        self.nameSongEntry.place(x=secX3 - 30, y=600, anchor="center")
+        self.searchBtn.place(x=secX3 + 105, y=600, anchor="center")
+        self.songOptions.place(x=secX3, y=650, anchor="center")
+        self.saveBtn.place(x=secX3, y=680, anchor="center")
+        self.songsListsLb.place(x=secX3, y=730, anchor="center")
         # __________________________________________________________________________________________________________ #
-
-        # _______________________________________Data Information User______________________________________________ #
-        self.questionOneLb = Label(self.InformationFrame, text="Nombre de usuario", font=(font, 15))
-        self.questionOneLb.config(bg=self.colorPalette[1], fg=self.colorPalette[4])
-        self.questionOneLb.place(x=centerX - 30, y=200, anchor="center")
-        self.questionOneEntry = Entry(self.InformationFrame, width=25, font=(font, 15))
-        self.questionOneEntry.place(x=centerX - 30, y=250, anchor="center")
-
-        self.questionTwoLb = Label(self.InformationFrame, text="Correo", font=(font, 15))
-        self.questionTwoLb.config(bg=self.colorPalette[1], fg=self.colorPalette[4])
-        self.questionTwoLb.place(x=centerX - 30, y=300, anchor="center")
-        self.questionTwoEntry = Entry(self.InformationFrame, width=25, font=(font, 15))
-        self.questionTwoEntry.place(x=centerX - 30, y=350, anchor="center")
-
-        self.questionThreeLb = Label(self.InformationFrame, text="Contraseña", font=(font, 15))
-        self.questionThreeLb.config(bg=self.colorPalette[1], fg=self.colorPalette[4])
-        self.questionThreeLb.place(x=centerX - 30, y=400, anchor="center")
-        self.questionThreeEntry = Entry(self.InformationFrame, width=25, font=(font, 15), show="♦")
-        self.questionThreeEntry.place(x=centerX - 30, y=450, anchor="center")
-
-        self.questionFourLb = Label(self.InformationFrame, text="Confirmar contraseña", font=(font, 15))
-        self.questionFourLb.config(bg=self.colorPalette[1], fg=self.colorPalette[4])
-        self.questionFourLb.place(x=centerX - 30, y=500, anchor="center")
-        self.questionFourEntry = Entry(self.InformationFrame, width=25, font=(font, 15), show="♦")
-        self.questionFourEntry.place(x=centerX - 30, y=550, anchor="center")
-
-        self.nextBtn = Button(self.InformationFrame, text="Siguiente", font=(font, 15), command=self.nextPage)
-        self.nextBtn.config(bg=self.colorPalette[2], fg=self.colorPalette[4])
-        self.nextBtn.place(x=1.80*centerX , y=650, anchor="nw")
-        # ________________________________________________________________________________________________________ #
 
         # ____________________________________Photo and biometric information_____________________________________ #
         """self.photoCanvas = Canvas(self.InformationFrame, width=400, height=400)
@@ -178,19 +162,18 @@ class registerGui:
         answer = messagebox.askyesno("Confirmación", "¿Estás seguro de continuar?")
         if answer:
             try:
-                print(User.ValidateExistance(self, self.questionOneEntry.get()))
-                if (not (User.ValidateExistance(self, self.questionOneEntry.get())) and (
-                        not (User.ValidateExistance(self,
-                                                    self.questionTwoEntry.get()))) and self.questionOneEntry.get() != ""):
+                print(User.ValidateExistance(self, self.userTxt.get()))
+                if (not (User.ValidateExistance(self, self.userTxt.get())) and (
+                        not (User.ValidateExistance(self, self.mailTxt.get()))) and self.userTxt.get() != ""):
                     print(self.songs)
-                    if self.questionFourEntry.get() == self.questionThreeEntry.get():
-                        user = User(self.questionOneEntry.get(),
-                                    self.questionThreeEntry.get(),
-                                    self.questionTwoEntry.get(),
+                    if self.password2Txt.get() == self.password1Txt.get():
+                        user = User(self.userTxt.get(),
+                                    self.password1Txt.get(),
+                                    self.mailTxt.get(),
                                     self.userPalette,
                                     self.songs, " ", " ", "")
                         if user.validation:
-                            self.InformationFrame.pack_forget()
+                            self.informationFrame.pack_forget()
                             app = registerGUIAnswers(self.window, self.width, self.height, user, self.parentFrame)
                         else:
                             if user.errorType == "password":
@@ -282,52 +265,64 @@ class registerGui:
         self.songsListsLb.config(text=info)
 
     def GenerateColor(self):
-        try:
-            if (0 <= int(self.redTxt.get()) <= 255
-                    and 0 <= int(self.greenTxt.get()) <= 255
-                    and 0 <= int(self.blueTxt.get()) <= 255):
-                r = int(self.redTxt.get())
-                g = int(self.greenTxt.get())
-                b = int(self.blueTxt.get())
-
-                color = ColorRGB(r, g, b)
-                self.userPalette = GeneratePalette(color.getHex()).GenerateColors()
-
-                self.canvasColor.config(bg=self.userPalette[0])
-
-            else:
-                messagebox.showinfo("Mensaje", "Digite un numero entre 0 y 255")
-
-        except Exception as e:
-            messagebox.showinfo("Mensaje", f"Error: {e}")
-
-    def ChooseColor(self):
         color = colorchooser.askcolor()
-        self.redTxt.delete(0, "end")
-        self.greenTxt.delete(0, "end")
-        self.blueTxt.delete(0, "end")
-
-        self.redTxt.insert(0, str(color[0][0]))
-        self.greenTxt.insert(0, str(color[0][1]))
-        self.blueTxt.insert(0, str(color[0][2]))
-
         self.userPalette = GeneratePalette(color[1]).GenerateColors()
+        self.colorCanvas.config(bg=self.userPalette[0])
 
-        self.canvasColor.config(bg=self.userPalette[0])
+    def ShowPassword(self):
+        if self.showPasswordBtn["text"] == "👁":
+            self.password1Txt["show"] = ""
+            self.password2Txt["show"] = ""
+            self.showPasswordBtn["text"] = "❌"
+        else:
+            self.password1Txt["show"] = "♦"
+            self.password2Txt["show"] = "♦"
+            self.showPasswordBtn["text"] = "👁"
+
+    def PassInfo(self, event):
+        passTxt = self.password1Txt.get()
+        pass2Txt = self.password2Txt.get()
+        if len(passTxt) >= 8:
+            self.requirements[1] = "✔ - 8 caracteres"
+        else:
+            self.requirements[1] = "❌ - 8 caracteres"
+        if any(c.islower() for c in passTxt):
+            self.requirements[2] = "✔ - carácter en minúscula"
+        else:
+            self.requirements[2] = "❌ - carácter en minúscula"
+        if any(c.isupper() for c in passTxt):
+            self.requirements[3] = "✔ - carácter en MAYÚSCULA"
+        else:
+            self.requirements[3] = "❌ - carácter en MAYÚSCULA"
+        if any(c.isdigit() for c in passTxt):
+            self.requirements[4] = "✔ - carácter en numérico"
+        else:
+            self.requirements[4] = "❌ - carácter en numérico"
+        if any(c in string.punctuation for c in passTxt):
+            self.requirements[5] = "✔ - carácter especial"
+        else:
+            self.requirements[5] = "❌ - carácter especial"
+        if passTxt == pass2Txt:
+            self.requirements[6] = "✔ - ingrese nuevamente la contraseña"
+        else:
+            self.requirements[6] = "❌ - ingrese nuevamente la contraseña"
+
+        message = "\n".join(self.requirements)
+        self.passInfoLb.config(text=message)
 
     # Adaptar codigo para que funcione sin la clase user
-    def takeAPhoto(self):
-        faceInformation = facialRecognogtion(self.questionOneEntry.get())
+    """def takeAPhoto(self):
+        faceInformation = facialRecognogtion(self.userTxt.get())
         faceInformation.getFaceInformation("takeAPhoto")
 
     def savePhotoInformation(self):
-        faceInformation = facialRecognogtion(self.questionOneEntry.get())
+        faceInformation = facialRecognogtion(self.userTxt.get())
         faceInformation.getFaceInformation("saveInformation")
         self.done = True
 
     def chooseAPhoto(self):
         imagePath = filedialog.askopenfilename(filetypes=[("Archivos de imagen", "*.jpg *.png *.gif *.bmp *.svg")])
-        faceInformation = facialRecognogtion(self.questionOneEntry.get())
+        faceInformation = facialRecognogtion(self.userTxt.get())
         faceInformation.savePhoto(imagePath)
 
         self.photoCanvas.delete("all")
@@ -346,4 +341,4 @@ class registerGui:
         self.photoCanvas.create_image(0, 0, anchor="nw", image=resizedImage)
 
         # Asigna la nueva imagen redimensionada a la variable de instancia
-        self.imagen = resizedImage
+        self.imagen = resizedImage"""
