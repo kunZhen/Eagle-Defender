@@ -1,0 +1,32 @@
+{
+    "User": "Bill4",
+    "Password": "Bill4@gmail.com",
+    "Mail": "Bill4@gmail.com",
+    "Favorite Color": [
+        "#d900d9",
+        "#ff00ff"
+    ],
+    "Favorite Music": [
+        [
+            [
+                "DragonForce - Through the Fire and Flames (Official Video)",
+                "Through the Fire and Flames"
+            ],
+            [
+                "https://www.youtube.com/watch?v=0jgrCKhxE1s"
+            ]
+        ]
+    ],
+    "Answers": [
+        "ad",
+        "dada",
+        "dad",
+        "dvadjd",
+        "dahdadoqad"
+    ],
+    "Avatar": 1,
+    "Animation": "S",
+    "Textures": 1,
+    "Profile": " ",
+    "Facial Recognition": ""
+}

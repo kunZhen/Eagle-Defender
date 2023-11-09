@@ -72,10 +72,10 @@ class LoginGui:
         self.faceLb.config(bg=colorPalette[1], fg=colorPalette[4])
         self.faceLb.place(x=centerX*1.75 , y=640, anchor="e")
 
-        self.showPasswordBtn = Button(self.loginFrame, text="👁", font=(font, 15), command=self.ShowPassword)
+        self.showPasswordBtn = Button(self.loginFrame, text="<)", font=(font, 15), command=self.ShowPassword)
         self.showPasswordBtn.config(bg=colorPalette[2], fg=colorPalette[4])
 
-        self.showPasswordBtn.place(x=centerX - 325, y=205, anchor="w")
+        self.showPasswordBtn.place(x=centerX - 90, y=200, anchor="w")
 
     def next(self):
         self.loginFrame.destroy()
@@ -156,9 +156,9 @@ class LoginGui:
                 self.passwordBtn.config(state="normal")
 
     def ShowPassword(self):
-        if self.showPasswordBtn["text"] == "👁":
+        if self.showPasswordBtn["text"] == "<)":
             self.userTxt["show"] = ""
             self.showPasswordBtn["text"] = "❌"
         else:
             self.userTxt["show"] = "♦"
-            self.showPasswordBtn["text"] = "👁"
+            self.showPasswordBtn["text"] = "<)"

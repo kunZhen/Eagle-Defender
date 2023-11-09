@@ -54,7 +54,7 @@ class registerGui:
         self.password1Lb.config(bg=self.colorPalette[1], fg=self.colorPalette[4])
         self.password1Txt = Entry(self.informationFrame, show="♦", width=20, font=(self.font, 15))
 
-        self.showPasswordBtn = Button(self.informationFrame, text="👁", font=(self.font, 15), command=self.ShowPassword)
+        self.showPasswordBtn = Button(self.informationFrame, text="<)", font=(self.font, 15), command=self.ShowPassword)
         self.showPasswordBtn.config(bg=self.colorPalette[2], fg=self.colorPalette[4])
 
         self.password2Lb = Label(self.informationFrame, text="Confirme contraseña:", font=(self.font, 15))
@@ -122,8 +122,10 @@ class registerGui:
         self.songLabel.config(bg=self.colorPalette[1], fg=self.colorPalette[4])
 
         self.nameSongEntry = Entry(self.informationFrame, width=18, font=(self.font, 15))
-        self.searchBtn = Button(self.informationFrame, text="🔍", font=(self.font, 10), command=self.searchSongs)
+
+        self.searchBtn = Button(self.informationFrame, text="Buscar", font=(self.font, 10), command=self.searchSongs)
         self.searchBtn.config(bg=self.colorPalette[2], fg=self.colorPalette[4])
+
         self.saveBtn = Button(self.informationFrame, text="Esperando...", font=(self.font, 10), command=self.saveSong)
         self.saveBtn.config(bg=self.colorPalette[2], fg=self.colorPalette[4], state="disabled")
 
@@ -214,10 +216,15 @@ class registerGui:
         self.saveBtn.config(text="Cargando...")
         self.saveBtn.update()
         self.controler.searchSong(self.nameSongEntry.get())
-        self.songOptions['values'] = self.controler.nameSongListForUser
+        # Iterate over list
+        tempList = self.controler.nameSongListForUser
+        newSongs = []
+        for tuple in tempList:
+            newSongs.append(tuple[0])
+        self.songOptions['values'] = newSongs
         self.saveBtn.config(text="Guardar")
         self.saveBtn.config(state="normal")
-        self.chosenSong.set(self.controler.nameSongListForUser[0])
+        self.chosenSong.set(self.controler.nameSongListForUser[0][0])
         self.saveBtn.update()
 
     def saveSong(self):
@@ -235,22 +242,25 @@ class registerGui:
             self.saveBtn.config(text="Esperando")
                                 
             while counter!= len(self.controler.nameSongListForUser):
-                if self.controler.nameSongListForUser[counter]==self.chosenSong.get():
+                if self.controler.nameSongListForUser[counter][0]==self.chosenSong.get():
                     if not self.songsAmount!=3:
                         auxFirstSong=self.songs[0]
                         auxSecondSong=self.songs[1]
                         self.songs[1]=auxFirstSong
                         self.songs[2]=auxSecondSong
-                        self.songs[0]=[[self.controler.nameSongListForUser[counter]],
+                        self.songs[0]=[[self.controler.nameSongListForUser[counter][0], 
+                                        self.controler.nameSongListForUser[counter][1]],
                                         [self.controler.urlSongList[counter]]]
                     else:
-                        self.songs=[[[self.controler.nameSongListForUser[counter]],
+                        self.songs=[[[self.controler.nameSongListForUser[counter][0], 
+                                        self.controler.nameSongListForUser[counter][1]],
                                         [self.controler.urlSongList[counter] ]]]+self.songs
                         self.songsAmount+=1
                     self.showSong()
                     break
                 counter+=1
             self.chosenSong.set("")
+    
     def showSong(self):
         counter = 0
         auxList = []
@@ -270,14 +280,14 @@ class registerGui:
         self.colorCanvas.config(bg=self.userPalette[0])
 
     def ShowPassword(self):
-        if self.showPasswordBtn["text"] == "👁":
+        if self.showPasswordBtn["text"] == "<)":
             self.password1Txt["show"] = ""
             self.password2Txt["show"] = ""
             self.showPasswordBtn["text"] = "❌"
         else:
             self.password1Txt["show"] = "♦"
             self.password2Txt["show"] = "♦"
-            self.showPasswordBtn["text"] = "👁"
+            self.showPasswordBtn["text"] = "<)"
 
     def PassInfo(self, event):
         passTxt = self.password1Txt.get()
@@ -302,7 +312,7 @@ class registerGui:
             self.requirements[5] = "✔ - carácter especial"
         else:
             self.requirements[5] = "❌ - carácter especial"
-        if passTxt == pass2Txt:
+        if passTxt == pass2Txt and (passTxt and pass2Txt) != "":
             self.requirements[6] = "✔ - ingrese nuevamente la contraseña"
         else:
             self.requirements[6] = "❌ - ingrese nuevamente la contraseña"

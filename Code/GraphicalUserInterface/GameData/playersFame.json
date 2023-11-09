@@ -1,6 +1,10 @@
 {
     "results": [
         {
+            "name": "Bill4",
+            "time": 275
+        },
+        {
             "name": "Frederick24",
             "time": 237
         },
@@ -35,11 +39,6 @@
         {
             "name": "Usuario1",
             "time": 128
-        },
-        {
-            "name": "Usuario1",
-            "time": 128
         }
     ]
-
 }

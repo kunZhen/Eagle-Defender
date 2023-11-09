@@ -69,7 +69,7 @@ class modificateDataGui:
         self.password1Lb.config(bg=colorPalette[0], fg=colorPalette[2])
         self.password1Txt = Entry(self.dataFrame, show="♦", width=20, font=(self.font, 15), state="disabled")
 
-        self.showPasswordBtn = Button(self.dataFrame, text="👁", font=(self.font, 15), state="disabled",
+        self.showPasswordBtn = Button(self.dataFrame, text="<)", font=(self.font, 15), state="disabled",
                                       command=self.ShowPassword)
         self.showPasswordBtn.config(bg=colorPalette[1], fg=colorPalette[2])
         self.infoPasswordBtn = Button(self.dataFrame, text="!", font=(self.font, 15), state="disabled",
@@ -97,7 +97,7 @@ class modificateDataGui:
         self.editBtn = Button(self.profileCanvas, text="✎", font=(self.font, 15), state="disabled",
                               command=self.chooseAPhoto)
         self.editBtn.config(bg=colorPalette[1], fg=colorPalette[2])
-        self.addBtn = Button(self.profileCanvas, text="📷", font=(self.font, 15), state="disabled" ,
+        self.addBtn = Button(self.profileCanvas, text="+", font=(self.font, 15), state="disabled" ,
                              command=self.takeAPhoto)
         self.addBtn.config(bg=colorPalette[1], fg=colorPalette[2])
 
@@ -132,9 +132,9 @@ class modificateDataGui:
         self.songLabel = Label(self.dataFrame, text="Canción favorita:", font=(self.font, 15))
         self.songLabel.config(bg=colorPalette[0], fg=colorPalette[2])
 
-        self.songOptions = ttk.Combobox(self.dataFrame, textvariable=self.chosenSong, height=40, width=40, values=[])
+        self.songOptions = ttk.Combobox(self.dataFrame, textvariable=self.chosenSong, height=40, width=40, values=[], state="disabled")
         self.songTxt = Entry(self.dataFrame, width=18, font=(self.font, 15), state="disabled")
-        self.searchBtn = Button(self.dataFrame, text="🔍", font=(self.font, 15), state="disabled", command=self.searchSongs)
+        self.searchBtn = Button(self.dataFrame, text="Buscar", font=(self.font, 15), state="disabled", command=self.searchSongs)
         self.searchBtn.config(bg=colorPalette[1], fg=colorPalette[2])
         self.saveBtn = Button(self.dataFrame, text="Esperando...", font=(self.font, 10), state="disabled", command=self.saveSong)
         self.saveBtn.config(bg=colorPalette[1], fg=colorPalette[2])
@@ -177,8 +177,8 @@ class modificateDataGui:
         self.textureCB.current(self.user.textures - 1)
         self.textureCB.config(state="disabled")
 
-        self.avatarCB.place(x=secX2, y=690, anchor="center")
-        self.avatarCanvas.place(x=secX2, y=710, anchor="n")
+        self.avatarCB.place(x=secX2, y=730, anchor="center")
+        self.avatarCanvas.place(x=secX2, y=750, anchor="n")
         self.textureCanvas.place(x=secX3, y=520, anchor="n")
         self.animationCB.place(x=secX3, y=150, anchor="center")
         self.animationCanvas.place(x=secX3, y=170, anchor="n")
@@ -187,7 +187,7 @@ class modificateDataGui:
 
         self.widgets = [self.userTxt, self.mailTxt, self.password1Txt, self.password2Txt,
                         self.showPasswordBtn, self.infoPasswordBtn, self.editBtn, self.addBtn, self.colorBtn,
-                        self.songTxt, self.searchBtn, self.avatarCB, self.animationCB, self.textureCB]
+                        self.songTxt, self.searchBtn, self.avatarCB, self.animationCB, self.textureCB, self.songOptions]
 
 # ------------------------------------------------------------------------------------------------------------------- #
     def ConfigUser(self):
@@ -209,14 +209,14 @@ class modificateDataGui:
                     widget.config(state="disabled")
 
     def ShowPassword(self):
-        if self.showPasswordBtn["text"] == "👁":
+        if self.showPasswordBtn["text"] == "<)":
             self.password1Txt["show"] = ""
             self.password2Txt["show"] = ""
             self.showPasswordBtn["text"] = "❌"
         else:
             self.password1Txt["show"] = "♦"
             self.password2Txt["show"] = "♦"
-            self.showPasswordBtn["text"] = "👁"
+            self.showPasswordBtn["text"] = "<)"
 
     def InfoPassword(self):
         requirements = [

@@ -1,0 +1,34 @@
+{
+    "User": "Usuario3",
+    "Password": "Usuario3@gmail.com",
+    "Mail": "Usuario3@gmail.com",
+    "Favorite Color": [
+        "#d9a000",
+        "#b48500",
+        "#906a00",
+        "#000000",
+        "#ffffff"
+    ],
+    "Favorite Music": [
+        [
+            [
+                "Sleepwalker"
+            ],
+            [
+                "https://www.youtube.com/watch?v=DrJ7grCnwUc"
+            ]
+        ]
+    ],
+    "Answers": [
+        "d",
+        "d",
+        "dd",
+        "D",
+        "d"
+    ],
+    "Avatar": 1,
+    "Animation": "S",
+    "Textures": 1,
+    "Profile": " ",
+    "Facial Recognition": ""
+}

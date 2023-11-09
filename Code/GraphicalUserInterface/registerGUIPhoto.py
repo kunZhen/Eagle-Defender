@@ -39,7 +39,7 @@ class RegisterGuiPhoto:
         self.editBtn = Button(self.profileCanvas, text="✎", font=(font, 15), command=self.chooseAPhoto)
         self.editBtn.config(bg=colorPalette[2], fg=colorPalette[4])
 
-        self.addBtn = Button(self.profileCanvas, text="📷", font=(font, 15), command=self.takeAPhoto)
+        self.addBtn = Button(self.profileCanvas, text="+", font=(font, 15), command=self.takeAPhoto)
         self.addBtn.config(bg=colorPalette[2], fg=colorPalette[4])
 
         self.bioBtn = Button(self.registerFrame, text="Datos biómetricos", width=30, font=(font, 15),
@@ -52,13 +52,13 @@ class RegisterGuiPhoto:
         self.profileCanvas.place(x=centerX, y=400, anchor="center")
         self.editBtn.place(x=400, y=400, anchor="se")
         self.addBtn.place(x=340, y=400, anchor="se")
-        self.bioBtn.place(x=centerX, y=650, anchor="center")
-        self.nextBtn.place(x=centerX, y=750, anchor="center")
+        self.bioBtn.place(x=centerX, y=750, anchor="center")
+        self.nextBtn.place(x=centerX, y=850, anchor="center")
 
         # ----------------------------------------------------------------------------------------------------------- #
-        self.infoBtn = Button(self.registerFrame, text="!", font=(font, 35), command=self.InfoPage)
+        self.infoBtn = Button(self.registerFrame, text="!", font=(font, 25), command=self.InfoPage)
         self.infoBtn.config(bg=colorPalette[2], fg=colorPalette[4])
-        self.infoBtn.place(x=100, y=150, anchor="nw")
+        self.infoBtn.place(x=centerX, y=650, anchor="nw")
         # ----------------------------------------------------------------------------------------------------------- #
 
     def takeAPhoto(self):

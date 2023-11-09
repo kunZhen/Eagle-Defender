@@ -1,0 +1,50 @@
+{
+    "User": "Ricky2",
+    "Password": "Ricky2@gmail.com",
+    "Mail": "Ricky2@gmail.com",
+    "Favorite Color": [
+        "#d924d9",
+        "#ff5aff"
+    ],
+    "Favorite Music": [
+        [
+            [
+                "Rick and Morty | S7E2 Cold Open: The Jerrick Trap | adult swim",
+                "Rick & Morty"
+            ],
+            [
+                "https://www.youtube.com/watch?v=CWO5skS1MjQ"
+            ]
+        ],
+        [
+            [
+                "Avicii vs Nicky Romero - I Could Be The One (Nicktim)",
+                "I Could Be The One (Avicii Vs. Nicky Romero) - Radio Edit"
+            ],
+            [
+                "https://www.youtube.com/watch?v=bek1y2uiQGA"
+            ]
+        ],
+        [
+            [
+                "akiaura, LONOWN, STM - Sleepwalker (Official Music Video)",
+                "Sleepwalker"
+            ],
+            [
+                "https://www.youtube.com/watch?v=DrJ7grCnwUc"
+            ]
+        ]
+    ],
+    "Answers": [
+        "g",
+        "fafd",
+        "fsf",
+        "jfsdjlfk",
+        "adda"
+    ],
+    "Avatar": 1,
+    "Animation": "S",
+    "Textures": 1,
+    "Profile": " ",
+    "Facial Recognition": ""
+}
