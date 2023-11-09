@@ -5,6 +5,8 @@ from versusGame import versusGame
 from jsonManager import JsonManager
 from musicControl import MusicControl
 from modificateDataGui import *
+import helpSection
+import hallOfFameGui
 import tkinter as tk
 import temporalGui
 from User import *
@@ -65,10 +67,10 @@ class PrincipalGui:
         self.playBtn = Button(self.principalFrame, text="Jugar", font=(font, 15), command=self.play)
         self.playBtn.config(bg=colorPalette[2], fg=colorPalette[4])
 
-        self.hallFameBtn = Button(self.principalFrame, text="Salón de la Fama", font=(font, 15))
+        self.hallFameBtn = Button(self.principalFrame, text="Salón de la Fama", font=(font, 15), command=self.showHallOfFame)
         self.hallFameBtn.config(bg=colorPalette[2], fg=colorPalette[4])
 
-        self.helpBtn = Button(self.principalFrame, text="Sección de ayuda", font=(font, 15))
+        self.helpBtn = Button(self.principalFrame, text="Manual de Instrucciones", font=(font, 15), command=self.showHelp)
         self.helpBtn.config(bg=colorPalette[2], fg=colorPalette[4])
 
         self.playBtn.place(x=centerX, y=centerY + (height / 3), anchor="center")
@@ -91,6 +93,7 @@ class PrincipalGui:
     def updateLb(self):
         self.user1Btn.config(text=self.users[0])
         self.user2Btn.config(text=self.users[1])
+
     def tempFrame(self):
         self.temporalFrame = temporalGui.temporalFrame(self.window, self.width, self.height,self.principalFrame)
    
@@ -101,7 +104,16 @@ class PrincipalGui:
         self.tempFrame()
 
         self.window.after(500, self.afterFrame)
-      
+    
+    def showHallOfFame(self):
+        self.principalFrame.pack_forget()
+        frame = hallOfFameGui.HallOfFameGui(self.principalFrame, self.window, self.width, self.height)
+
+    def showHelp(self):
+        pass
+        #self.principalFrame.pack_forget()
+        #self.frame = helpSection.HelpSection(self.window, self.width, self.height, self.principalFrame)
+        
     def afterFrame(self):
         user1=User.LoadJson(self.users[0])
         user2=User.LoadJson(self.users[1])
