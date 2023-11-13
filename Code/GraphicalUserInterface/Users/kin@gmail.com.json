@@ -1,0 +1,32 @@
+{
+    "User": "kin@gmail.com",
+    "Password": "kin@gmail.com1K",
+    "Mail": "kin@gmail.com",
+    "Favorite Color": [
+        "#d911d9",
+        "#ff2aff"
+    ],
+    "Favorite Music": [
+        [
+            [
+                "La Oreja de Van Gogh - Rosas (V\u00eddeo Oficial)",
+                "Rosas"
+            ],
+            [
+                "https://www.youtube.com/watch?v=nYnLVWXmRm8"
+            ]
+        ]
+    ],
+    "Answers": [
+        "AA",
+        "A",
+        "A",
+        "A",
+        "A"
+    ],
+    "Avatar": 1,
+    "Animation": "S",
+    "Textures": 1,
+    "Profile": " ",
+    "Facial Recognition": ""
+}

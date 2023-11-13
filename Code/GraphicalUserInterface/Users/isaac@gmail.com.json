@@ -1,0 +1,32 @@
+{
+    "User": "isaac@gmail.com",
+    "Password": "I1isaac@gmail.com",
+    "Mail": "isaac@gmail.com",
+    "Favorite Color": [
+        "#d9d970",
+        "#56562c"
+    ],
+    "Favorite Music": [
+        [
+            [
+                "Bad Bunny - Tit\u00ed Me Pregunt\u00f3 (Video Oficial) | Un Verano Sin Ti",
+                "Tit\u00ed Me Pregunt\u00f3"
+            ],
+            [
+                "https://www.youtube.com/watch?v=Cr8K88UcO0s"
+            ]
+        ]
+    ],
+    "Answers": [
+        "A",
+        "A",
+        "A",
+        "A",
+        "A"
+    ],
+    "Avatar": 1,
+    "Animation": "S",
+    "Textures": 1,
+    "Profile": " ",
+    "Facial Recognition": ""
+}

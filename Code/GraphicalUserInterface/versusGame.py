@@ -8,6 +8,8 @@ from musicLogic import *
 from User import *
 import random
 import hallOfFameGui
+import socket
+from threading import Thread
 
 
 class versusGame:
@@ -39,6 +41,7 @@ class versusGame:
         
         #----------------------------Screen setup---------------------------#
         self.window = window
+        self.window.protocol("WM_DELETE_WINDOW", self.closeControlConnection)
         self.window.title("EagleDefender: Offline Mode")
         self.width = w
         self.height = h
@@ -356,14 +359,14 @@ class versusGame:
         # Defender song 
         self.musicLogicControler.fileName="defender.mp4"
 
-        self.musicLogicControler.downloadYoutubeAudio(defenderSong)
-        self.musicLogicControler.setUpVideoMusic("Code/GraphicalUserInterface/songs/defender.mp4")
+        #self.musicLogicControler.downloadYoutubeAudio(defenderSong)
+        #self.musicLogicControler.setUpVideoMusic("Code/GraphicalUserInterface/songs/defender.mp4")
              
         # Atacker song 
         self.musicLogicControler.fileName="attacker.mp4"
 
-        self.musicLogicControler.downloadYoutubeAudio(attackerSong)
-        self.musicLogicControler.setUpVideoMusic("Code/GraphicalUserInterface/songs/attacker.mp4")
+        #self.musicLogicControler.downloadYoutubeAudio(attackerSong)
+        #self.musicLogicControler.setUpVideoMusic("Code/GraphicalUserInterface/songs/attacker.mp4")
 
         # Setup music for the game
         self.musicLogicControler.setUpMusic("Code/GraphicalUserInterface/songs/defender.mp3")
@@ -372,13 +375,72 @@ class versusGame:
         self.regenerateAttacks()
         self.AnimationsManager()
         self.RegenerateBlocks()
+        self.ShowLabels(True, True)
+
+        #--------------------#
+        #-----Control--------#
+        #--------------------#
+
+        
 
         self.mainframe.place(x=0, y=0)
-        self.temporalFrame.pack_forget()
+        self.receiveControlSignal()
+        #self.temporalFrame.pack_forget()
         #------------------------------------------------------------------------------------------#
 
-        self.ShowLabels(True, True)
+    
+
+
+
+
+    #----------------------Control--------------------------------------------------#  
+    
+    
+    def receiveControlSignal(self):   
+        self.server_address = ('0.0.0.0', 12345)
+
+        # Configuración del socket para recibir datos de la Raspberry Pi Pico W
+        self.sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        self.sock.bind(self.server_address)
+
+        # Bandera para indicar al hilo que debe salir del bucle
+        self.controlConection = True
+        self.controlSignal = tk.StringVar()
+        self.controlSignal.set("Esperando...")
+
+        self.etiqueta_mensaje = tk.Label(self.mainframe, textvariable=self.controlSignal)
+        self.etiqueta_mensaje.place(x=self.width//2, y=300)
+ 
+        data, address = self.sock.recvfrom(1024)
+        self.controlSignal.set(f'Datos recibidos de {address}: {data.decode()}')
+        self.sock.close()
+        print(data.decode())        
+        self.window.after(100, self.receiveControlSignal)
+    def closeControlConnection(self):
+        self.controlConection = False
+        self.sock.close()
+
+    def start_reception_thread(self):
+        thread_recepcion = Thread(target=self.receiveControlSignal)
+        thread_recepcion.daemon = True
+        thread_recepcion.start()
+
         
+    
+    #----------------------Control--------------------------------------------------#  
+     
+     
+        
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     #--------------------------------Show Time-------------------------------------#
     def pauseFunction(self): 
         if self.pause:
@@ -966,13 +1028,13 @@ class versusGame:
         print(formula)
         return formula
 
-"""if __name__ == "__main__":
+if __name__ == "__main__":
     root = tk.Tk()
     screenWidth = root.winfo_screenwidth()
     screenheight = root.winfo_screenheight()
     print(screenWidth, screenheight)
     root.geometry(f"{screenWidth}x{screenheight}")
-    user1=User.LoadJson("Frederick24")
-    user2=User.LoadJson("Isaac90@gmail.com")
-    new = versusGame(root, screenWidth, screenheight, [user2, user1], None)
-    root.mainloop()"""
+    user1=User.LoadJson("isaac@gmail.com")
+    user2=User.LoadJson("kin@gmail.com")
+    new = versusGame(root, screenWidth, screenheight, [user2, user1], None, None)
+    root.mainloop()
