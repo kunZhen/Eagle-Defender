@@ -377,7 +377,7 @@ class versusGame:
         self.RegenerateBlocks()
 
         self.mainframe.place(x=0, y=0)
-        #self.temporalFrame.pack_forget()
+        ##self.temporalFrame.pack_forget()
         #------------------------------------------------------------------------------------------#
 
         self.ShowLabels(True, True)
@@ -398,6 +398,9 @@ class versusGame:
         self.controlSignal.set("Esperando...")
 
         self.main_loop()
+
+
+
 
 
     #----------------------Control--------------------------------------------------#  
@@ -429,17 +432,17 @@ class versusGame:
                     self.window.event_generate("<KeyPress>", keysym='o')
                     self.window.event_generate("<KeyRelease>", keysym='o')
                 if (data.decode()=="AU"):
-                    self.window.event_generate("<KeyPress>", keysym='i')
-                    self.window.event_generate("<KeyRelease>", keysym='i')
+                    self.window.event_generate("<KeyPress>", keysym='w')
+                    self.window.event_generate("<KeyRelease>", keysym='w')
                 if (data.decode()=="AD"):
-                    self.window.event_generate("<KeyPress>", keysym='k')
-                    self.window.event_generate("<KeyRelease>", keysym='k')
+                    self.window.event_generate("<KeyPress>", keysym='s')
+                    self.window.event_generate("<KeyRelease>", keysym='s')
                 if (data.decode()=="AR"):
-                    self.window.event_generate("<KeyPress>", keysym='l')
-                    self.window.event_generate("<KeyRelease>", keysym='l')
+                    self.window.event_generate("<KeyPress>", keysym='d')
+                    self.window.event_generate("<KeyRelease>", keysym='d')
                 if (data.decode()=="AL"):
-                    self.window.event_generate("<KeyPress>", keysym='j')
-                    self.window.event_generate("<KeyRelease>", keysym='j')
+                    self.window.event_generate("<KeyPress>", keysym='a')
+                    self.window.event_generate("<KeyRelease>", keysym='a')
                 #--------------Defender-------------#
                 if (data.decode()=="D5"):
                     self.window.event_generate("<KeyPress>", keysym='q')
@@ -463,17 +466,17 @@ class versusGame:
                     self.window.event_generate("<KeyPress>", keysym='5')
                     self.window.event_generate("<KeyRelease>", keysym='5')
                 if (data.decode()=="DU"):
-                    self.window.event_generate("<KeyPress>", keysym='w')
-                    self.window.event_generate("<KeyRelease>", keysym='w')
+                    self.window.event_generate("<KeyPress>", keysym='i')
+                    self.window.event_generate("<KeyRelease>", keysym='i')
                 if (data.decode()=="DD"):
-                    self.window.event_generate("<KeyPress>", keysym='s')
-                    self.window.event_generate("<KeyRelease>", keysym='s')
+                    self.window.event_generate("<KeyPress>", keysym='k')
+                    self.window.event_generate("<KeyRelease>", keysym='k')
                 if (data.decode()=="DR"):
-                    self.window.event_generate("<KeyPress>", keysym='d')
-                    self.window.event_generate("<KeyRelease>", keysym='d')
+                    self.window.event_generate("<KeyPress>", keysym='l')
+                    self.window.event_generate("<KeyRelease>", keysym='l')
                 if (data.decode()=="DL"):
-                    self.window.event_generate("<KeyPress>", keysym='a')
-                    self.window.event_generate("<KeyRelease>", keysym='a')
+                    self.window.event_generate("<KeyPress>", keysym='j')
+                    self.window.event_generate("<KeyRelease>", keysym='j')
 
         except socket.error:
             print("ERROR")
@@ -1102,8 +1105,8 @@ class versusGame:
         return formula
 if __name__ == "__main__":
     root = tk.Tk()
-    screenWidth = root.winfo_screenwidth() - 100
-    screenheight = root.winfo_screenheight() - 100
+    screenWidth = root.winfo_screenwidth()
+    screenheight = root.winfo_screenheight()
     print(screenWidth, screenheight)
     root.geometry(f"{screenWidth}x{screenheight}")
     user1=User.LoadJson("isaac@gmail.com")
