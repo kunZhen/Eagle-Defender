@@ -51,6 +51,15 @@ class facialRecognogtion:
                 flag=False
 
     def comparation(self): 
+        """port = 22  # El puerto SSH predeterminado es 22
+        username = 'eagleDefender'  # Tu nombre de usuario en la máquina virtual
+        private_key_file = os.path.abspath('Code/eagleDefenderServer_key.pem')
+        directorio_destino = f"Code/GraphicalUserInterface/Faces/"
+        directorio_destino_1 = f'/home/eagleDefender/files/biometricalData/{username}.jpg'
+        hostname = '52.188.208.125'  # Cambia esto a la dirección IP de tu máquina virtual
+        ssh_transfer = SSHFileTransfer(hostname, port, username, private_key_file)
+        ssh_transfer.copy_file_from_remote(directorio_destino_1, directorio_destino)"""
+
         regFace = cv2.imread("Code/GraphicalUserInterface/Faces/"+self.userName+".jpg",0)     #Importamos el rostro del registro
         logFace = cv2.imread("Code/GraphicalUserInterface/Faces/"+self.userName+"LOG.jpg",0) 
         orb= cv2.ORB_create()
