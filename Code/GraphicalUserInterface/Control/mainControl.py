@@ -1,6 +1,3 @@
-## Este programa se encarga de enviar los datos de los botones y joysticks a la computadora
-# Se debe ejecutar en Thonny IDE
-
 import network
 import utime
 import socket
@@ -41,12 +38,12 @@ buttonAtk = Pin(20, Pin.IN, Pin.PULL_UP)
 led = Pin("LED", Pin.OUT)
 
 # Configuración de la red Wi-Fi
-ssid_wifi = 'JM.Loría'
-password_wifi = 'bdfd0591'
+ssid_wifi = 'Sansung A-32' #'JM.Loría'
+password_wifi = 'Mascotas#2020' #'bdfd0591'
 
 wifi = network.WLAN(network.STA_IF)
 
-# Conéctate a172.26.41.118 la red Wi-Fi
+# Conéctate a la red Wi-Fi
 wifi.active(True)
 wifi.connect(ssid_wifi, password_wifi)
 
@@ -59,7 +56,7 @@ print("Conexión Wi-Fi exitosa")
 print(wifi.ifconfig())
 
 # Dirección IP y puerto de la computadora
-server_address = ('172.26.41.118', 12345)  # Cambia esto con la IP de tu computadora
+server_address = ('192.168.100.17', 12345)  # Cambia esto con la IP de tu computadora
 
 # Configuración del socket para enviar datos a la computadora
 sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -176,4 +173,3 @@ while True:
 
     # Pequeño retardo para evitar rebotes
     utime.sleep_ms(100)
-
