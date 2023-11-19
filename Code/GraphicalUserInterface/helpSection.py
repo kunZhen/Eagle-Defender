@@ -34,7 +34,14 @@ class HelpSection:
         self.titleLb = tk.Label(self.titleCanvas, text="Controles de juego", font=(font, 50))
         self.titleLb.config(bg=colorPalette[1], fg=colorPalette[3])
         self.titleLb.place(x=centerX, y=100, anchor="center")
+
+        self.returnBtn = tk.Button(self.titleCanvas, text="Retornar al menu", command=self.backToMenu )
+        self.returnBtn.place(x=self.width/2-50, y=self.height-75)
         
         # Create images on the canvas
         self.titleCanvas.create_image(self.width//2+530, self.height//2-75, image=self.attackerControls) # (Attacker controls)
         self.titleCanvas.create_image(self.width//2-530, self.height//2-75, image=self.defenderControls) # (Defender controls)
+    
+    def backToMenu(self):
+        self.initialFrame.pack_forget()
+        self.parent.pack()

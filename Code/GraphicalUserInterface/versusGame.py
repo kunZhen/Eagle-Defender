@@ -66,7 +66,7 @@ class versusGame:
         self.buttonDefender.place(x=45, y=30)
 
         self.buttonAttacker = tk.Button( self.canvas, text=f"{self.attackerUser.user}", command=lambda: self.ShowLabels(False, True) )
-        self.buttonAttacker.place(x=self.width-105, y=30)
+        self.buttonAttacker.place(x=self.width-90, y=30)
         """"self.pauseBtn=tk.Button(self.canvas, text="▶", command=self.pauseFunction)
         self.pauseBtn.config(bg=colorPalette[2], fg=colorPalette[4])
         self.pauseBtn.place(x= (self.width/2), y=80, anchor="nw")"""
@@ -307,7 +307,7 @@ class versusGame:
         self.canvas.create_text(uiCoord[0]+1, uiCoord[1]+37, text="5", fill="white", font=(self.font[0], self.font[1]-5)) # Key text
         self.canvas.create_rectangle(uiCoord[0]+15,uiCoord[1]-45, uiCoord[0]+45, uiCoord[1]-15,fill="black", outline="white") # Reserve box
         self.mats3 = self.canvas.create_text(uiCoord[0]+28.5, uiCoord[1]-27.5, text=f"{self.metalReserve}", fill="white", font=self.font) # Reserve text
-        uiCoord[0]+= 1075
+        uiCoord[0]+= 995
 
         """   #FinishButton
         self.FinishDefenderTurnbtn=tk.Button(self.canvas, text="Listo",font=("Helvetica,15"))
@@ -846,7 +846,7 @@ class versusGame:
         elif self.pickUpState[0] == True:
             if self.placingEagle==True:
                 #Place the Eagle
-                health = 30
+                health = 10
                 Photo_Image = self.eaglePhotoImage
                 eagle_id = self.canvas.create_image(X, Y, image=Photo_Image)
                 self.canvas.tag_raise(self.defender)
