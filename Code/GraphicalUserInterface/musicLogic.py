@@ -5,7 +5,6 @@ from moviepy.editor import AudioFileClip
 
 import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
-import librosa
 
 import math
 

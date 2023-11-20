@@ -804,7 +804,7 @@ class versusGame:
         self.musicLogicControler.stopMusic()
         self.mainframe.destroy()
         self.gameOver=True
-        value = self.calculatePoints("attacker")
+        value = self.calculatePoints(self.posiblePoints,None,None)
         print(self.attackerTime-self.posiblePoints)
         app= hallOfFameGui.HallOfFameGui(self.parentFrame,self.window, self.width, self.height, self.attackerUser.user, value)
     #--------------------------------------Defender functionalities----------------------------------------------------------------#
@@ -895,7 +895,7 @@ class versusGame:
         self.musicLogicControler.stopMusic()
         self.mainframe.destroy()
         self.gameOver=True
-        value = self.calculatePoints("defender")
+        value = self.calculatePoints(self.woodReserve,self.stoneReserve, self.metalReserve)
         app= hallOfFameGui.HallOfFameGui(self.parentFrame, self.window, self.width, self.height, self.defenderUser.user, value)
 
     def RegenerateBlocks(self):
@@ -956,13 +956,27 @@ class versusGame:
             else: 
                 messagebox.showwarning  ("Eagle Defender", "Debes poner el águila")
 
-    def calculatePoints(self,winner:str):
-        """Gets the final points of the winner side. The formula changes based on who won"""
+    @classmethod
+    def calculatePoints(cls, param_value1: int , param_value2: int | None, param_value3: int | None):
+        """
+        Gets the final points of the winner side. The formula changes based on who won, if only the first parameter is specified
+        then the winner is the attacker, but if the other two parameters are given then the defender won
+
+        Parameters:
+            - param_value1(int): either the currently held points(for attacker) or the remaining wood blocks(for defender)
+            - param_value2(int): remaining concrete blocks
+            - param_value3(int): remaining steel blocksdef test_CocineroDefender(self):
+        self.assertEqual(1,1)
+
+        Returns:
+            - Points for the end of the round
+        
+        """
         formula = 0
-        if winner=="attacker":
-            formula = int((1/(self.posiblePoints)*0.5)*100000)
-        if winner=="defender":
-            formula = int(1/(1/(self.woodReserve*1)+1/(self.stoneReserve*6)+1/(self.metalReserve*4))*0.5*1000)
+        if param_value2 is None and param_value3 is None:
+            formula = int((1/(param_value1)*0.5)*100000)
+        else:
+            formula = int(1/(1/(param_value1*1)+1/(param_value2*6)+1/(param_value3*4))*0.5*1000)
         print(formula)
         return formula
 
