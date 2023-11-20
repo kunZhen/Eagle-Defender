@@ -377,7 +377,7 @@ class versusGame:
         self.RegenerateBlocks()
 
         self.mainframe.place(x=0, y=0)
-        ##self.temporalFrame.pack_forget()
+        self.temporalFrame.pack_forget()
         #------------------------------------------------------------------------------------------#
 
         self.ShowLabels(True, True)
@@ -394,8 +394,8 @@ class versusGame:
 
         # Bandera para indicar al hilo que debe salir del bucle
         self.controlConection = True
-        self.controlSignal = tk.StringVar()
-        self.controlSignal.set("Esperando...")
+        #self.controlSignal = tk.StringVar()
+        #self.controlSignal.set("Esperando...")
 
         self.main_loop()
 
@@ -411,7 +411,7 @@ class versusGame:
         try:
             while self.controlConection:
                 data, address = self.sock.recvfrom(1024)
-                self.controlSignal.set(f' {data.decode()}')
+                #self.controlSignal.set(f' {data.decode()}')
                 #--------------Attacker-------------#
                 if (data.decode()=="A0"):
                     self.window.event_generate("<KeyPress>", keysym='Escape')
@@ -495,10 +495,10 @@ class versusGame:
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         self.sock.bind(self.server_address)
         self.controlConection = True
-        self.controlSignal = tk.StringVar()
-        self.controlSignal.set("Esperando...")
-        self.etiqueta_mensaje = tk.Label(self.mainframe, textvariable=self.controlSignal)
-        self.etiqueta_mensaje.place(x=self.width // 2, y=300)
+        #self.controlSignal = tk.StringVar()
+        #self.controlSignal.set("Esperando...")
+        self.etiqueta_mensaje = tk.Label(self.mainframe) #textvariable=self.controlSignal)
+        #self.etiqueta_mensaje.place(x=self.width // 2, y=300)
         self.start_reception_thread()
 
     def main_loop(self):

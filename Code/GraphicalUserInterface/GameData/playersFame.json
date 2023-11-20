@@ -18,7 +18,15 @@
         },
         {
             "name": "kin@gmail.com",
+            "time": 549
+        },
+        {
+            "name": "kin@gmail.com",
             "time": 295
+        },
+        {
+            "name": "isaac@gmail.com",
+            "time": 280
         },
         {
             "name": "Bill4",
@@ -31,14 +39,6 @@
         {
             "name": "Ricky2",
             "time": 261
-        },
-        {
-            "name": "Frederick24",
-            "time": 237
-        },
-        {
-            "name": "Josue",
-            "time": 220
         }
     ]
 }
