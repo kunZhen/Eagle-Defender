@@ -2,6 +2,10 @@
     "results": [
         {
             "name": "Bill4",
+            "time": 277
+        },
+        {
+            "name": "Bill4",
             "time": 275
         },
         {
@@ -29,16 +33,12 @@
             "time": 205
         },
         {
-            "name": "Usuario3",
-            "time": 174
+            "name": "Bill4",
+            "time": 186
         },
         {
-            "name": "Usuario3",
-            "time": 168
-        },
-        {
-            "name": "Usuario1",
-            "time": 130
+            "name": "Bill4",
+            "time": 177
         }
     ]
 }
