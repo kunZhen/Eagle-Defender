@@ -39,8 +39,8 @@ class temporalFrame:
         self.titleLb.place(x=centerX, y=100, anchor="center")
         # Create images on the canvas
         self.titleCanvas.create_image(self.width//2, self.height//2, image=self.logo) # (Logo)
-        self.titleCanvas.create_image(self.width//2-530, self.height//2-75, image=self.attackerControls) # (Attacker controls)
-        self.titleCanvas.create_image(self.width//2+530, self.height//2-75, image=self.defenderControls) # (Defender controls)
+        self.titleCanvas.create_image(self.width//2+530, self.height//2-75, image=self.attackerControls) # (Attacker controls)
+        self.titleCanvas.create_image(self.width//2-530, self.height//2-75, image=self.defenderControls) # (Defender controls)
 
 
         self.titleLb = tk.Label(self.titleCanvas, text="Cargando datos...", font=(font, 50))

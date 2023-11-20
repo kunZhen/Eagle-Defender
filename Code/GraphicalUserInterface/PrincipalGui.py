@@ -110,9 +110,8 @@ class PrincipalGui:
         frame = hallOfFameGui.HallOfFameGui(self.principalFrame, self.window, self.width, self.height)
 
     def showHelp(self):
-        pass
-        #self.principalFrame.pack_forget()
-        #self.frame = helpSection.HelpSection(self.window, self.width, self.height, self.principalFrame)
+        self.principalFrame.pack_forget()
+        self.frame = helpSection.HelpSection(self.window, self.width, self.height, self.principalFrame)
         
     def afterFrame(self):
         user1=User.LoadJson(self.users[0])
@@ -170,7 +169,7 @@ if __name__ == "__main__":
     screenheight = root.winfo_screenheight() - 100
     print(screenWidth, screenheight)
     root.geometry(f"{screenWidth}x{screenheight}")
-    new = PrincipalGui(root, screenWidth, screenheight, ["Frederick24", "Isaac90@gmail.com"])
+    new = PrincipalGui(root, screenWidth, screenheight, ["Bill4", "Ricky2"])
     root.mainloop()
 
         
