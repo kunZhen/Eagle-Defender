@@ -499,6 +499,8 @@ class versusGame:
                 if (data.decode()=="DL"):
                     self.window.event_generate("<KeyPress>", keysym='a')
                     self.window.event_generate("<KeyRelease>", keysym='a')
+                if self.lastround == False:
+                    self.closeControlConnection()
 
         except socket.error:
             print("ERROR")
