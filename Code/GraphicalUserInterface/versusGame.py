@@ -1,13 +1,18 @@
 import tkinter as tk
 from tkinter import messagebox
 from PIL import Image, ImageTk
+
 import math
 import os
 import time
+
 from musicLogic import *
 from User import *
+
 import random
 import hallOfFameGui
+from temporalGui import temporalFrame
+
 import socket
 from threading import Thread
 
@@ -30,6 +35,8 @@ class versusGame:
             self.defenderPoints = points[0]
             self.attackerPoints = points[1]
             self.lastround = True
+
+        print(f"ATK pts: {self.attackerPoints} | DEF pts: {self.defenderPoints}")
 
         # ---> Retrieving players proffile pictures <---
         self.Profile1 = Image.open("Code/GraphicalUserInterface/Profile/perfil.png")
@@ -957,11 +964,16 @@ class versusGame:
         self.controlConection = False
         self.gameOver=True
         value = [self.calculatePoints(self.posiblePoints,None,None), self.calculatePoints(self.woodReserve,self.stoneReserve,self.metalReserve)]
-        print(value)
+        print(f"Generated points by attacker:{value[0]} and defender:{value[1]}")
         if self.lastround == True:
-            app = hallOfFameGui.HallOfFameGui(self.parentFrame,self.window, self.width, self.height, self.attackerUser.user, self.attackerPoints+value[0])
+            print(f"Player1 won with {self.defenderPoints+value[0]}")
+            app = hallOfFameGui.HallOfFameGui(self.parentFrame,self.window, self.width, self.height, self.attackerUser.user, self.defenderPoints+value[0])
         else:
-            round2 = versusGame(self.window, self.width, self.height, [self.attackerUser, self.defenderUser], self.parentFrame, self.temporalFrame, [self.attackerPoints+value[0], self.defenderPoints+value[1]])
+            self.parentFrame.pack_forget()
+            self.temporalFrame = temporalFrame(self.window, self.width, self.height, self.parentFrame)
+            self.window.update_idletasks()
+
+            round2 = versusGame(self.window, self.width, self.height, [self.attackerUser, self.defenderUser], self.parentFrame, self.temporalFrame.initialFrame, [self.attackerPoints+value[0], self.defenderPoints+value[1]])
     #--------------------------------------Defender functionalities----------------------------------------------------------------#
     def DefenderRotate(self, image):
         """"""
@@ -1052,11 +1064,15 @@ class versusGame:
         self.controlConection = False
         self.gameOver=True
         value = [self.calculatePoints(self.woodReserve,self.stoneReserve,self.metalReserve), self.calculatePoints(self.posiblePoints,None,None)]
-        print(value)
+        print(f"Generated points by defender:{value[0]} and attacker:{value[1]}")
         if self.lastround == True:
-            app = hallOfFameGui.HallOfFameGui(self.parentFrame,self.window, self.width, self.height, self.attackerUser.user, self.defenderPoints+value[0])
+            print(f"Player2 won with {self.attackerPoints+value[0]}")
+            app = hallOfFameGui.HallOfFameGui(self.parentFrame,self.window, self.width, self.height, self.attackerUser.user, self.attackerPoints+value[0])
         else:
-            round2 = versusGame(self.window, self.width, self.height, [self.attackerUser, self.defenderUser], self.parentFrame, self.temporalFrame, [self.attackerPoints+value[0], self.defenderPoints+value[1]])
+            self.parentFrame.pack_forget()
+            self.temporalFrame = temporalFrame(self.window, self.width, self.height, self.parentFrame)
+            self.window.update_idletasks()
+            round2 = versusGame(self.window, self.width, self.height, [self.attackerUser, self.defenderUser], self.parentFrame, self.temporalFrame.initialFrame, [self.attackerPoints+value[1], self.defenderPoints+value[0]])
 
     def RegenerateBlocks(self):
         if not self.pause and not self.playerGaming=="defender":
