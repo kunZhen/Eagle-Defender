@@ -73,11 +73,11 @@ class HelpSection:
         self.Canvas.create_image(self.centerX - (self.width / 2.5) + 75, self.centerY - (self.height / 13) + 400, image=self.powderball)
         self.Canvas.create_image(self.centerX - (self.width / 2.5) + 150, self.centerY - (self.height / 13) + 400, image=self.waterball)
 
-        self.Canvas.create_text(self.centerX, self.centerY - (self.height / 3), text="Águila que coloca el defensor", font=(font, 20), fill="white")
-        self.Canvas.create_text(self.centerX, self.centerY - (self.height / 4) + 100, text="Defensor: colocas obstáculos que protegen al águila", font=(font, 20), fill="white")
-        self.Canvas.create_text(self.centerX, self.centerY - (self.height / 6) + 200, text="Obstáculos: metal, piedra y madera", font=(font, 20), fill="white")
-        self.Canvas.create_text(self.centerX, self.centerY + 200, text="Atacante: lanza poderes que derriban los obstáculos con el fin de atacar el águila", font=(font, 20), fill="white")
-        self.Canvas.create_text(self.centerX, self.centerY - (self.height / 13) + 400, text="Poderes: fuego, pólvora y agua", font=(font, 20), fill="white")
+        self.Canvas.create_text(self.centerX, self.centerY - (self.height / 3), text="El jugador defensor debe colocar esta águila en algún lugar de su zona", font=(font, 20), fill="white")
+        self.Canvas.create_text(self.centerX, self.centerY - (self.height / 4) + 100, text="Seguidamente debes colocar obstáculos que protegan al águila del atacante", font=(font, 20), fill="white")
+        self.Canvas.create_text(self.centerX, self.centerY - (self.height / 6) + 200, text="Obstáculos: acero, concreto y madera\nMadera: menos resistente, se destruye con cualquier poder\nAcero: destruido con 1 bola de fuego o tierra, o 2 de agua\nConcreto: destruido con 1 de tierra, dos de fuego o 3 de agua", font=(font, 20), fill="white")
+        self.Canvas.create_text(self.centerX, self.centerY + 200, text="Una vez creada la defensa, indicas que estas listo para los ataques\nAtacante: lanzas poderes con el fin de derribar al águila", font=(font, 20), fill="white")
+        self.Canvas.create_text(self.centerX, self.centerY - (self.height / 13) + 400, text="Poderes: fuego, pólvora y agua\nMientras atacas, el defensor puede seguir colocando bloques", font=(font, 20), fill="white")
 
         self.Canvas.create_text(self.centerX, 60, text="Instrucciones del juego", font=(font, 50), fill=colorPalette[1])
     
