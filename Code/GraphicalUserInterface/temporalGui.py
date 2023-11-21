@@ -25,7 +25,7 @@ class temporalFrame:
         self.defenderControls = ImageTk.PhotoImage(self.defenderControls)
 
         # frames are used to facilitate the creation and deletion of screens
-        self.initialFrame = tk.Frame(window, width=self.width, height=self.height, bg="black")
+        self.initialFrame = tk.Frame(self.window, width=self.width, height=self.height, bg="black")
         self.initialFrame.pack()
 
         # is replaced by the logo

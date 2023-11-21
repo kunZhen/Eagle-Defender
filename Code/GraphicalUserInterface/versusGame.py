@@ -399,7 +399,7 @@ class versusGame:
         self.RegenerateBlocks()
 
         self.mainframe.place(x=0, y=0)
-        #self.temporalFrame.pack_forget()
+        self.temporalFrame.pack_forget()
         #------------------------------------------------------------------------------------------#
 
         self.ShowLabels(True, True)
@@ -418,8 +418,8 @@ class versusGame:
         self.controlConection = True
         #self.controlSignal = tk.StringVar()
         #self.controlSignal.set("Esperando...")
-
-        self.main_loop()
+        if self.lastround == False:
+            self.main_loop()
 
 
 
@@ -972,7 +972,6 @@ class versusGame:
             self.parentFrame.pack_forget()
             self.temporalFrame = temporalFrame(self.window, self.width, self.height, self.parentFrame)
             self.window.update_idletasks()
-
             round2 = versusGame(self.window, self.width, self.height, [self.attackerUser, self.defenderUser], self.parentFrame, self.temporalFrame.initialFrame, [self.attackerPoints+value[0], self.defenderPoints+value[1]])
     #--------------------------------------Defender functionalities----------------------------------------------------------------#
     def DefenderRotate(self, image):
@@ -1176,4 +1175,4 @@ if __name__ == "__main__":
     user2=User.LoadJson("Mijo22@estudiantec.cr")
     new = versusGame(root, screenWidth, screenheight, [user2, user1], None, None, None)
     root.mainloop()
-#"""
+"""
