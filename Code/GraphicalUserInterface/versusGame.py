@@ -399,7 +399,7 @@ class versusGame:
         self.RegenerateBlocks()
 
         self.mainframe.place(x=0, y=0)
-        self.temporalFrame.pack_forget()
+        #self.temporalFrame.pack_forget()
         #------------------------------------------------------------------------------------------#
 
         self.ShowLabels(True, True)
@@ -1174,6 +1174,6 @@ if __name__ == "__main__":
     root.geometry(f"{screenWidth}x{screenheight}")
     user1=User.LoadJson("Mijo21@estudiantec.cr")
     user2=User.LoadJson("Mijo22@estudiantec.cr")
-    new = versusGame(root, screenWidth, screenheight, [user2, user1], None, None)
+    new = versusGame(root, screenWidth, screenheight, [user2, user1], None, None, None)
     root.mainloop()
 #"""
