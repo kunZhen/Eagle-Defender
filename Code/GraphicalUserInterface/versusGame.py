@@ -286,10 +286,10 @@ class versusGame:
 
         # General UI
             # Point labels
-        DEFPointsLabel = tk.Label(self.canvas, bg="black", fg="white", text=f"Points: {self.defenderPoints}")
+        DEFPointsLabel = tk.Label(self.canvas, bg="black", fg="white", text=f"Puntos: {self.defenderPoints}")
         DEFPointsLabel.place(anchor="center", x=80, y=100)
         
-        ATKPointsLabel = tk.Label(self.canvas, bg="black", fg="white", text=f"Points: {self.attackerPoints}")
+        ATKPointsLabel = tk.Label(self.canvas, bg="black", fg="white", text=f"Puntos: {self.attackerPoints}")
         ATKPointsLabel.place(anchor="center", x=self.width-80, y= 100)
             # Change turn keybind
         self.canvas.create_image(35, self.height-200, image=self.otherKeyImage)
