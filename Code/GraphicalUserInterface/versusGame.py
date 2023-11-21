@@ -1133,9 +1133,8 @@ class versusGame:
         formula = 0
         if param_value2 is None and param_value3 is None:
             formula = int((1/(param_value1)*0.5)*100000)
-        else:
+        elif param_value1 != 0 and param_value2 != 0 and param_value3 != 0:
             formula = int(1/(1/(param_value1*1)+1/(param_value2*6)+1/(param_value3*4))*0.5*1000)
-        print(formula)
         return formula
 
 """
