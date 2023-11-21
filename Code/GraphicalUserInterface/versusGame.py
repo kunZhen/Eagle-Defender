@@ -78,7 +78,7 @@ class versusGame:
         self.buttonDefender.place(x=45, y=30)
 
         self.buttonAttacker = tk.Button( self.canvas, text=f"{self.attackerUser.user}", command=lambda: self.ShowLabels(False, True) )
-        self.buttonAttacker.place(x=self.width-105, y=30)
+        self.buttonAttacker.place(x=self.width-90, y=30)
         """"self.pauseBtn=tk.Button(self.canvas, text="▶", command=self.pauseFunction)
         self.pauseBtn.config(bg=colorPalette[2], fg=colorPalette[4])
         self.pauseBtn.place(x= (self.width/2), y=80, anchor="nw")"""
@@ -325,7 +325,7 @@ class versusGame:
         self.canvas.create_text(uiCoord[0]+1, uiCoord[1]+37, text="5", fill="white", font=(self.font[0], self.font[1]-5)) # Key text
         self.canvas.create_rectangle(uiCoord[0]+15,uiCoord[1]-45, uiCoord[0]+45, uiCoord[1]-15,fill="black", outline="white") # Reserve box
         self.mats3 = self.canvas.create_text(uiCoord[0]+28.5, uiCoord[1]-27.5, text=f"{self.metalReserve}", fill="white", font=self.font) # Reserve text
-        uiCoord[0]+= 1075
+        uiCoord[0]+= 995
 
         """   #FinishButton
         self.FinishDefenderTurnbtn=tk.Button(self.canvas, text="Listo",font=("Helvetica,15"))
@@ -1001,7 +1001,7 @@ class versusGame:
         elif self.pickUpState[0] == True:
             if self.placingEagle==True:
                 #Place the Eagle
-                health = 30
+                health = 10
                 Photo_Image = self.eaglePhotoImage
                 eagle_id = self.canvas.create_image(X, Y, image=Photo_Image)
                 self.canvas.tag_raise(self.defender)
@@ -1116,13 +1116,25 @@ class versusGame:
             else: 
                 messagebox.showwarning  ("Eagle Defender", "Debes poner el águila")
 
-    def calculatePoints(self,winner:str):
-        """Gets the final points of the winner side. The formula changes based on who won"""
+    @classmethod
+    def calculatePoints(cls, param_value1: int , param_value2: int | None, param_value3: int | None):
+        """
+        Gets the final points of the winner side. The formula changes based on who won, if only the first parameter is specified
+        then the winner is the attacker, but if the other two parameters are given then the defender won
+        Parameters:
+            - param_value1(int): either the currently held points(for attacker) or the remaining wood blocks(for defender)
+            - param_value2(int): remaining concrete blocks
+            - param_value3(int): remaining steel blocksdef test_CocineroDefender(self):
+        self.assertEqual(1,1)
+        Returns:
+            - Points for the end of the round
+        
+        """
         formula = 0
-        if winner=="attacker":
-            formula = int((1/(self.posiblePoints)*0.5)*100000)
-        if winner=="defender":
-            formula = int(1/(1/(self.woodReserve*1)+1/(self.stoneReserve*6)+1/(self.metalReserve*4))*0.5*1000)
+        if param_value2 is None and param_value3 is None:
+            formula = int((1/(param_value1)*0.5)*100000)
+        else:
+            formula = int(1/(1/(param_value1*1)+1/(param_value2*6)+1/(param_value3*4))*0.5*1000)
         print(formula)
         return formula
 
