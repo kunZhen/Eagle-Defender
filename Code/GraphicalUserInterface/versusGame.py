@@ -8,6 +8,8 @@ from musicLogic import *
 from User import *
 import random
 import hallOfFameGui
+import socket
+from threading import Thread
 
 
 class versusGame:
@@ -39,6 +41,7 @@ class versusGame:
         
         #----------------------------Screen setup---------------------------#
         self.window = window
+        self.window.protocol("WM_DELETE_WINDOW", self.closeControlConnection)
         self.window.title("EagleDefender: Offline Mode")
         self.width = w
         self.height = h
@@ -66,7 +69,7 @@ class versusGame:
         self.buttonDefender.place(x=45, y=30)
 
         self.buttonAttacker = tk.Button( self.canvas, text=f"{self.attackerUser.user}", command=lambda: self.ShowLabels(False, True) )
-        self.buttonAttacker.place(x=self.width-90, y=30)
+        self.buttonAttacker.place(x=self.width-105, y=30)
         """"self.pauseBtn=tk.Button(self.canvas, text="▶", command=self.pauseFunction)
         self.pauseBtn.config(bg=colorPalette[2], fg=colorPalette[4])
         self.pauseBtn.place(x= (self.width/2), y=80, anchor="nw")"""
@@ -307,7 +310,7 @@ class versusGame:
         self.canvas.create_text(uiCoord[0]+1, uiCoord[1]+37, text="5", fill="white", font=(self.font[0], self.font[1]-5)) # Key text
         self.canvas.create_rectangle(uiCoord[0]+15,uiCoord[1]-45, uiCoord[0]+45, uiCoord[1]-15,fill="black", outline="white") # Reserve box
         self.mats3 = self.canvas.create_text(uiCoord[0]+28.5, uiCoord[1]-27.5, text=f"{self.metalReserve}", fill="white", font=self.font) # Reserve text
-        uiCoord[0]+= 995
+        uiCoord[0]+= 1075
 
         """   #FinishButton
         self.FinishDefenderTurnbtn=tk.Button(self.canvas, text="Listo",font=("Helvetica,15"))
@@ -356,14 +359,14 @@ class versusGame:
         # Defender song 
         self.musicLogicControler.fileName="defender.mp4"
 
-        self.musicLogicControler.downloadYoutubeAudio(defenderSong)
-        self.musicLogicControler.setUpVideoMusic("Code/GraphicalUserInterface/songs/defender.mp4")
+        #self.musicLogicControler.downloadYoutubeAudio(defenderSong)
+        #3self.musicLogicControler.setUpVideoMusic("Code/GraphicalUserInterface/songs/defender.mp4")
              
         # Atacker song 
         self.musicLogicControler.fileName="attacker.mp4"
 
-        self.musicLogicControler.downloadYoutubeAudio(attackerSong)
-        self.musicLogicControler.setUpVideoMusic("Code/GraphicalUserInterface/songs/attacker.mp4")
+        #self.musicLogicControler.downloadYoutubeAudio(attackerSong)
+        #self.musicLogicControler.setUpVideoMusic("Code/GraphicalUserInterface/songs/attacker.mp4")
 
         # Setup music for the game
         self.musicLogicControler.setUpMusic("Code/GraphicalUserInterface/songs/defender.mp3")
@@ -378,7 +381,141 @@ class versusGame:
         #------------------------------------------------------------------------------------------#
 
         self.ShowLabels(True, True)
+
+        #--------------------#
+        #-----Control--------#
+        #--------------------#
+
+        self.server_address = ('0.0.0.0', 12345)
+
+        # Configuración del socket para recibir datos de la Raspberry Pi Pico W
+        self.sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        self.sock.bind(self.server_address)
+
+        # Bandera para indicar al hilo que debe salir del bucle
+        self.controlConection = True
+        #self.controlSignal = tk.StringVar()
+        #self.controlSignal.set("Esperando...")
+
+        self.main_loop()
+
+
+
+
+
+    #----------------------Control--------------------------------------------------#  
+    
+    
+    def receiveControlSignal(self):
+        print("ENTRAMOS")
+        try:
+            while self.controlConection:
+                data, address = self.sock.recvfrom(1024)
+                #self.controlSignal.set(f' {data.decode()}')
+                #--------------Attacker-------------#
+                if (data.decode()=="A0"):
+                    self.window.event_generate("<KeyPress>", keysym='Escape')
+                    self.window.event_generate("<KeyRelease>", keysym='Escape')
+                if (data.decode()=="A2"):
+                    self.window.event_generate("<KeyPress>", keysym='8')
+                    self.window.event_generate("<KeyRelease>", keysym='8')
+                if (data.decode()=="A3"):
+                    self.window.event_generate("<KeyPress>", keysym='9')
+                    self.window.event_generate("<KeyRelease>", keysym='9')
+                if (data.decode()=="A4"):
+                    self.window.event_generate("<KeyPress>", keysym='0')
+                    self.window.event_generate("<KeyRelease>", keysym='0')
+                if (data.decode()=="A5"):
+                    self.window.event_generate("<KeyPress>", keysym='u')
+                    self.window.event_generate("<KeyRelease>", keysym='u')
+                if (data.decode()=="A6"):
+                    self.window.event_generate("<KeyPress>", keysym='o')
+                    self.window.event_generate("<KeyRelease>", keysym='o')
+                if (data.decode()=="AU"):
+                    self.window.event_generate("<KeyPress>", keysym='i')
+                    self.window.event_generate("<KeyRelease>", keysym='i')
+                if (data.decode()=="AD"):
+                    self.window.event_generate("<KeyPress>", keysym='k')
+                    self.window.event_generate("<KeyRelease>", keysym='k')
+                if (data.decode()=="AR"):
+                    self.window.event_generate("<KeyPress>", keysym='l')
+                    self.window.event_generate("<KeyRelease>", keysym='l')
+                if (data.decode()=="AL"):
+                    self.window.event_generate("<KeyPress>", keysym='j')
+                    self.window.event_generate("<KeyRelease>", keysym='j')
+                #--------------Defender-------------#
+                if (data.decode()=="D5"):
+                    self.window.event_generate("<KeyPress>", keysym='q')
+                    self.window.event_generate("<KeyRelease>", keysym='q')
+                if (data.decode()=="D6"):
+                    self.window.event_generate("<KeyPress>", keysym='e')
+                    self.window.event_generate("<KeyRelease>", keysym='e')
+                if (data.decode()=="D0"):
+                    self.window.event_generate("<KeyPress>", keysym='Escape')
+                    self.window.event_generate("<KeyRelease>", keysym='Escape')
+                if (data.decode()=="D1"):
+                    self.window.event_generate("<KeyPress>", keysym='Tab')
+                    self.window.event_generate("<KeyRelease>", keysym='Tab')
+                if (data.decode()=="D2"):
+                    self.window.event_generate("<KeyPress>", keysym='3')
+                    self.window.event_generate("<KeyRelease>", keysym='3')
+                if (data.decode()=="D3"):
+                    self.window.event_generate("<KeyPress>", keysym='4')
+                    self.window.event_generate("<KeyRelease>", keysym='4')
+                if (data.decode()=="D4"):
+                    self.window.event_generate("<KeyPress>", keysym='5')
+                    self.window.event_generate("<KeyRelease>", keysym='5')
+                if (data.decode()=="DU"):
+                    self.window.event_generate("<KeyPress>", keysym='w')
+                    self.window.event_generate("<KeyRelease>", keysym='w')
+                if (data.decode()=="DD"):
+                    self.window.event_generate("<KeyPress>", keysym='s')
+                    self.window.event_generate("<KeyRelease>", keysym='s')
+                if (data.decode()=="DR"):
+                    self.window.event_generate("<KeyPress>", keysym='d')
+                    self.window.event_generate("<KeyRelease>", keysym='d')
+                if (data.decode()=="DL"):
+                    self.window.event_generate("<KeyPress>", keysym='a')
+                    self.window.event_generate("<KeyRelease>", keysym='a')
+
+        except socket.error:
+            print("ERROR")
+    
+    def closeControlConnection(self):
+        self.controlConection = False
+        self.sock.close()
+
+    def start_reception_thread(self):
+        thread_recepcion = Thread(target=self.receiveControlSignal)
+        thread_recepcion.daemon = True
+        thread_recepcion.start()
+
+    def setup_socket_and_thread(self):
+        self.server_address = ('0.0.0.0', 12345)
+        self.sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        self.sock.bind(self.server_address)
+        self.controlConection = True
+        #self.controlSignal = tk.StringVar()
+        #self.controlSignal.set("Esperando...")
+        self.etiqueta_mensaje = tk.Label(self.mainframe) #textvariable=self.controlSignal)
+        #self.etiqueta_mensaje.place(x=self.width // 2, y=300)
+        self.start_reception_thread()
+
+    def main_loop(self):
+        # Llama a este método después de crear el objeto versusGame
+        # y comenzar el bucle principal de Tkinter
+        self.setup_socket_and_thread()
+
         
+    
+    #----------------------Control--------------------------------------------------#  
+     
+     
+        
+    
+
+    
+    
     #--------------------------------Show Time-------------------------------------#
     def pauseFunction(self): 
         if self.pause:
@@ -706,7 +843,6 @@ class versusGame:
             else:
                 self.deleteBullet(projectile)
          
-
     def deleteBullet(self, bullet):
         self.canvas.delete(bullet)
 
@@ -803,8 +939,9 @@ class versusGame:
         self.pauseFunction()
         self.musicLogicControler.stopMusic()
         self.mainframe.destroy()
+        self.controlConection = False
         self.gameOver=True
-        value = self.calculatePoints(self.posiblePoints,None,None)
+        value = self.calculatePoints("attacker")
         print(self.attackerTime-self.posiblePoints)
         app= hallOfFameGui.HallOfFameGui(self.parentFrame,self.window, self.width, self.height, self.attackerUser.user, value)
     #--------------------------------------Defender functionalities----------------------------------------------------------------#
@@ -846,7 +983,7 @@ class versusGame:
         elif self.pickUpState[0] == True:
             if self.placingEagle==True:
                 #Place the Eagle
-                health = 10
+                health = 30
                 Photo_Image = self.eaglePhotoImage
                 eagle_id = self.canvas.create_image(X, Y, image=Photo_Image)
                 self.canvas.tag_raise(self.defender)
@@ -894,8 +1031,9 @@ class versusGame:
         self.pauseFunction()
         self.musicLogicControler.stopMusic()
         self.mainframe.destroy()
+        self.controlConection = False
         self.gameOver=True
-        value = self.calculatePoints(self.woodReserve,self.stoneReserve, self.metalReserve)
+        value = self.calculatePoints("defender")
         app= hallOfFameGui.HallOfFameGui(self.parentFrame, self.window, self.width, self.height, self.defenderUser.user, value)
 
     def RegenerateBlocks(self):
@@ -956,37 +1094,25 @@ class versusGame:
             else: 
                 messagebox.showwarning  ("Eagle Defender", "Debes poner el águila")
 
-    @classmethod
-    def calculatePoints(cls, param_value1: int , param_value2: int | None, param_value3: int | None):
-        """
-        Gets the final points of the winner side. The formula changes based on who won, if only the first parameter is specified
-        then the winner is the attacker, but if the other two parameters are given then the defender won
-
-        Parameters:
-            - param_value1(int): either the currently held points(for attacker) or the remaining wood blocks(for defender)
-            - param_value2(int): remaining concrete blocks
-            - param_value3(int): remaining steel blocksdef test_CocineroDefender(self):
-        self.assertEqual(1,1)
-
-        Returns:
-            - Points for the end of the round
-        
-        """
+    def calculatePoints(self,winner:str):
+        """Gets the final points of the winner side. The formula changes based on who won"""
         formula = 0
-        if param_value2 is None and param_value3 is None:
-            formula = int((1/(param_value1)*0.5)*100000)
-        else:
-            formula = int(1/(1/(param_value1*1)+1/(param_value2*6)+1/(param_value3*4))*0.5*1000)
+        if winner=="attacker":
+            formula = int((1/(self.posiblePoints)*0.5)*100000)
+        if winner=="defender":
+            formula = int(1/(1/(self.woodReserve*1)+1/(self.stoneReserve*6)+1/(self.metalReserve*4))*0.5*1000)
         print(formula)
         return formula
 
-"""if __name__ == "__main__":
+"""
+if __name__ == "__main__":
     root = tk.Tk()
-    screenWidth = root.winfo_screenwidth()
-    screenheight = root.winfo_screenheight()
+    screenWidth = root.winfo_screenwidth() 
+    screenheight = root.winfo_screenheight() 
     print(screenWidth, screenheight)
     root.geometry(f"{screenWidth}x{screenheight}")
-    user1=User.LoadJson("Frederick24")
-    user2=User.LoadJson("Isaac90@gmail.com")
-    new = versusGame(root, screenWidth, screenheight, [user2, user1], None)
-    root.mainloop()"""
+    user1=User.LoadJson("Mijo21@estudiantec.cr")
+    user2=User.LoadJson("Mijo22@estudiantec.cr")
+    new = versusGame(root, screenWidth, screenheight, [user2, user1], None, None)
+    root.mainloop()
+#"""

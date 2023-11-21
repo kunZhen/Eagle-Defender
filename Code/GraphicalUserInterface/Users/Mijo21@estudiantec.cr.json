@@ -1,0 +1,32 @@
+{
+    "User": "Mijo21@estudiantec.cr",
+    "Password": "Mijo21@estudiantec.cr",
+    "Mail": "Mijo21@estudiantec.cr",
+    "Favorite Color": [
+        "#4bd9d9",
+        "#1e5656"
+    ],
+    "Favorite Music": [
+        [
+            [
+                "Grupo Frontera x Bad Bunny - UN X100TO (Video Oficial)",
+                "un x100to"
+            ],
+            [
+                "https://www.youtube.com/watch?v=3inw26U-os4"
+            ]
+        ]
+    ],
+    "Answers": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+    ],
+    "Avatar": 1,
+    "Animation": "S",
+    "Textures": 1,
+    "Profile": " ",
+    "Facial Recognition": ""
+}

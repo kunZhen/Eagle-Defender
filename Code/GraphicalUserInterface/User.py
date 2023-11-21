@@ -74,10 +74,10 @@ class User:
                 self.errorType = "mail"
 
         # -----------------------------------------Conexión con el servidor---------------------------------------------#
-        hostname = '20.62.171.56'  # Cambia esto a la dirección IP de tu máquina virtual
+        hostname = '52.188.208.125'  # Cambia esto a la dirección IP de tu máquina virtual
         port = 22  # El puerto SSH predeterminado es 22
         username = 'eagleDefender'  # Tu nombre de usuario en la máquina virtual
-        private_key_file = os.path.abspath('Code/eagleDefenderServer_key_1011.pem')
+        private_key_file = os.path.abspath('Code/eagleDefenderServer_key.pem')
         self.ssh_transfer = SSHFileTransfer(hostname, port, username, private_key_file)
         # ----------------------------------------------------------------------------------------------------------------#
 
@@ -291,10 +291,10 @@ class User:
         if os.path.exists(pathFile):
             return True
         # -----------------------------------Access on Server------------------------------------#
-        hostname = '20.62.171.56'
+        hostname = '52.188.208.125'
         port = 22
         username = 'eagleDefender'
-        private_key_file = os.path.abspath('Code/eagleDefenderServer_key_1011.pem')
+        private_key_file = os.path.abspath('Code/eagleDefenderServer_key.pem')
         ssh_transfer = SSHFileTransfer(hostname, port, username, private_key_file)
         archivo_remoto_a_verificar = f'/home/eagleDefender/files/users/{filename}.json'
         existance = ssh_transfer.remote_file_exists(archivo_remoto_a_verificar)
@@ -334,10 +334,10 @@ class User:
 
         # -------------------------------------SAVED ON THE SERVER-------------------------------#
         directorio_destino = '/home/eagleDefender/files/users/'
-        hostname = '20.62.171.56'
+        hostname = '52.188.208.125'
         port = 22
         username = 'eagleDefender'
-        private_key_file = os.path.abspath('Code/eagleDefenderServer_key_1011.pem')
+        private_key_file = os.path.abspath('Code/eagleDefenderServer_key.pem')
         ssh_transfer = SSHFileTransfer(hostname, port, username, private_key_file)
         ssh_transfer.copy_file_to_remote(pathFile1, directorio_destino, filename1 + ".json")
         ssh_transfer.copy_file_to_remote(pathFile2, directorio_destino, filename2 + ".json")
@@ -360,10 +360,10 @@ class User:
             if pathFile1!=pathFile2:
                 os.remove(pathFile2)
             # -------------------------------------Delete Information on the Server-------------------------------#
-            hostname = '20.62.171.56'
+            hostname = '52.188.208.125'
             port = 22
             username = 'eagleDefender'
-            private_key_file = os.path.abspath('Code/eagleDefenderServer_key_1011.pem')
+            private_key_file = os.path.abspath('Code/eagleDefenderServer_key.pem')
             ssh_transfer = SSHFileTransfer(hostname, port, username, private_key_file)
             ssh_transfer.delete_remote_file(f'/home/eagleDefender/files/users/{filename1}.json')
             if pathFile1!=pathFile2:
@@ -381,10 +381,10 @@ class User:
         pathFile = os.path.join("Code/GraphicalUserInterface/Users", f"{filename}.json")
 
         # -----------------------------------Get Information From Server-------------------------#
-        hostname = '20.62.171.56'
+        hostname = '52.188.208.125'
         port = 22
         username = 'eagleDefender'
-        private_key_file = os.path.abspath('Code/eagleDefenderServer_key_1011.pem')
+        private_key_file = os.path.abspath('Code/eagleDefenderServer_key.pem')
         ssh_transfer = SSHFileTransfer(hostname, port, username, private_key_file)
         # ---------------------------------------------------------------------------------------#
 

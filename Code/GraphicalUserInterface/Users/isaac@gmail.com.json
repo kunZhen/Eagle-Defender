@@ -1,0 +1,32 @@
+{
+    "User": "isaac@gmail.com",
+    "Password": "I1isaac@gmail.com",
+    "Mail": "isaac@gmail.com",
+    "Favorite Color": [
+        "#d9d9d9",
+        "#565656"
+    ],
+    "Favorite Music": [
+        [
+            [
+                "BAD BUNNY - CALLA\u00cdTA (Video Oficial)",
+                "Callaita"
+            ],
+            [
+                "https://www.youtube.com/watch?v=acEOASYioGY"
+            ]
+        ]
+    ],
+    "Answers": [
+        "Arroz",
+        "Francia",
+        "Diego",
+        "Alaska",
+        "Ing. Electr\u00f3nico"
+    ],
+    "Avatar": 1,
+    "Animation": "S",
+    "Textures": 1,
+    "Profile": " ",
+    "Facial Recognition": ""
+}

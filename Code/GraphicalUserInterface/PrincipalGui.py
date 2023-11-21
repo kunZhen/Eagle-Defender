@@ -169,7 +169,7 @@ if __name__ == "__main__":
     screenheight = root.winfo_screenheight() - 100
     print(screenWidth, screenheight)
     root.geometry(f"{screenWidth}x{screenheight}")
-    new = PrincipalGui(root, screenWidth, screenheight, ["Bill4", "Ricky2"])
+    new = PrincipalGui(root, screenWidth, screenheight, ["kin@gmail.com", "isaac@gmail.com"])
     root.mainloop()
 
         
