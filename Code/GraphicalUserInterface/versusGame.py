@@ -75,10 +75,10 @@ class versusGame:
 
         #Set up the profile buttons
         self.buttonDefender = tk.Button( self.canvas, text=f"{self.defenderUser.user}", command=lambda: self.ShowLabels(True, False) )
-        self.buttonDefender.place(x=45, y=30)
+        self.buttonDefender.place(x=10, y=15)
 
         self.buttonAttacker = tk.Button( self.canvas, text=f"{self.attackerUser.user}", command=lambda: self.ShowLabels(False, True) )
-        self.buttonAttacker.place(x=self.width-90, y=30)
+        self.buttonAttacker.place(x=self.width-120, y=15)
         """"self.pauseBtn=tk.Button(self.canvas, text="▶", command=self.pauseFunction)
         self.pauseBtn.config(bg=colorPalette[2], fg=colorPalette[4])
         self.pauseBtn.place(x= (self.width/2), y=80, anchor="nw")"""
@@ -280,10 +280,10 @@ class versusGame:
         # General UI
             # Point labels
         DEFPointsLabel = tk.Label(self.canvas, bg="black", fg="white", text=f"Points: {self.defenderPoints}")
-        DEFPointsLabel.place(anchor="center", x=100, y=120)
+        DEFPointsLabel.place(anchor="center", x=80, y=100)
         
         ATKPointsLabel = tk.Label(self.canvas, bg="black", fg="white", text=f"Points: {self.attackerPoints}")
-        ATKPointsLabel.place(anchor="center", x=self.width-170, y= 120)
+        ATKPointsLabel.place(anchor="center", x=self.width-80, y= 100)
             # Change turn keybind
         self.canvas.create_image(35, self.height-200, image=self.otherKeyImage)
         self.canvas.create_text(36.5, self.height-197, text="Tab", fill='white', font= self.font)
@@ -374,14 +374,14 @@ class versusGame:
         # Defender song 
         self.musicLogicControler.fileName="defender.mp4"
 
-        #self.musicLogicControler.downloadYoutubeAudio(defenderSong)
-        #3self.musicLogicControler.setUpVideoMusic("Code/GraphicalUserInterface/songs/defender.mp4")
+        self.musicLogicControler.downloadYoutubeAudio(defenderSong)
+        self.musicLogicControler.setUpVideoMusic("Code/GraphicalUserInterface/songs/defender.mp4")
              
         # Atacker song 
         self.musicLogicControler.fileName="attacker.mp4"
 
-        #self.musicLogicControler.downloadYoutubeAudio(attackerSong)
-        #self.musicLogicControler.setUpVideoMusic("Code/GraphicalUserInterface/songs/attacker.mp4")
+        self.musicLogicControler.downloadYoutubeAudio(attackerSong)
+        self.musicLogicControler.setUpVideoMusic("Code/GraphicalUserInterface/songs/attacker.mp4")
 
         # Setup music for the game
         self.musicLogicControler.setUpMusic("Code/GraphicalUserInterface/songs/defender.mp3")
@@ -958,10 +958,10 @@ class versusGame:
         self.gameOver=True
         value = [self.calculatePoints(self.posiblePoints,None,None), self.calculatePoints(self.woodReserve,self.stoneReserve,self.metalReserve)]
         print(value)
-        if self.lastround == False:
+        if self.lastround == True:
             app = hallOfFameGui.HallOfFameGui(self.parentFrame,self.window, self.width, self.height, self.attackerUser.user, self.attackerPoints+value[0])
         else:
-            round2 = versusGame(self.window, self.width, self.height, [self.attackerUser, self.defenderUser], None, None, [self.attackerPoints+value[0], self.defenderPoints+value[1]])
+            round2 = versusGame(self.window, self.width, self.height, [self.attackerUser, self.defenderUser], self.parentFrame, self.temporalFrame, [self.attackerPoints+value[0], self.defenderPoints+value[1]])
     #--------------------------------------Defender functionalities----------------------------------------------------------------#
     def DefenderRotate(self, image):
         """"""
@@ -1053,10 +1053,10 @@ class versusGame:
         self.gameOver=True
         value = [self.calculatePoints(self.woodReserve,self.stoneReserve,self.metalReserve), self.calculatePoints(self.posiblePoints,None,None)]
         print(value)
-        if self.lastround == False:
+        if self.lastround == True:
             app = hallOfFameGui.HallOfFameGui(self.parentFrame,self.window, self.width, self.height, self.attackerUser.user, self.defenderPoints+value[0])
         else:
-            round2 = versusGame(self.window, self.width, self.height, [self.attackerUser, self.defenderUser], None, None, [self.attackerPoints+value[0], self.defenderPoints+value[1]])
+            round2 = versusGame(self.window, self.width, self.height, [self.attackerUser, self.defenderUser], self.parentFrame, self.temporalFrame, [self.attackerPoints+value[0], self.defenderPoints+value[1]])
 
     def RegenerateBlocks(self):
         if not self.pause and not self.playerGaming=="defender":
