@@ -1,0 +1,32 @@
+{
+    "User": "Mijo22@estudiantec.cr",
+    "Password": "Mijo22@estudiantec.cr",
+    "Mail": "Mijo22@estudiantec.cr",
+    "Favorite Color": [
+        "#e9395c",
+        "#5d1624"
+    ],
+    "Favorite Music": [
+        [
+            [
+                "Ozuna x Tokischa - Somos Iguales (Video Oficial) | Ozutochi",
+                "Somos Iguales"
+            ],
+            [
+                "https://www.youtube.com/watch?v=9rhO5fRBJ9s"
+            ]
+        ]
+    ],
+    "Answers": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+    ],
+    "Avatar": 1,
+    "Animation": "S",
+    "Textures": 1,
+    "Profile": " ",
+    "Facial Recognition": ""
+}
