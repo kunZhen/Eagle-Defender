@@ -18,10 +18,10 @@ class temporalFrame:
 
         self.logo = tk.PhotoImage(file=os.path.abspath("Code/GraphicalUserInterface/GameData/EagleDefender.png"))
 
-        self.attackerControls = Image.open("Code/GraphicalUserInterface/GameData/Control-Attacker2.png").resize((780,700))
+        self.attackerControls = Image.open("Code/GraphicalUserInterface/GameData/Control-Attacker.png").resize((700,650))
         self.attackerControls = ImageTk.PhotoImage(self.attackerControls)
 
-        self.defenderControls = Image.open("Code/GraphicalUserInterface/GameData/Control-Defender2.png").resize((780,700))
+        self.defenderControls = Image.open("Code/GraphicalUserInterface/GameData/Control-Defender.png").resize((700,650))
         self.defenderControls = ImageTk.PhotoImage(self.defenderControls)
 
         # frames are used to facilitate the creation and deletion of screens
@@ -34,15 +34,11 @@ class temporalFrame:
         self.titleCanvas.pack()
         self.titleCanvas.config(borderwidth=0, highlightthickness=0)
 
-        self.titleLb = tk.Label(self.titleCanvas, text="Eagle Defender", font=(font, 50))
-        self.titleLb.config(bg=colorPalette[1], fg=colorPalette[3])
-        self.titleLb.place(x=centerX, y=100, anchor="center")
         # Create images on the canvas
         self.titleCanvas.create_image(self.width//2, self.height//2, image=self.logo) # (Logo)
         self.titleCanvas.create_image(self.width//2+530, self.height//2-75, image=self.attackerControls) # (Attacker controls)
         self.titleCanvas.create_image(self.width//2-530, self.height//2-75, image=self.defenderControls) # (Defender controls)
 
+        self.titleCanvas.create_text(centerX, 100, text="Eagle Defender", font=(font, 50))
+        self.titleCanvas.create_text(centerX, self.height-100, text="Cargando datos...", font=(font, 50))
 
-        self.titleLb = tk.Label(self.titleCanvas, text="Cargando datos...", font=(font, 50))
-        self.titleLb.config(bg=colorPalette[1], fg=colorPalette[3])
-        self.titleLb.place(x=centerX, y=2*centerY-200, anchor="center")

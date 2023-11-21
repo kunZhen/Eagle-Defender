@@ -13,7 +13,7 @@ from threading import Thread
 
 
 class versusGame:
-    def __init__(self, window:tk.Tk, w:int, h:int, users:list, parentFrame, temporalFrame):
+    def __init__(self, window:tk.Tk, w:int, h:int, users:list, parentFrame, temporalFrame, points:list[int, int] | None):
         #----------------------------PLayer preference setup setup---------------------------#
             #Load players json here:
         self.defenderUser:User=users[0]
@@ -21,6 +21,15 @@ class versusGame:
 
         print(f"Attacker:{self.attackerUser.user} ; Defender:{self.defenderUser.user}")
             #Load players json here:
+
+        # ---> Load the pointers for each player <---
+        self.lastround = False
+        self.defenderPoints = 0
+        self.attackerPoints = 0
+        if points is not None:
+            self.defenderPoints = points[0]
+            self.attackerPoints = points[1]
+            self.lastround = True
 
         # ---> Retrieving players proffile pictures <---
         self.Profile1 = Image.open("Code/GraphicalUserInterface/Profile/perfil.png")
@@ -269,6 +278,12 @@ class versusGame:
         self.otherKeyImage = ImageTk.PhotoImage(self.keyPng.resize((60,45)))
 
         # General UI
+            # Point labels
+        DEFPointsLabel = tk.Label(self.canvas, bg="black", fg="white", text=f"Points: {self.defenderPoints}")
+        DEFPointsLabel.place(anchor="center", x=100, y=120)
+        
+        ATKPointsLabel = tk.Label(self.canvas, bg="black", fg="white", text=f"Points: {self.attackerPoints}")
+        ATKPointsLabel.place(anchor="center", x=self.width-170, y= 120)
             # Change turn keybind
         self.canvas.create_image(35, self.height-200, image=self.otherKeyImage)
         self.canvas.create_text(36.5, self.height-197, text="Tab", fill='white', font= self.font)
@@ -941,9 +956,12 @@ class versusGame:
         self.mainframe.destroy()
         self.controlConection = False
         self.gameOver=True
-        value = self.calculatePoints(self.posiblePoints,None,None)  
-        print(self.attackerTime-self.posiblePoints)
-        app= hallOfFameGui.HallOfFameGui(self.parentFrame,self.window, self.width, self.height, self.attackerUser.user, value)
+        value = [self.calculatePoints(self.posiblePoints,None,None), self.calculatePoints(self.woodReserve,self.stoneReserve,self.metalReserve)]
+        print(value)
+        if self.lastround == False:
+            app = hallOfFameGui.HallOfFameGui(self.parentFrame,self.window, self.width, self.height, self.attackerUser.user, self.attackerPoints+value[0])
+        else:
+            round2 = versusGame(self.window, self.width, self.height, [self.attackerUser, self.defenderUser], None, None, [self.attackerPoints+value[0], self.defenderPoints+value[1]])
     #--------------------------------------Defender functionalities----------------------------------------------------------------#
     def DefenderRotate(self, image):
         """"""
@@ -1033,8 +1051,12 @@ class versusGame:
         self.mainframe.destroy()
         self.controlConection = False
         self.gameOver=True
-        value = self.calculatePoints(self.woodReserve,self.stoneReserve, self.metalReserve)
-        app= hallOfFameGui.HallOfFameGui(self.parentFrame, self.window, self.width, self.height, self.defenderUser.user, value)
+        value = [self.calculatePoints(self.woodReserve,self.stoneReserve,self.metalReserve), self.calculatePoints(self.posiblePoints,None,None)]
+        print(value)
+        if self.lastround == False:
+            app = hallOfFameGui.HallOfFameGui(self.parentFrame,self.window, self.width, self.height, self.attackerUser.user, self.defenderPoints+value[0])
+        else:
+            round2 = versusGame(self.window, self.width, self.height, [self.attackerUser, self.defenderUser], None, None, [self.attackerPoints+value[0], self.defenderPoints+value[1]])
 
     def RegenerateBlocks(self):
         if not self.pause and not self.playerGaming=="defender":
